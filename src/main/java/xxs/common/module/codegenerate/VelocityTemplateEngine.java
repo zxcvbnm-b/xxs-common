@@ -1,0 +1,74 @@
+package xxs.common.module.codegenerate;
+
+import com.baomidou.mybatisplus.generator.config.ConstVal;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
+
+import java.io.*;
+import java.util.Map;
+import java.util.Properties;
+
+
+public class VelocityTemplateEngine {
+    private static VelocityEngine velocityEngine = null;
+
+    {
+        try {
+            Class.forName("org.apache.velocity.util.DuckType");
+        } catch (ClassNotFoundException e) {
+            // velocity1.x的生成格式错乱 https://github.com/baomidou/generator/issues/5
+            e.printStackTrace();
+        }
+    }
+
+    static {
+        Properties prop = new Properties();
+        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+
+        velocityEngine = new VelocityEngine(prop);
+    }
+
+    /*objectValueMap:参数，用于给模板设置值的 */
+    /*templatePath:模板文件位置 */
+    /*outputFile：文件输出位置*/
+    public void generate(Map<String, Object> objectValueMap, String templatePath, File outputFile) throws Exception {
+        Template template = velocityEngine.getTemplate(templatePath, ConstVal.UTF8);
+        String path = outputFile.getPath();
+        String mkdirsPath = path.substring(0, path.lastIndexOf("\\"));
+        File mkdirs = new File(mkdirsPath);/*要有文件夹才能生成文件*/
+        mkdirs.mkdirs();
+        try (FileOutputStream fos = new FileOutputStream(outputFile);
+             OutputStreamWriter ow = new OutputStreamWriter(fos, ConstVal.UTF8);
+             BufferedWriter writer = new BufferedWriter(ow)) {
+            template.merge(new VelocityContext(objectValueMap), writer);
+            writeFile(outputFile, writer.toString(), ConstVal.UTF8);
+
+        }
+    }
+
+    private static void writeFile(File file, String content, String fileEncoding) throws IOException {
+
+        String path = file.getPath();
+        path = path.substring(0, path.lastIndexOf("\\"));
+        File file2 = new File(path);/*要有文件夹才能生成文件*/
+        file2.mkdirs();
+        FileOutputStream fos = new FileOutputStream(file, false);
+        OutputStreamWriter osw;
+        if (fileEncoding == null) {
+            osw = new OutputStreamWriter(fos);
+        } else {
+            osw = new OutputStreamWriter(fos, fileEncoding);
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(osw)) {
+            bw.write(content);
+            bw.flush();
+        } finally {
+            osw.close();
+            fos.close();
+        }
+
+    }
+}

@@ -1,0 +1,40 @@
+package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${serviceInterfaceConfig.packageSimpleName}).${serviceInterfaceConfig.packageSimpleName}#end;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${entityConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${entityConfig.filePost};
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${paramDTOConfig.filePost};
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${resultDTOConfig.filePost};
+
+/**
+ * $!{tableInfo.comment}服务类
+ *
+ * @author ${author}
+ * @since ${generateTime}
+ */
+public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost} extends IService<${tableInfo.capitalizeTableName}${entityConfig.filePost}> {
+    /**
+     * 列表
+     */
+    PageUtils get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+
+    /**
+     * 信息
+     */
+    ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+
+    /**
+     * 保存
+     */
+    int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+
+    /**
+     * 修改
+     */
+    int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+
+    /**
+     * 删除
+     */
+    int delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+
+}

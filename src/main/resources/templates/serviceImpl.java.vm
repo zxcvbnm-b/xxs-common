@@ -1,0 +1,70 @@
+package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${serviceImplConfig.packageSimpleName}).${serviceImplConfig.packageSimpleName}#end;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${entityConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${entityConfig.filePost};
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${mapperInterfaceConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${mapperInterfaceConfig.filePost};
+import ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${serviceInterfaceConfig.packageSimpleName}).${serviceInterfaceConfig.packageSimpleName}#end.${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost};
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${paramDTOConfig.filePost};
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${resultDTOConfig.filePost};
+
+/**
+ * $!{tableInfo.comment}服务实现类
+ *
+ * @author ${author}
+ * @since ${generateTime}
+ */
+@Service
+public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost} extends ServiceImpl<${tableInfo.capitalizeTableName}${mapperInterfaceConfig.filePost}, ${tableInfo.capitalizeTableName}${entityConfig.filePost}> implements ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost} {
+    /**
+     * 列表
+     */
+    public PageUtils get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
+
+    }
+
+    /**
+     * 信息
+     */
+    public ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
+        ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.baseMapper.selectById(${tableInfo.keyColumnInfo.propertyName});
+        return this.entityToResult(${tableInfo.tableName}${entityConfig.filePost});
+    }
+
+    /**
+     * 保存
+     */
+    public int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
+        ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.paramToEntity(${tableInfo.tableName}Param);
+        return this.baseMapper.insert(${tableInfo.tableName}${entityConfig.filePost});
+    }
+
+    /**
+     * 修改
+     */
+    public int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
+        ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.paramToEntity(${tableInfo.tableName}Param);
+        return this.baseMapper.updateById(${tableInfo.tableName}${entityConfig.filePost});
+    }
+
+    /**
+     * 删除
+     */
+    public int delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
+        return this.baseMapper.deleteById(${tableInfo.keyColumnInfo.propertyName});
+    }
+
+    private ${tableInfo.capitalizeTableName}${entityConfig.filePost} paramToEntity(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
+        ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = new ${tableInfo.capitalizeTableName}${entityConfig.filePost};
+        BeanUtils.copyProperties(${tableInfo.tableName}Param, ${tableInfo.tableName}${entityConfig.filePost});
+        return ${tableInfo.tableName}${entityConfig.filePost};
+    }
+
+    private ${tableInfo.capitalizeTableName}Result entityToResult(${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost}) {
+        ${tableInfo.capitalizeTableName}Result ${tableInfo.tableName}Result = new ${tableInfo.capitalizeTableName}Result();
+        BeanUtils.copyProperties(${tableInfo.tableName}${entityConfig.filePost}, ${tableInfo.tableName}Result);
+        return ${tableInfo.tableName}Result;
+    }
+
+}
