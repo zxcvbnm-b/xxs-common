@@ -6,13 +6,75 @@
     <resultMap id="BaseResultMap" type="${basePackageName}#if(${moduleName}).${moduleName}#end.${entityConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${entityConfig.filePost}">
 #foreach($column in ${tableInfo.columnInfos})
 #if(${column.keyFlag})
-        <id column="${column.columnName}" property="${column.propertyName}" />
+        <id column="${column.columnName}" property="${column.propertyName}"/>
 #end
 #end
 #foreach($column in ${tableInfo.columnInfos})
 #if(!${column.keyFlag})##生成普通字段
-        <result column="${column.columnName}" property="${column.propertyName}" />
+        <result column="${column.columnName}" property="${column.propertyName}"/>
 #end
 #end
     </resultMap>
+#if(!${mybatisPlus})
+    <select id="list" resultMap="BaseResultMap">
+        select * from ${tableInfo.name} where 1=1
+        #foreach($column in ${tableInfo.columnInfos})
+            #if(${column.javaType.getSimpleName().equals("String")})
+                and <if test="${column.propertyName} != null and ${column.propertyName} != ''">${column.propertyName}=#{${column.propertyName}}</if>
+            #else
+                and <if test="${column.propertyName} != null">${column.propertyName}=#{${column.propertyName}}</if>
+            #end
+        #end
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+		select * from ${tableInfo.name} where ${tableInfo.keyColumnInfo.columnName}=#{${tableInfo.keyColumnInfo.propertyName}}
+	</select>
+
+    <update id="updateById">
+        update ${tableInfo.name}
+        <set>
+            #foreach($column in ${tableInfo.columnInfos})
+                #if(${column.javaType.getSimpleName().equals("String")})
+        <if test="${column.propertyName} != null and ${column.propertyName} != ''">${column.propertyName}=#{${column.propertyName}},</if>
+                #else
+        <if test="${column.propertyName} != null">${column.propertyName}=#{${column.propertyName}},</if>
+                #end
+            #end
+        </set>
+        where ${tableInfo.keyColumnInfo.columnName}=#{${tableInfo.keyColumnInfo.propertyName}}
+    </update>
+
+    <insert id="insert">
+##        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+##            <if test="_databaseId == 'oracle'">
+##                select seq_users.nextval from dual
+##            </if>
+##            <if test="_databaseId == 'db2'">
+##                select nextval for seq_users from sysibm.sysdummy1"
+##            </if>
+##        </selectKey>
+        insert into ${tableInfo.name}(
+    #foreach($column in ${tableInfo.columnInfos})
+        #if(${column.javaType.getSimpleName().equals("String")})
+        <if test="${column.propertyName} != null and ${column.propertyName} != ''">${column.propertyName},</if>
+        #else
+        <if test="${column.propertyName} != null">${column.propertyName},</if>
+        #end
+    #end
+        ) values (
+    #foreach($column in ${tableInfo.columnInfos})
+        #if(${column.javaType.getSimpleName().equals("String")})
+        <if test="${column.propertyName} != null and ${column.propertyName} != ''">#{${column.propertyName}},</if>
+        #else
+        <if test="${column.propertyName} != null">#{${column.propertyName}},</if>
+        #end
+    #end
+    )
+    </insert>
+
+    <delete id="deleteById">
+		delete from ${tableInfo.name} where ${tableInfo.keyColumnInfo.columnName}=#{${tableInfo.keyColumnInfo.propertyName}}
+	</delete>
+    #end
 </mapper>

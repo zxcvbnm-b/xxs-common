@@ -6,7 +6,7 @@ import xxs.common.module.codegenerate.template.Template;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/*拦截器--用于扩展功能，比如paramDTO*/
 public class GenerateFilterContext implements IGenerateFilter {
     private List<IGenerateFilter> generateFilters = new ArrayList<>();
 

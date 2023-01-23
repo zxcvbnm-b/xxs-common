@@ -16,12 +16,12 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.
  * @since ${generateTime}
  */
 @Service
-public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost} extends ServiceImpl<${tableInfo.capitalizeTableName}${mapperInterfaceConfig.filePost}, ${tableInfo.capitalizeTableName}${entityConfig.filePost}> implements ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost} {
+public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${mybatisPlus}) extends ServiceImpl<${tableInfo.capitalizeTableName}${mapperInterfaceConfig.filePost}, ${tableInfo.capitalizeTableName}${entityConfig.filePost}>#end implements ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost} {
     /**
      * 列表
      */
     public PageUtils get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
-
+        return null;
     }
 
     /**

@@ -5,14 +5,12 @@ import xxs.common.module.codegenerate.config.DataSourceConfig;
 import xxs.common.module.codegenerate.filter.GenerateFilterContext;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.template.*;
-
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-//TODO
+//TODO JDBC相关api https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html
 public class CodeGenerator {
     static VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-
 
     public static void main(String[] args) throws Exception {
         codeGenerator("bus");
@@ -52,4 +50,9 @@ public class CodeGenerator {
             }
         }
     }
+
+/*    public static void main(String[] args) throws SQLException {
+        Map<String, TableInfo> tableInfosMap = LoadTableInfo.loadTables(new DataSourceConfig(), "bus");
+        System.out.println(tableInfosMap);
+    }*/
 }

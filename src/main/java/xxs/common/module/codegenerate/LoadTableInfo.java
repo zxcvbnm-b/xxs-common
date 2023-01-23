@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+// https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html 看元数据（在ResultSet对象下的metadata是这个查询返回的列有那些 名字是什么等。，rows时具体的数据）
 public class LoadTableInfo {
     public static Map<String, TableInfo> loadTables(DataSourceConfig dataSourceConfig, String tableNames) throws SQLException {
         Map<String, TableInfo> tableInfoHashMap = new HashMap<>();
@@ -50,6 +50,11 @@ public class LoadTableInfo {
                         columnInfo.setColumnName(columnName);
                         int dataTypeCode = columnResultSet.getInt("DATA_TYPE");     //对应的java.sql.Types的SQL类型(列类型ID)
                         String dataTypeName = columnResultSet.getString("TYPE_NAME");  //java.sql.Types类型名称(列类型名称)
+                        String isAutoincrement = columnResultSet.getString("IS_AUTOINCREMENT");  // 是否是自增长
+                        int columnSize = columnResultSet.getInt("COLUMN_SIZE");  // 列的长度
+                        System.out.println(columnSize);
+                        columnInfo.setColumnSize(columnSize);
+                        columnInfo.setAutoincrement("YES".equalsIgnoreCase(isAutoincrement));
                         columnInfo.setJdbcTypeCode(dataTypeCode);
                         columnInfo.setJdbcTypeName(dataTypeName);
                         columnInfo.setJavaType(TypeMapperRegistry.getJavaType(dataTypeCode));
@@ -76,7 +81,7 @@ public class LoadTableInfo {
                         String columnName = keyResultSet.getString("COLUMN_NAME");//主键列名
                         columnInfoList:
                         for (ColumnInfo columnInfo : columnInfoList) {
-                            if (columnName.equals(columnInfo.getColumnName())) {
+                            if (columnName.equalsIgnoreCase(columnInfo.getColumnName())) {
                                 columnInfo.setKeyFlag(true);
                                 //设置主键列
                                 tableInfo.setKeyColumnInfo(columnInfo);

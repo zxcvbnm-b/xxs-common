@@ -2,8 +2,12 @@ package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${mapperInterf
 
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${entityConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${entityConfig.filePost};
 import org.apache.ibatis.annotations.Mapper;
+#if(${mybatisPlus})
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
+#else
+import java.util.List;
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${entityConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${entityConfig.filePost};
+#end
 /**
  * $!{tableInfo.comment}Mapper接口
  *
@@ -11,6 +15,31 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since ${generateTime}
  */
 @Mapper
-public interface ${tableInfo.capitalizeTableName}${mapperInterfaceConfig.filePost} extends BaseMapper<${tableInfo.capitalizeTableName}${entityConfig.filePost}> {
+public interface ${tableInfo.capitalizeTableName}${mapperInterfaceConfig.filePost}#if(${mybatisPlus}) extends BaseMapper<${tableInfo.capitalizeTableName}${entityConfig.filePost}>#end {
+#if(!${mybatisPlus})
+        /**
+         * 列表
+         */
+        List<${tableInfo.capitalizeTableName}${entityConfig.filePost}> list(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
 
+        /**
+         * 信息
+         */
+        ${tableInfo.capitalizeTableName}${entityConfig.filePost} selectById(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+
+        /**
+         * 保存
+         */
+        int insert(${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost});
+
+        /**
+         * 修改
+         */
+        int updateById(${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost});
+
+        /**
+         * 删除
+         */
+        int deleteById(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+#end
 }

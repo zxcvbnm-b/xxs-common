@@ -1,6 +1,11 @@
 package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${entityConfig.packageSimpleName}).${entityConfig.packageSimpleName}#end;
 
 import java.io.Serializable;
+#if(${mybatisPlus})
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+#end
 #foreach($packageName in ${tableInfo.getColumnTypePackageNames()})
 import ${packageName};
 #end
@@ -12,7 +17,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 #end
-
 /**
  * $!{tableInfo.comment}Entity实体类
  *
@@ -23,7 +27,9 @@ import lombok.Setter;
 @Getter
 @Setter
 #end
+#if(${mybatisPlus})
 @TableName("${tableInfo.name}" )
+#end
 #if(${swagger})
 @ApiModel(value = "${tableInfo.capitalizeTableName}实体", description = "$!{tableInfo.comment}" )
 #end
@@ -40,25 +46,16 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
      */
   #end
 #end
-#if(${field.keyFlag})
+#if(${mybatisPlus})
+#if(${column.keyFlag})
 ## 主键
-  #if(${field.keyIdentityFlag})
-    @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
-  #elseif(!$null.isNull(${idType}) && "$!idType" != "")
-    @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
-  #elseif(${field.convert})
-    @TableId("${field.annotationColumnName}")
-  #end
-## 普通字段
-#elseif(${column.fill})
-## -----   存在字段填充设置   -----
-  #if(${column.convert})
-    @TableField(value = "${column.annotationColumnName}", fill = FieldFill.${column.fill})
+  #if(${column.autoincrement})
+    @TableId(value = "${column.columnName}", type = IdType.AUTO)
   #else
-    @TableField(fill = FieldFill.${column.fill})
+    @TableId("${column.columnName}")
   #end
-#elseif(${column.convert})
-    @TableField("${column.annotationColumnName}")
+#else
+    @TableField("${column.columnName}")
 #end
 ## 乐观锁注解
 #if(${column.versionField})
@@ -67,6 +64,7 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
 ## 逻辑删除注解
 #if(${column.logicDeleteField})
     @TableLogic
+#end
 #end
     private ${column.javaType.getSimpleName()} ${column.propertyName};
 #end

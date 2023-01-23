@@ -26,12 +26,14 @@ public class CodeGenerateContext {
     private boolean lombok = true;
     //是否有swagger
     private boolean swagger = true;
+    //是否 mybatisPlus
+    private boolean mybatisPlus = false;
     //生成日期
     private String generateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(new Date());
     //模板集合
     private List<Template> templates = new ArrayList<>();
     //模板扩展
-    private GenerateFilterContext generateFilterContext=new GenerateFilterContext();
+    private GenerateFilterContext generateFilterContext = new GenerateFilterContext();
     // 如下的配置是提供默认提供的配置
     private DataSourceConfig dataSourceConfig = new DataSourceConfig();
     private ControllerTemplateConfig controllerConfig = new ControllerTemplateConfig(this);
@@ -46,6 +48,7 @@ public class CodeGenerateContext {
         this.initTemplate();
     }
 
+    /*初始化默认模板*/
     public void initTemplate() {
         templates.add(new ServiceTemplate(this));
         templates.add(new ControllerTemplate(this));

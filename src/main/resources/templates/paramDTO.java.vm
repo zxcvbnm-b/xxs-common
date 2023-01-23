@@ -12,9 +12,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 #end
-
+#if(${jsr303Verify})
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+#end
 /**
- * $!{tableInfo.comment}Param实体类
+ * $!{tableInfo.comment}Param类
  *
  * @author ${author}
  * @since ${generateTime}
@@ -29,6 +33,7 @@ import lombok.Setter;
 public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($column in ${tableInfo.columnInfos})
+
 #if("$!column.comment" != "")
   #if(${swagger})
     @ApiModelProperty("${column.comment}" )
@@ -38,6 +43,19 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
      */
   #end
 #end
+## jsr303校验 不是主键才加注解
+    #if(${jsr303Verify}&&!${column.keyFlag})
+        #if(!${column.nullAble})
+        #if(${column.javaType.getSimpleName().equals("String")})
+    @NotEmpty(message = "${column.propertyName}不能为空" )
+        #else
+    @NotNull(message = "${column.propertyName}不能为空" )
+        #end
+        #end
+        #if(${column.javaType.getSimpleName().equals("String")}&&${column.columnSize}<2147483647)
+    @Length(max = ${column.columnSize}, message = "${column.propertyName}最大大小为${column.columnSize}" )
+        #end
+    #end
     private ${column.javaType.getSimpleName()} ${column.propertyName};
 #end
 ## ----------  END 字段循环遍历  ----------
