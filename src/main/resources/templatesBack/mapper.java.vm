@@ -41,15 +41,5 @@ public interface ${tableInfo.capitalizeTableName}${mapperInterfaceConfig.filePos
          * 删除
          */
         int deleteById(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
-        #if(${tableInfo.tableRelationships})
-                #foreach($relationTableInfo in ${tableInfo.tableRelationships})
-                /**
-                 * 删除${relationTableInfo.relationColumnInfo.capitalizePropertyName}
-                 */
-        @delete("DELETE FROM ${relationTableInfo.relationTable.name} HWERE ${relationTableInfo.relationColumnInfo.columnName} = #{${tableInfo.keyColumnInfo.propertyName}}")
-        int delete${tableInfo.capitalizeTableName}By${relationTableInfo.relationColumnInfo.capitalizePropertyName}((${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}));
-                #end
-        ## --foreach end---
-        #end
 #end
 }

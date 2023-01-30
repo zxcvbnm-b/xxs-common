@@ -3,10 +3,7 @@ package xxs.common.module.codegenerate.model;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 public class TableInfo {
@@ -24,6 +21,10 @@ public class TableInfo {
     private List<ColumnInfo> columnInfos;
     /*主键列*/
     private ColumnInfo keyColumnInfo;
+
+    /*一对多的关系 要处理级联操作*/
+    private List<TableRelationship> tableRelationships;
+
     /*获取列的java类型的全路径名*/
     public Set<String> getColumnTypePackageNames(){
         Set<String> result=new HashSet<>();

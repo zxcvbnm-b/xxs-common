@@ -45,51 +45,10 @@ public class LoadTableInfo {
                             "%");
                     //找出列信息
                     while (columnResultSet.next()) {
-                        ColumnInfo columnInfo = new ColumnInfo();
-                        String columnName = columnResultSet.getString("COLUMN_NAME");  //列名
-                        columnInfo.setColumnName(columnName);
-                        int dataTypeCode = columnResultSet.getInt("DATA_TYPE");     //对应的java.sql.Types的SQL类型(列类型ID)
-                        String dataTypeName = columnResultSet.getString("TYPE_NAME");  //java.sql.Types类型名称(列类型名称)
-                        String isAutoincrement = columnResultSet.getString("IS_AUTOINCREMENT");  // 是否是自增长
-                        int columnSize = columnResultSet.getInt("COLUMN_SIZE");  // 列的长度
-                        System.out.println(columnSize);
-                        columnInfo.setColumnSize(columnSize);
-                        columnInfo.setAutoincrement("YES".equalsIgnoreCase(isAutoincrement));
-                        columnInfo.setJdbcTypeCode(dataTypeCode);
-                        columnInfo.setJdbcTypeName(dataTypeName);
-                        columnInfo.setJavaType(TypeMapperRegistry.getJavaType(dataTypeCode));
-                        String camelCaseColumnName = StrUtil.toCamelCase(columnName);
-                        columnInfo.setPropertyName(camelCaseColumnName);
-                        //首字母大写
-                        columnInfo.setCapitalizePropertyName(StringUtils.capitalize(camelCaseColumnName));
-                        /* int columnSize = columnResultSet.getInt("COLUMN_SIZE");  //列大小*/
-                        /**
-                         *  0 (columnNoNulls) - 该列不允许为空
-                         *  1 (columnNullable) - 该列允许为空
-                         *  2 (columnNullableUnknown) - 不确定该列是否为空
-                         */
-                        int nullAble = columnResultSet.getInt("NULLABLE");  //是否允许为null
-                        columnInfo.setNullAble(nullAble == 1);
-                        String remarks = columnResultSet.getString("REMARKS");  //列描述
-                        columnInfo.setComment(remarks);
-                        /*   String columnDef = columnResultSet.getString("COLUMN_DEF");  //默认值*/
-                        columnInfoList.add(columnInfo);
+                        buildColumn(columnInfoList, columnResultSet);
                     }
                     //找出主键列
-                    ResultSet keyResultSet = metaData.getPrimaryKeys(null, null, tableName);
-                    while (keyResultSet.next()) {
-                        String columnName = keyResultSet.getString("COLUMN_NAME");//主键列名
-                        columnInfoList:
-                        for (ColumnInfo columnInfo : columnInfoList) {
-                            if (columnName.equalsIgnoreCase(columnInfo.getColumnName())) {
-                                columnInfo.setKeyFlag(true);
-                                //设置主键列
-                                tableInfo.setKeyColumnInfo(columnInfo);
-                                break columnInfoList;
-                            }
-                        }
-
-                    }
+                    buildKeyColumn(metaData, tableName, tableInfo, columnInfoList);
                     tableInfo.setColumnInfos(columnInfoList);
                 }
                 tableInfoHashMap.put(tableName, tableInfo);
@@ -102,5 +61,54 @@ public class LoadTableInfo {
             jdbcUtils.closeConnection(connection);
         }
         return tableInfoHashMap;
+    }
+
+    private static void buildKeyColumn(DatabaseMetaData metaData, String tableName, TableInfo tableInfo, List<ColumnInfo> columnInfoList) throws SQLException {
+        ResultSet keyResultSet = metaData.getPrimaryKeys(null, null, tableName);
+        while (keyResultSet.next()) {
+            String columnName = keyResultSet.getString("COLUMN_NAME");//主键列名
+            columnInfoList:
+            for (ColumnInfo columnInfo : columnInfoList) {
+                if (columnName.equalsIgnoreCase(columnInfo.getColumnName())) {
+                    columnInfo.setKeyFlag(true);
+                    //设置主键列
+                    tableInfo.setKeyColumnInfo(columnInfo);
+                    break columnInfoList;
+                }
+            }
+
+        }
+    }
+
+    private static void buildColumn(List<ColumnInfo> columnInfoList, ResultSet columnResultSet) throws SQLException {
+        ColumnInfo columnInfo = new ColumnInfo();
+        String columnName = columnResultSet.getString("COLUMN_NAME");  //列名
+        columnInfo.setColumnName(columnName);
+        int dataTypeCode = columnResultSet.getInt("DATA_TYPE");     //对应的java.sql.Types的SQL类型(列类型ID)
+        String dataTypeName = columnResultSet.getString("TYPE_NAME");  //java.sql.Types类型名称(列类型名称)
+        String isAutoincrement = columnResultSet.getString("IS_AUTOINCREMENT");  // 是否是自增长
+        int columnSize = columnResultSet.getInt("COLUMN_SIZE");  // 列的长度
+        System.out.println(columnSize);
+        columnInfo.setColumnSize(columnSize);
+        columnInfo.setAutoincrement("YES".equalsIgnoreCase(isAutoincrement));
+        columnInfo.setJdbcTypeCode(dataTypeCode);
+        columnInfo.setJdbcTypeName(dataTypeName);
+        columnInfo.setJavaType(TypeMapperRegistry.getJavaType(dataTypeCode));
+        String camelCaseColumnName = StrUtil.toCamelCase(columnName);
+        columnInfo.setPropertyName(camelCaseColumnName);
+        //首字母大写
+        columnInfo.setCapitalizePropertyName(StringUtils.capitalize(camelCaseColumnName));
+        /* int columnSize = columnResultSet.getInt("COLUMN_SIZE");  //列大小*/
+        /**
+         *  0 (columnNoNulls) - 该列不允许为空
+         *  1 (columnNullable) - 该列允许为空
+         *  2 (columnNullableUnknown) - 不确定该列是否为空
+         */
+        int nullAble = columnResultSet.getInt("NULLABLE");  //是否允许为null
+        columnInfo.setNullAble(nullAble == 1);
+        String remarks = columnResultSet.getString("REMARKS");  //列描述
+        columnInfo.setComment(remarks);
+        /*   String columnDef = columnResultSet.getString("COLUMN_DEF");  //默认值*/
+        columnInfoList.add(columnInfo);
     }
 }

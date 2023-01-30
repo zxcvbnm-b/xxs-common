@@ -27,7 +27,7 @@ public class CodeGenerateContext {
     //是否有swagger
     private boolean swagger = true;
     //是否 mybatisPlus
-    private boolean mybatisPlus = false;
+    private boolean mybatisPlus = true;
     //生成日期
     private String generateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(new Date());
     //模板集合

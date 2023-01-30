@@ -1,9 +1,9 @@
 package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${resultDTOConfig.packageSimpleName}).${resultDTOConfig.packageSimpleName}#end;
 
+import java.io.Serializable;
 #foreach($packageName in ${tableInfo.getColumnTypePackageNames()})
 import ${packageName};
 #end
-import java.util.*;
 #if(${swagger})
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,12 +11,6 @@ import io.swagger.annotations.ApiModelProperty;
 #if(${lombok})
 import lombok.Getter;
 import lombok.Setter;
-#end
-#if(!${tableInfo.tableRelationships})
-  #foreach($relationTableInfo in ${tableInfo.tableRelationships})
-import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost};
-  #end
-## --foreach end---
 #end
 
 /**
@@ -63,18 +57,6 @@ public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} impleme
           this.${column.propertyName} = ${column.propertyName};
           }
   #end
-#end
-## --foreach end---
-#if(${tableInfo.tableRelationships})
-    #foreach($relationTableInfo in ${tableInfo.tableRelationships})
-        #if(${relationTableInfo.one2One})
-        #*一对一  先默认开启lombok TODO 不生成get set方法*#
-        private ${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost};
-        #else
-        #*一对多*#
-        private List<${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}List;
-        #end
-    #end
 ## --foreach end---
 #end
     @Override
