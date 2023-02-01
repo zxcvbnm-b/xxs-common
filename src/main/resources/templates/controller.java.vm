@@ -16,6 +16,7 @@ import ${tableInfo.keyColumnInfo.javaType.getName()};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${serviceInterfaceConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${paramDTOConfig.filePost};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${resultDTOConfig.filePost};
+
 /**
  * $!{tableInfo.comment}前端控制器
  *
@@ -26,17 +27,17 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.
 @Api("$!{tableInfo.comment}")
 #end
 @RestController
-@RequestMapping("#if(${moduleName})/${moduleName}#end/#if(${tableInfo.tableName})${tableInfo.tableName}#end" )
+@RequestMapping("#if(${moduleName})/${moduleName}#end/#if(${tableInfo.tableName})${tableInfo.tableName}#end")
 public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
 #*TODO 如何处理调用的，需要先遍历一遍所有模板的getObjectValueMap方法，对参数进行初始化，然后再设置模板就能调用到其他的模板的参数了*#
     @Autowired
     private ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost} ${tableInfo.tableName}${serviceInterfaceConfig.filePost};
 
     /**
-     * 分页查询
+     * 分页查询${tableInfo.capitalizeTableName}
      */
 #if(${swagger})
-    @ApiOperation("分页查询")
+    @ApiOperation("分页查询${tableInfo.capitalizeTableName}")
 #end
     @GetMapping("/get${tableInfo.capitalizeTableName}List")
     public R get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
@@ -45,10 +46,10 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     }
 
     /**
-     * 获取单个
+     * 获取单个${tableInfo.capitalizeTableName}
      */
 #if(${swagger})
-    @ApiOperation("获取单个")
+    @ApiOperation("获取单个${tableInfo.capitalizeTableName}")
 #end
     @GetMapping("/get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}" )
     public R get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
@@ -57,22 +58,22 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     }
 
     /**
-     * 保存
+     * 保存${tableInfo.capitalizeTableName}
      */
 #if(${swagger})
-    @ApiOperation("保存")
+    @ApiOperation("保存${tableInfo.capitalizeTableName}")
 #end
-    @PostMapping("/add${tableInfo.capitalizeTableName}" )
+    @PostMapping("/add${tableInfo.capitalizeTableName}")
     public R add${tableInfo.capitalizeTableName}(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.add${tableInfo.capitalizeTableName}(${tableInfo.tableName}Param);
         return R.ok();
     }
 
     /**
-     * 修改
+     * 修改${tableInfo.capitalizeTableName}
      */
 #if(${swagger})
-    @ApiOperation("修改")
+    @ApiOperation("修改${tableInfo.capitalizeTableName}")
 #end
     @PostMapping("/update${tableInfo.capitalizeTableName}" )
     public R update${tableInfo.capitalizeTableName}(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
@@ -81,15 +82,64 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     }
 
     /**
-     * 删除
+     * 删除${tableInfo.capitalizeTableName}
      */
 #if(${swagger})
-    @ApiOperation("删除")
+    @ApiOperation("删除${tableInfo.capitalizeTableName}")
 #end
     @PostMapping("/delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}")
     public R delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
-        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
+        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
         return R.ok();
     }
 
+    #if(${tableInfo.tableRelationships})
+    /**
+     * 获取${tableInfo.capitalizeTableName}和关联关系
+     */
+     #if(${swagger})
+    @ApiOperation("获取${tableInfo.capitalizeTableName}和关联关系")
+    #end
+    @GetMapping("/get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}" )
+    public R get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
+        ${tableInfo.capitalizeTableName}Result ${tableInfo.tableName}Result = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
+            return R.ok().put("${tableInfo.tableName}Result", ${tableInfo.tableName}Result);
+    }
+
+    /**
+     * 保存${tableInfo.capitalizeTableName}和关联关系
+     */
+     #if(${swagger})
+    @ApiOperation("保存${tableInfo.capitalizeTableName}和关联关系")
+     #end
+    @PostMapping("/add${tableInfo.capitalizeTableName}AndRelation")
+    public R add${tableInfo.capitalizeTableName}(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
+        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.add${tableInfo.capitalizeTableName}AndRelation(${tableInfo.tableName}Param);
+        return R.ok();
+    }
+
+    /**
+     * 修改${tableInfo.capitalizeTableName}和关联关系
+     */
+     #if(${swagger})
+    @ApiOperation("修改${tableInfo.capitalizeTableName}和关联关系")
+     #end
+    @PostMapping("/update${tableInfo.capitalizeTableName}AndRelation")
+    public R update${tableInfo.capitalizeTableName}AndRelation(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
+        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.update${tableInfo.capitalizeTableName}AndRelation(${tableInfo.tableName}Param);
+        return R.ok();
+    }
+
+    /**
+     * 删除${tableInfo.capitalizeTableName}和关联关系
+     */
+     #if(${swagger})
+    @ApiOperation("删除${tableInfo.capitalizeTableName}和关联关系")
+     #end
+    @PostMapping("/delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}")
+    public R delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
+        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
+        return R.ok();
+    }
+    #end
 }

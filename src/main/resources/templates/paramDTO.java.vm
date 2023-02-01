@@ -17,11 +17,11 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 #end
+
 #if(${tableInfo.tableRelationships})
     #foreach($relationTableInfo in ${tableInfo.tableRelationships})
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost};
     #end
-## --foreach end---
 #end
 /**
  * $!{tableInfo.comment}Param类
@@ -34,7 +34,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.p
 @Setter
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}" )
+@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}")
 #end
 public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
@@ -42,7 +42,7 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
 
 #if("$!column.comment" != "")
   #if(${swagger})
-    @ApiModelProperty("${column.comment}" )
+    @ApiModelProperty("${column.comment}")
   #else
     /**
      * ${column.comment}
@@ -81,21 +81,17 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
         this.${column.propertyName} = ${column.propertyName};
     }
 #end
-
-## --foreach end---
 #end
-
 #if(${tableInfo.tableRelationships})
     #foreach($relationTableInfo in ${tableInfo.tableRelationships})
-        #if(${relationTableInfo.one2One})
+    #if(${relationTableInfo.one2One})
            #*一对一  先默认开启lombok TODO 不生成get set方法*#
-        private ${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
-        #else
-            #*一对多*#
-        private List<${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}List;
-        #end
+    private ${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
+    #else
+     #*一对多*#
+    private List<${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}List;
     #end
-## --foreach end---
+    #end
 #end
 #*一对多关系*#
     @Override

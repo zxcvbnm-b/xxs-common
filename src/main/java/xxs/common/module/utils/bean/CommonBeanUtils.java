@@ -1,8 +1,10 @@
 package xxs.common.module.utils.bean;
 
+import net.sf.jsqlparser.schema.Table;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import xxs.common.module.codegenerate.model.TableInfo;
 
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;

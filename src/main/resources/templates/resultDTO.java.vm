@@ -16,7 +16,6 @@ import lombok.Setter;
   #foreach($relationTableInfo in ${tableInfo.tableRelationships})
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost};
   #end
-## --foreach end---
 #end
 
 /**
@@ -30,14 +29,14 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.
 @Setter
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}" )
+@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}")
 #end
 public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($column in ${tableInfo.columnInfos})
   #if("$!column.comment" != "")
     #if(${swagger})
-    @ApiModelProperty("${column.comment}" )
+    @ApiModelProperty("${column.comment}")
     #else
     /**
      * ${column.comment}
@@ -64,18 +63,16 @@ public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} impleme
           }
   #end
 #end
-## --foreach end---
 #if(${tableInfo.tableRelationships})
     #foreach($relationTableInfo in ${tableInfo.tableRelationships})
         #if(${relationTableInfo.one2One})
         #*一对一  先默认开启lombok TODO 不生成get set方法*#
-        private ${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost};
+  private ${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost};
         #else
         #*一对多*#
-        private List<${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}List;
+  private List<${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}List;
         #end
     #end
-## --foreach end---
 #end
     @Override
     public String toString() {

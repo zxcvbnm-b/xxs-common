@@ -19,23 +19,44 @@ public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePo
     PageUtils get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
 
     /**
-     * 信息
+     * 获取${tableInfo.capitalizeTableName}
      */
     ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
 
     /**
-     * 保存
+     * 保存${tableInfo.capitalizeTableName}
      */
     int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
 
     /**
-     * 修改
+     * 修改${tableInfo.capitalizeTableName}
      */
     int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
 
     /**
-     * 删除
+     * 删除${tableInfo.capitalizeTableName}
      */
     int delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
 
+    #if(${tableInfo.tableRelationships})
+    /**
+    * 获取${tableInfo.capitalizeTableName}和关联关系
+    */
+    ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+
+    /**
+    * 保存${tableInfo.capitalizeTableName}和关联关系
+    */
+    int add${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+
+    /**
+    * 修改${tableInfo.capitalizeTableName}和关联关系
+    */
+    int update${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+
+    /**
+    * 删除${tableInfo.capitalizeTableName}和关联关系
+    */
+    int delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+    #end
 }

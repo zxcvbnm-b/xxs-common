@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 #end
+
 /**
  * $!{tableInfo.comment}Entity实体类
  *
@@ -28,10 +29,10 @@ import lombok.Setter;
 @Setter
 #end
 #if(${mybatisPlus})
-@TableName("${tableInfo.name}" )
+@TableName("${tableInfo.name}")
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}实体", description = "$!{tableInfo.comment}" )
+@ApiModel(value = "${tableInfo.capitalizeTableName}实体", description = "$!{tableInfo.comment}")
 #end
 public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
@@ -39,7 +40,7 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
 
 #if("$!column.comment" != "")
   #if(${swagger})
-    @ApiModelProperty("${column.comment}" )
+    @ApiModelProperty("${column.comment}")
   #else
     /**
      * ${column.comment}
@@ -85,7 +86,6 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
         this.${column.propertyName} = ${column.propertyName};
     }
 #end
-## --foreach end---
 #end
     @Override
     public String toString() {

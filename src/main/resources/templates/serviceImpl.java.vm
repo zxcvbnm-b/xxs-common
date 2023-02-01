@@ -9,26 +9,25 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${serviceInterf
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${paramDTOConfig.filePost};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${resultDTOConfig.filePost};
 #if(${tableInfo.tableRelationships})
-  #if(${mybatisPlus})
+#if(${mybatisPlus})
 import xxs.common.module.utils.bean.CommonBeanUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.transaction.annotation.Transactional;
-      #if(${tableInfo.tableRelationships})
-          #foreach($relationTableInfo in ${tableInfo.tableRelationships})
+ #if(${tableInfo.tableRelationships})
+     #foreach($relationTableInfo in ${tableInfo.tableRelationships})
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${entityConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost};
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${serviceInterfaceConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${serviceInterfaceConfig.filePost};
 import ${tableInfo.keyColumnInfo.javaType.getName()};
         #if(${relationTableInfo.one2One})
         #else
 import java.util.List;
         #end
-          #end
-      ## --foreach end---
-      #end
+     #end
  #end
-## --foreach end---
+#end
 #end
 
 /**
@@ -44,8 +43,8 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     @Autowired
     private ${relationTableInfo.relationTable.capitalizeTableName}${serviceInterfaceConfig.filePost} ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost};
     #end
-## --foreach end---
 #end
+
     /**
      * 列表
      */
@@ -54,14 +53,24 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     }
 
     /**
-     * 信息
+     * 获取${tableInfo.capitalizeTableName}
      */
     public ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
         ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.baseMapper.selectById(${tableInfo.keyColumnInfo.propertyName});
         ${tableInfo.capitalizeTableName}Result ${tableInfo.tableName}Result = this.entityToResult(${tableInfo.tableName}${entityConfig.filePost});
-        #if(${tableInfo.tableRelationships})
+        return ${tableInfo.tableName}Result;
+    }
+
+#if(${tableInfo.tableRelationships})
+    /**
+     * 获取${tableInfo.capitalizeTableName} 和关联关系
+     */
+    public ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
+        ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.baseMapper.selectById(${tableInfo.keyColumnInfo.propertyName});
+        ${tableInfo.capitalizeTableName}Result ${tableInfo.tableName}Result = this.entityToResult(${tableInfo.tableName}${entityConfig.filePost});
         ${tableInfo.keyColumnInfo.javaType.getSimpleName()} relation${tableInfo.keyColumnInfo.capitalizePropertyName} = ${tableInfo.tableName}Result.get${tableInfo.keyColumnInfo.capitalizePropertyName}();
             #foreach($relationTableInfo in ${tableInfo.tableRelationships})
+              #if(${mybatisPlus})
                 #if(${relationTableInfo.one2One})
                 #*一对一*#
         ${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost} ${relationTableInfo.relationTable.tableName}${entityConfig.filePost} = ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.getOne(Wrappers.<${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::get${relationTableInfo.relationColumnInfo.capitalizePropertyName},relation${tableInfo.keyColumnInfo.capitalizePropertyName}));
@@ -71,69 +80,79 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
         List<${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}> ${relationTableInfo.relationTable.tableName}${entityConfig.filePost}List = ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.list(Wrappers.<${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::get${relationTableInfo.relationColumnInfo.capitalizePropertyName},relation${tableInfo.keyColumnInfo.capitalizePropertyName}));
         ${tableInfo.tableName}Result.set${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}List(CommonBeanUtils.copyListProperties(${relationTableInfo.relationTable.tableName}${entityConfig.filePost}List,${relationTableInfo.relationTable.capitalizeTableName}Result::new));
                 #end
+              #end
             #end
-        ## --foreach end---
-        #end
         return ${tableInfo.tableName}Result;
     }
-
-    /**
-     * 保存
-     */
-    #if(${tableInfo.tableRelationships})
-    @Transactional(rollbackFor = Exception.class)
-    #end
-    public int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
-        ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.paramToEntity(${tableInfo.tableName}Param);
-        this.baseMapper.insert(${tableInfo.tableName}${entityConfig.filePost})
-#if(${tableInfo.tableRelationships})
-    ${tableInfo.keyColumnInfo.javaType.getSimpleName()} relation${tableInfo.keyColumnInfo.capitalizePropertyName} = ${tableInfo.tableName}Result.get${tableInfo.keyColumnInfo.capitalizePropertyName}();
-    #foreach($relationTableInfo in ${tableInfo.tableRelationships})
-        #if(${relationTableInfo.one2One})
-        #*一对一TODO *#
-
-        #else
-        #*一对多*#
-
-        #end
-    #end
-## --foreach end---
 #end
 
+#if(${tableInfo.tableRelationships})
+    /**
+     * 保存${tableInfo.capitalizeTableName}和关联关系
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public int add${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
+        ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.paramToEntity(${tableInfo.tableName}Param);
+        this.baseMapper.insert(${tableInfo.tableName}${entityConfig.filePost});
+        ${tableInfo.keyColumnInfo.javaType.getSimpleName()} relation${tableInfo.keyColumnInfo.capitalizePropertyName} = ${tableInfo.tableName}Result.get${tableInfo.keyColumnInfo.capitalizePropertyName}();
+    #foreach($relationTableInfo in ${tableInfo.tableRelationships})
+        #if(${mybatisPlus})
+            #if(${relationTableInfo.one2One})
+        #*一对一 *#
+        ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.save(CommonBeanUtils.copyProperties(${tableInfo.tableName}Param.get${relationTableInfo.relationTable.tableName}Param(),${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::new,(s, t)->{
+           t.set${relationTableInfo.relationColumnInfo.capitalizePropertyName}(relation${tableInfo.keyColumnInfo.capitalizePropertyName});
+        #else
+        #*一对多*#
+        ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.saveBatch(CommonBeanUtils.copyListProperties(${tableInfo.tableName}Param.get${relationTableInfo.relationTable.capitalizeTableName}ParamList(),${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::new,(s, t)->{
+           t.set${relationTableInfo.relationColumnInfo.capitalizePropertyName}(relation${tableInfo.keyColumnInfo.capitalizePropertyName});
+        }));
+             #end
+        #end
+    #end
         return 0;
+    }
+#end
+
+    /**
+     * 保存${tableInfo.capitalizeTableName}
+     */
+    public int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
+        ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.paramToEntity(${tableInfo.tableName}Param);
+        return this.baseMapper.insert(${tableInfo.tableName}${entityConfig.filePost});
     }
 
     /**
      * 修改
      */
-    #if(${tableInfo.tableRelationships})
-    @Transactional(rollbackFor = Exception.class)
-    #end
     public int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.paramToEntity(${tableInfo.tableName}Param);
         return this.baseMapper.updateById(${tableInfo.tableName}${entityConfig.filePost});
     }
 
     /**
-     * 删除
+     * 删除${tableInfo.capitalizeTableName}
      */
-    #if(${tableInfo.tableRelationships})
-    @Transactional(rollbackFor = Exception.class)
-    #end
     public int delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
-    #if(${tableInfo.tableRelationships})
-    #foreach($relationTableInfo in ${tableInfo.tableRelationships})
-        #if(!${mybatisPlus})
-        this.baseMapper.delete${tableInfo.capitalizeTableName}By${relationTableInfo.relationColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName})
-        #else
-        ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.remove(Wrappers.<${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::get${relationTableInfo.relationColumnInfo.capitalizePropertyName},${tableInfo.keyColumnInfo.propertyName}));
-        #end
-    #end
-    ## --foreach end---
-    #end
         return this.baseMapper.deleteById(${tableInfo.keyColumnInfo.propertyName});
     }
 
+#if(${tableInfo.tableRelationships})
+    /**
+     * 删除${tableInfo.capitalizeTableName}和关联关系
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public int delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
+        #foreach($relationTableInfo in ${tableInfo.tableRelationships})
+            #if(!${mybatisPlus})
+        this.baseMapper.delete${tableInfo.capitalizeTableName}By${relationTableInfo.relationColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName})
+            #else
+        ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.remove(Wrappers.<${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::get${relationTableInfo.relationColumnInfo.capitalizePropertyName},${tableInfo.keyColumnInfo.propertyName}));
+            #end
+        #end
+        return this.baseMapper.deleteById(${tableInfo.keyColumnInfo.propertyName});
+    }
+
+#end
     private ${tableInfo.capitalizeTableName}${entityConfig.filePost} paramToEntity(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = new ${tableInfo.capitalizeTableName}${entityConfig.filePost};
         BeanUtils.copyProperties(${tableInfo.tableName}Param, ${tableInfo.tableName}${entityConfig.filePost});
