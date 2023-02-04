@@ -1,10 +1,8 @@
 package xxs.common.module.utils.bean;
 
-import net.sf.jsqlparser.schema.Table;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-import xxs.common.module.codegenerate.model.TableInfo;
 
 import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.AssertTrue;
@@ -23,7 +21,6 @@ public class CommonBeanUtils extends org.springframework.beans.BeanUtils {
     public static String[] getNullPropertyNames(Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);
         PropertyDescriptor[] pds = src.getPropertyDescriptors();
-
         Set<String> emptyNames = new HashSet<String>();
         for (PropertyDescriptor pd : pds) {
             Method readMethod = pd.getReadMethod();
