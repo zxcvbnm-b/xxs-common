@@ -20,7 +20,7 @@ public class CodeGenerator {
     static VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
 
     public static void main(String[] args) throws Exception {
-        codeGenerator("bus");
+        codeGenerator("sys_user");
     }
 
     public static void codeGenerator(String tables) throws Exception {
@@ -42,13 +42,14 @@ public class CodeGenerator {
     }
     //TODO 一对多 一对一关系测试
     private static void test(TableInfo tableInfo) throws SQLException {
-        Map<String, TableInfo> tableInfosMap2 = LoadTableInfo.loadTables(new DataSourceConfig(), "talk");
-        TableInfo tableInfo1 = tableInfosMap2.get("talk");
+        Map<String, TableInfo> tableInfosMap2 = LoadTableInfo.loadTables(new DataSourceConfig(), "sys_user_role");
+        TableInfo tableInfo1 = tableInfosMap2.get("sys_user_role");
         /*一对多的关系 要处理级联操作*/
         List<TableRelationship> tableRelationships=new ArrayList<>();
         TableRelationship tableRelationship =   new TableRelationship();
         tableRelationship.setRelationTable(tableInfo1);
         tableRelationship.setRelationColumnInfo(tableInfo1.getColumnInfos().get(2));
+        tableRelationship.setOne2One(true);
         tableRelationships.add(tableRelationship);
         tableInfo.setTableRelationships(tableRelationships);
     }

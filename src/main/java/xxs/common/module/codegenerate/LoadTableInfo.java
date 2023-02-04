@@ -41,7 +41,7 @@ public class LoadTableInfo {
                     tableInfo.setTableName(camelCaseTableName);
                     //首字母大写
                     tableInfo.setCapitalizeTableName(StringUtils.capitalize(camelCaseTableName));
-                    ResultSet columnResultSet = metaData.getColumns(null, null, tableName,
+                    ResultSet columnResultSet = metaData.getColumns(null, "xxs", tableName,
                             "%");
                     //找出列信息
                     while (columnResultSet.next()) {
@@ -88,7 +88,6 @@ public class LoadTableInfo {
         String dataTypeName = columnResultSet.getString("TYPE_NAME");  //java.sql.Types类型名称(列类型名称)
         String isAutoincrement = columnResultSet.getString("IS_AUTOINCREMENT");  // 是否是自增长
         int columnSize = columnResultSet.getInt("COLUMN_SIZE");  // 列的长度
-        System.out.println(columnSize);
         columnInfo.setColumnSize(columnSize);
         columnInfo.setAutoincrement("YES".equalsIgnoreCase(isAutoincrement));
         columnInfo.setJdbcTypeCode(dataTypeCode);

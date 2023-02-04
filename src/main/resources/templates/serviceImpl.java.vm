@@ -50,6 +50,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     /**
      * 列表
      */
+    @Override
     public PageUtils get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         return null;
     }
@@ -57,6 +58,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     /**
      * 获取${tableInfo.capitalizeTableName}
      */
+    @Override
     public ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
         ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.baseMapper.selectById(${tableInfo.keyColumnInfo.propertyName});
         ${tableInfo.capitalizeTableName}Result ${tableInfo.tableName}Result = this.entityToResult(${tableInfo.tableName}${entityConfig.filePost});
@@ -67,6 +69,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     /**
      * 获取${tableInfo.capitalizeTableName} 和关联关系
      */
+    @Override
     public ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
         ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.baseMapper.selectById(${tableInfo.keyColumnInfo.propertyName});
         ${tableInfo.capitalizeTableName}Result ${tableInfo.tableName}Result = this.entityToResult(${tableInfo.tableName}${entityConfig.filePost});
@@ -85,7 +88,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
         #if(${relationTableInfo.one2One})
         #*一对一*#
         ${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost} ${relationTableInfo.relationTable.tableName}${entityConfig.filePost} = ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.getOne(Wrappers.<${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::get${relationTableInfo.relationColumnInfo.capitalizePropertyName}, relation${tableInfo.keyColumnInfo.capitalizePropertyName}));
-        ${tableInfo.tableName}Result.set${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}(CommonBeanUtils.copyProperties(${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost},${relationTableInfo.relationTable.capitalizeTableName}Result::new));
+        ${tableInfo.tableName}Result.set${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}(CommonBeanUtils.copyProperties(${relationTableInfo.relationTable.tableName}${entityConfig.filePost}, ${relationTableInfo.relationTable.capitalizeTableName}Result::new));
         #else
         #*一对多*#
         List<${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}> ${relationTableInfo.relationTable.tableName}${entityConfig.filePost}List = ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.list(Wrappers.<${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::get${relationTableInfo.relationColumnInfo.capitalizePropertyName}, relation${tableInfo.keyColumnInfo.capitalizePropertyName}));
@@ -99,6 +102,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     /**
      * 保存${tableInfo.capitalizeTableName}
      */
+    @Override
     public int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         this.saveOrUpdateValid(${tableInfo.tableName}Param, true, false);
         ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.paramToEntity(${tableInfo.tableName}Param);
@@ -110,6 +114,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
      * 保存${tableInfo.capitalizeTableName}和关联关系
      */
     @Transactional(rollbackFor = Exception.class)
+    @Override
     public int add${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         this.saveOrUpdateValid(${tableInfo.tableName}Param,true,false);
         ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.paramToEntity(${tableInfo.tableName}Param);
@@ -127,8 +132,9 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
         #if(${mybatisPlus})
             #if(${relationTableInfo.one2One})
             #*一对一 *#
-        ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.save(CommonBeanUtils.copyProperties(${tableInfo.tableName}Param.get${relationTableInfo.relationTable.tableName}Param(),${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::new,(s, t)->{
-        t.set${relationTableInfo.relationColumnInfo.capitalizePropertyName}(relation${tableInfo.keyColumnInfo.capitalizePropertyName});
+        ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.save(CommonBeanUtils.copyProperties(${tableInfo.tableName}Param.get${relationTableInfo.relationTable.capitalizeTableName}Param(),${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::new,(s, t)->{
+            t.set${relationTableInfo.relationColumnInfo.capitalizePropertyName}(relation${tableInfo.keyColumnInfo.capitalizePropertyName});
+        }));
             #else
             #*一对多*#
         if (!CollectionUtils.isEmpty(${tableInfo.tableName}Param.get${relationTableInfo.relationTable.capitalizeTableName}ParamList())) {
@@ -145,6 +151,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     /**
      * 修改
      */
+    @Override
     public int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         this.saveOrUpdateValid(${tableInfo.tableName}Param, false, true);
         ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.paramToEntity(${tableInfo.tableName}Param);
@@ -156,6 +163,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
      * 修改${tableInfo.capitalizeTableName}和关联关系
      */
     @Transactional(rollbackFor = Exception.class)
+    @Override
     public int update${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         this.saveOrUpdateValid(${tableInfo.tableName}Param, false, true);
         this.update${tableInfo.capitalizeTableName}Relation(${tableInfo.tableName}Param);
@@ -184,9 +192,9 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
   #if(${mybatisPlus})
    #if(${relationTableInfo.one2One})
             #*一对一 *#
-    private void update${relationTableInfo.relationTable.capitalizeTableName}Relation(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param)() {
+    private void update${relationTableInfo.relationTable.capitalizeTableName}Relation(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         ${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost} ${relationTableInfo.relationTable.tableName}${entityConfig.filePost} = ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.getOne(Wrappers.<${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${relationTableInfo.relationTable.capitalizeTableName}${entityConfig.filePost}::get${relationTableInfo.relationColumnInfo.capitalizePropertyName}, relation${tableInfo.keyColumnInfo.capitalizePropertyName}));
-        ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.update(CommonBeanUtils.copyProperties(${tableInfo.tableName}Param.get${relationTableInfo.relationTable.tableName}Param(),${relationTableInfo.relationTable.tableName}${entityConfig.filePost}));
+        ${relationTableInfo.relationTable.tableName}${serviceInterfaceConfig.filePost}.update(CommonBeanUtils.copyProperties(${tableInfo.tableName}Param.get${relationTableInfo.relationTable.capitalizeTableName}Param(),${relationTableInfo.relationTable.tableName}${entityConfig.filePost}));
     }
     #else
             #*一对多*#
@@ -240,8 +248,9 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     /**
      * 删除${tableInfo.capitalizeTableName}
      */
+    @Override
     public int delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
-        this.deleteValid(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+        this.deleteValid(${tableInfo.keyColumnInfo.propertyName});
         return this.baseMapper.deleteById(${tableInfo.keyColumnInfo.propertyName});
     }
 
@@ -250,8 +259,9 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
      * 删除${tableInfo.capitalizeTableName}和关联关系
      */
     @Transactional(rollbackFor = Exception.class)
+    @Override
     public int delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
-        this.deleteValid(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+        this.deleteValid(${tableInfo.keyColumnInfo.propertyName});
         this.delete${tableInfo.capitalizeTableName}RelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
         return this.baseMapper.deleteById(${tableInfo.keyColumnInfo.propertyName});
     }
