@@ -22,6 +22,7 @@ public class VelocityParamBuilder {
         velocityParam.put("swagger", codeGenerateContext.isSwagger());
         velocityParam.put("jsr303Verify", codeGenerateContext.isJsr303Verify());
         velocityParam.put("mybatisPlus", codeGenerateContext.isMybatisPlus());
+        velocityParam.put("genValidMethod", codeGenerateContext.isMybatisPlus());
         velocityParam.put(Constants.VELOCITY_PARAM_CONTROLLER_CONFIG_NAME, codeGenerateContext.getControllerConfig());
         velocityParam.put(Constants.VELOCITY_PARAM_ENTITY_CONFIG_NAME, codeGenerateContext.getEntityConfig());
         velocityParam.put(Constants.VELOCITY_PARAM_MAPPER_INTERFACE_CONFIG_NAME, codeGenerateContext.getMapperInterfaceConfig());

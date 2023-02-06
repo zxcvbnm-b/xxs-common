@@ -89,7 +89,7 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
 #end
     @PostMapping("/delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}")
     public R delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
-        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
+        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
         return R.ok();
     }
 
@@ -113,7 +113,7 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     @ApiOperation("保存${tableInfo.capitalizeTableName}和关联关系")
      #end
     @PostMapping("/add${tableInfo.capitalizeTableName}AndRelation")
-    public R add${tableInfo.capitalizeTableName}(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
+    public R add${tableInfo.capitalizeTableName}AndRelation(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
         ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.add${tableInfo.capitalizeTableName}AndRelation(${tableInfo.tableName}Param);
         return R.ok();
     }

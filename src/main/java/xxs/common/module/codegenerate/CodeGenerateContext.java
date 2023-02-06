@@ -28,6 +28,8 @@ public class CodeGenerateContext {
     private boolean swagger = true;
     //是否 mybatisPlus
     private boolean mybatisPlus = true;
+    //是否 生成服务类验证方法，如deleteValid 删除的验证方法
+    private boolean genValidMethod = true;
     //生成日期
     private String generateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" ).format(new Date());
     //模板集合

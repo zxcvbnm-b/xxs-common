@@ -39,12 +39,15 @@ public class VelocityTemplateEngine {
         String mkdirsPath = path.substring(0, path.lastIndexOf("\\"));
         File mkdirs = new File(mkdirsPath);/*要有文件夹才能生成文件*/
         mkdirs.mkdirs();
-        try (FileOutputStream fos = new FileOutputStream(outputFile);
-             OutputStreamWriter ow = new OutputStreamWriter(fos, ConstVal.UTF8);
-             BufferedWriter writer = new BufferedWriter(ow)) {
-            template.merge(new VelocityContext(objectValueMap), writer);
-            writeFile(outputFile, writer.toString(), ConstVal.UTF8);
+        try  {
+            //TODO 这里的sw使用 OutputStreamWriter的时候生成的文件会错误 不知道为什么 换成StringWriter解决
+            StringWriter sw = new StringWriter();
+            template.merge(new VelocityContext(objectValueMap), sw);
+            System.out.println(sw.toString());
+            writeFile(outputFile, sw.toString(), ConstVal.UTF8);
 
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

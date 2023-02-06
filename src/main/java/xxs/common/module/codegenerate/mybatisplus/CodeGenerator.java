@@ -48,8 +48,8 @@ public class CodeGenerator {
         List<TableRelationship> tableRelationships=new ArrayList<>();
         TableRelationship tableRelationship =   new TableRelationship();
         tableRelationship.setRelationTable(tableInfo1);
-        tableRelationship.setRelationColumnInfo(tableInfo1.getColumnInfos().get(2));
-        tableRelationship.setOne2One(true);
+        tableRelationship.setRelationColumnInfo(tableInfo1.getColumnInfos().get(1));
+        tableRelationship.setOne2One(false);
         tableRelationships.add(tableRelationship);
         tableInfo.setTableRelationships(tableRelationships);
     }
