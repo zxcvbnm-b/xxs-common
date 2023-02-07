@@ -13,6 +13,7 @@ public class GenerateFilterContext implements IGenerateFilter {
     {
         generateFilters.add(new ParamDTOGenerateFilter());
         generateFilters.add(new ResultDTOGenerateFilter());
+        generateFilters.add(new StoredProcedureGenerateFilter());
     }
 
     @Override

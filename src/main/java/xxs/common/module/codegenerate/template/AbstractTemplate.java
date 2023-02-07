@@ -10,13 +10,13 @@ import java.util.Map;
 public abstract class AbstractTemplate implements Template {
     protected CodeGenerateContext codeGenerateContext;
     //src/main/java目录
-    private final static String SRC_MAIN_JAVA_PATH=File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator;
+    protected final static String SRC_MAIN_JAVA_PATH=File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator;
     //src/main/resources目录
-    private final static String SRC_MAIN_RESOURCES_PATH=File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator;;
+    protected final static String SRC_MAIN_RESOURCES_PATH=File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
     //src/test/java目录
-    private final static String SRC_TEST_JAVA_PATH=File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator;;
+    protected final static String SRC_TEST_JAVA_PATH=File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator;
     //src/test/resources目录
-    private final static String SRC_TEST_RESOURCES_PATH=File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator;;
+    protected final static String SRC_TEST_RESOURCES_PATH=File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator;
     private boolean genTest=true;
     protected final static String JAVA_FILE_POST=".java";
     protected final static String XML_FILE_POST=".xml";
