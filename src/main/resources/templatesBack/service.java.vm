@@ -16,22 +16,22 @@ public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePo
     /**
      * 列表
      */
-    PageUtils get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+    PageUtils get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
      * 信息
      */
-    ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+    ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
 
     /**
      * 保存
      */
-    int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+    int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
      * 修改
      */
-    int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+    int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
      * 删除

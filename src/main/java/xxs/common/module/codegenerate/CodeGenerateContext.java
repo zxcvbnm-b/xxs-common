@@ -26,6 +26,14 @@ public class CodeGenerateContext {
     private boolean lombok = true;
     //是否有swagger
     private boolean swagger = true;
+    //逻辑删除字段
+    private String deletedColumn;
+    //乐观锁列
+    private String versionColumn;
+    //插入时自动插入值字段-mybatisplus使用
+    private List<String> insertFillColumn;
+    //更新时自动插入值字段-mybatisplus使用
+    private List<String> updateFillColumn;
     //是否 mybatisPlus
     private boolean mybatisPlus = true;
     //是否 生成服务类验证方法，如deleteValid 删除的验证方法

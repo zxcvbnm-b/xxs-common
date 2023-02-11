@@ -14,7 +14,7 @@ import lombok.Setter;
 #end
 
 /**
- * $!{tableInfo.comment}Param实体类
+ * $!{tableInfo.comment}${resultDTOConfig.filePost}实体类
  *
  * @author ${author}
  * @since ${generateTime}

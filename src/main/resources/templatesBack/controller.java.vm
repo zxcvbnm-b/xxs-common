@@ -39,8 +39,8 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     @ApiOperation("分页查询")
 #end
     @GetMapping("/get${tableInfo.capitalizeTableName}List")
-    public R get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
-        PageUtils page = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.get${tableInfo.capitalizeTableName}List(${tableInfo.tableName}Param);
+    public R get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost}) {
+        PageUtils page = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.get${tableInfo.capitalizeTableName}List(${tableInfo.tableName}${paramDTOConfig.filePost});
         return R.ok().put("page", page);
     }
 
@@ -52,8 +52,8 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
 #end
     @GetMapping("/get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}" )
     public R get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
-        ${tableInfo.capitalizeTableName}Result ${tableInfo.tableName}Result = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
-        return R.ok().put("${tableInfo.tableName}Result", ${tableInfo.tableName}Result);
+        ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} ${tableInfo.tableName}${resultDTOConfig.filePost} = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
+        return R.ok().put("${tableInfo.tableName}${resultDTOConfig.filePost}", ${tableInfo.tableName}${resultDTOConfig.filePost});
     }
 
     /**
@@ -63,8 +63,8 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     @ApiOperation("保存")
 #end
     @PostMapping("/add${tableInfo.capitalizeTableName}" )
-    public R add${tableInfo.capitalizeTableName}(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
-        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.add${tableInfo.capitalizeTableName}(${tableInfo.tableName}Param);
+    public R add${tableInfo.capitalizeTableName}(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost}) {
+        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.add${tableInfo.capitalizeTableName}(${tableInfo.tableName}${paramDTOConfig.filePost});
         return R.ok();
     }
 
@@ -75,8 +75,8 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     @ApiOperation("修改")
 #end
     @PostMapping("/update${tableInfo.capitalizeTableName}" )
-    public R update${tableInfo.capitalizeTableName}(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param) {
-        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.update${tableInfo.capitalizeTableName}(${tableInfo.tableName}Param);
+    public R update${tableInfo.capitalizeTableName}(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost}) {
+        ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.update${tableInfo.capitalizeTableName}(${tableInfo.tableName}${paramDTOConfig.filePost});
         return R.ok();
     }
 

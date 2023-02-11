@@ -16,22 +16,22 @@ public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePo
     /**
      * 列表
      */
-    PageUtils get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+    PageUtils get${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
      * 获取${tableInfo.capitalizeTableName}
      */
-    ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+    ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
 
     /**
      * 保存${tableInfo.capitalizeTableName}
      */
-    int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+    int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
      * 修改${tableInfo.capitalizeTableName}
      */
-    int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+    int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
      * 删除${tableInfo.capitalizeTableName}
@@ -42,17 +42,17 @@ public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePo
     /**
     * 获取${tableInfo.capitalizeTableName}和关联关系
     */
-    ${tableInfo.capitalizeTableName}Result get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+    ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
 
     /**
     * 保存${tableInfo.capitalizeTableName}和关联关系
     */
-    int add${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+    int add${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
     * 修改${tableInfo.capitalizeTableName}和关联关系
     */
-    int update${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}Param ${tableInfo.tableName}Param);
+    int update${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
     * 删除${tableInfo.capitalizeTableName}和关联关系

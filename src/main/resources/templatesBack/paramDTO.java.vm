@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 #end
 /**
- * $!{tableInfo.comment}Param类
+ * $!{tableInfo.comment}${paramDTOConfig.filePost}类
  *
  * @author ${author}
  * @since ${generateTime}

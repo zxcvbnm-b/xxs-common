@@ -5,6 +5,15 @@ import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+    #if(${insertFillColumn}||${updateFillColumn})
+import com.baomidou.mybatisplus.annotation.FieldFill;
+    #end
+    #if(${deletedColumn})
+import com.baomidou.mybatisplus.annotation.TableLogic;
+    #end
+    #if(${versionColumn})
+import com.baomidou.mybatisplus.annotation.Version;
+    #end
 #end
 #foreach($packageName in ${tableInfo.getColumnTypePackageNames()})
 import ${packageName};
@@ -17,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 #end
+
 /**
  * $!{tableInfo.comment}Entity实体类
  *
@@ -28,10 +38,10 @@ import lombok.Setter;
 @Setter
 #end
 #if(${mybatisPlus})
-@TableName("${tableInfo.name}" )
+@TableName("${tableInfo.name}")
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}实体", description = "$!{tableInfo.comment}" )
+@ApiModel(value = "${tableInfo.capitalizeTableName}实体", description = "$!{tableInfo.comment}")
 #end
 public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
@@ -39,7 +49,7 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
 
 #if("$!column.comment" != "")
   #if(${swagger})
-    @ApiModelProperty("${column.comment}" )
+    @ApiModelProperty("${column.comment}")
   #else
     /**
      * ${column.comment}
@@ -54,16 +64,22 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
   #else
     @TableId("${column.columnName}")
   #end
+#elseif(${insertFillColumn.contains(${column.columnName})}&&${updateFillColumn.contains(${column.columnName})})
+    @TableField(value = "${column.columnName}", fill = FieldFill.INSERT_UPDATE)
+#elseif(${insertFillColumn.contains(${column.columnName})})
+    @TableField(value = "${column.columnName}", fill = FieldFill.INSERT)
+#elseif(${updateFillColumn.contains(${column.columnName})})
+    @TableField(value = "${column.columnName}", fill = FieldFill.UPDATE)
 #else
     @TableField("${column.columnName}")
 #end
 ## 乐观锁注解
-#if(${column.versionField})
+#if(${versionColumn}==${column.columnName})
     @Version
 #end
 ## 逻辑删除注解
-#if(${column.logicDeleteField})
-    @TableLogic
+#if(${deletedColumn}==${column.columnName})
+    @TableLogic("${column.columnName}")
 #end
 #end
     private ${column.javaType.getSimpleName()} ${column.propertyName};
@@ -85,7 +101,6 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
         this.${column.propertyName} = ${column.propertyName};
     }
 #end
-## --foreach end---
 #end
     @Override
     public String toString() {

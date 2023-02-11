@@ -24,7 +24,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.p
     #end
 #end
 /**
- * $!{tableInfo.comment}Param类
+ * $!{tableInfo.comment}${paramDTOConfig.filePost}类
  *
  * @author ${author}
  * @since ${generateTime}
