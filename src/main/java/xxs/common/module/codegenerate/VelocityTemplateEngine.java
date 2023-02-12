@@ -43,7 +43,6 @@ public class VelocityTemplateEngine {
             //TODO 这里的sw使用 OutputStreamWriter的时候生成的文件会错误 不知道为什么 换成StringWriter解决
             StringWriter sw = new StringWriter();
             template.merge(new VelocityContext(objectValueMap), sw);
-            System.out.println(sw.toString());
             writeFile(outputFile, sw.toString(), ConstVal.UTF8);
 
         }catch (Exception e){

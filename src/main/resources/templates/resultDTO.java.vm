@@ -4,6 +4,7 @@ package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${resultDTOCon
 import ${packageName};
 #end
 import java.util.*;
+import java.io.Serializable;
 #if(${swagger})
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

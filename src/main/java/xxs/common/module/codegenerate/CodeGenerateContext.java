@@ -12,9 +12,13 @@ import java.util.*;
 public class CodeGenerateContext {
     /*获取到项目的绝对路径*/
     private String absoluteDir = System.getProperty("user.dir" );
+    /*是否生成到测试模块下 --test/java/*/
+    private  boolean genToTestModule = true;
+    /*是否覆盖生成的文件 如果不覆盖，那么使用时间来做唯一标识 （文件名+时间）会导致java文件和类名不一样 */
+    private  boolean coverExistFile = false;
     /*基础包名*/
     private String basePackageName = "xxs.common";
-    /*xml文件存放的位置,绝对路径如果为空，那么存放的位置就是根mapper接口放一块，否则就放到resources文件夹下*/
+    /*xml文件存放的位置,绝对路径如果为空，那么存放的位置就是跟mapper接口放一块，否则就放到resources文件夹下*/
     private String mapperXmlPathName;
     /*模块名*/
     private String moduleName = "xxsxx";
@@ -66,7 +70,7 @@ public class CodeGenerateContext {
         templates.add(new MapperTemplate(this));
         templates.add(new MapperXmlTemplate(this));
         templates.add(new EntityTemplate(this));
-        templates.add(new EntityTemplate(this));
+//        templates.add(new EntityTemplate(this));
     }
 
     public CodeGenerateContext addTemplate(Template template) {

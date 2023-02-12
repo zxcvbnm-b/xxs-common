@@ -17,7 +17,6 @@ public abstract class AbstractTemplate implements Template {
     protected final static String SRC_TEST_JAVA_PATH=File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator;
     //src/test/resources目录
     protected final static String SRC_TEST_RESOURCES_PATH=File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator;
-    private boolean genTest=true;
     protected final static String JAVA_FILE_POST=".java";
     protected final static String XML_FILE_POST=".xml";
     public AbstractTemplate(CodeGenerateContext codeGenerateContext) {
@@ -34,7 +33,7 @@ public abstract class AbstractTemplate implements Template {
      */
     protected String getFileName(String javaFileName, String basePackageName, String moduleName, String simplePackageName) {
         String packagePath = SRC_MAIN_JAVA_PATH;
-        if(genTest){
+        if(codeGenerateContext.isGenToTestModule()){
             packagePath = SRC_TEST_JAVA_PATH;
         }
         if (StringUtils.isNotBlank(basePackageName)) {
@@ -54,7 +53,7 @@ public abstract class AbstractTemplate implements Template {
      */
     protected String getResourceFileName(String javaFileName,String basePackageName, String moduleName, String simplePackageName) {
         String packagePath = SRC_MAIN_RESOURCES_PATH;
-        if(genTest){
+        if(codeGenerateContext.isGenToTestModule()){
             packagePath = SRC_TEST_RESOURCES_PATH;
         }
         if (StringUtils.isNotBlank(basePackageName)) {

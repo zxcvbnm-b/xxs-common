@@ -24,7 +24,7 @@ public class MapperXmlTemplate extends AbstractTemplate {
             return getResourceFileName(tableInfo.getCapitalizeTableName() + mapperXmlConfig.getFilePost() + XML_FILE_POST, codeGenerateContext.getMapperXmlConfig()
             .getResourcesPackageSimpleName(), codeGenerateContext.getModuleName(), tableInfo.getTableName());
         }
-        return getResourceFileName(tableInfo.getCapitalizeTableName() + mapperXmlConfig.getFilePost() + XML_FILE_POST, codeGenerateContext.getMapperXmlConfig().getPackageSimpleName());
+        return getFileName(tableInfo.getCapitalizeTableName() + mapperXmlConfig.getFilePost() + XML_FILE_POST, codeGenerateContext.getMapperXmlConfig().getPackageSimpleName());
     }
 
 }

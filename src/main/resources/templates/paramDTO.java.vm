@@ -3,6 +3,7 @@ package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${paramDTOConf
 #foreach($packageName in ${tableInfo.getColumnTypePackageNames()})
 import ${packageName};
 #end
+import java.io.Serializable;
 import java.util.*;
 #if(${swagger})
 import io.swagger.annotations.ApiModel;
