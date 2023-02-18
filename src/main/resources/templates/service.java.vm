@@ -1,11 +1,15 @@
 package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${serviceInterfaceConfig.packageSimpleName}).${serviceInterfaceConfig.packageSimpleName}#end;
 #if(${swagger})
 import com.baomidou.mybatisplus.extension.service.IService;
+import java.util.List;
 #end
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${entityConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${entityConfig.filePost};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${paramDTOConfig.filePost};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${resultDTOConfig.filePost};
-
+#if(${tableInfo.tableRelationshipMainTableInfo})
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${tableInfo.tableRelationshipMainTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost};
+import ${tableInfo.tableRelationshipMainTableInfo.relationTable.keyColumnInfo.javaType.getName()};
+#end
 /**
  * $!{tableInfo.comment}服务类
  *
@@ -67,26 +71,28 @@ public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePo
             #set($methodTablePostkey="s")
         #end
         #set($mainTableInfo=${tableInfo.tableRelationshipMainTableInfo.relationTable})
-            /**
-             * 根据${mainTableInfo.keyColumnInfo.propertyName}获取${tableInfo.capitalizeTableName}${methodTablePostkey}
-             */
-            #if(${tableInfo.tableRelationshipMainTableInfo.one2One})
-                ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.propertyName});
-            #else
-                List<${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}> get${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.propertyName});
-            #end
-            /**
-             * 保存${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
-             */
-            int add${tableInfo.capitalizeTableName}${methodTablePostkey}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.propertyName});
-            /**
-             * 修改${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
-             */
-            int update${tableInfo.capitalizeTableName}${methodTablePostkey}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.propertyName});
+    /**
+     * 根据${mainTableInfo.keyColumnInfo.propertyName}获取${tableInfo.capitalizeTableName}${methodTablePostkey}
+     */
+    #if(${tableInfo.tableRelationshipMainTableInfo.one2One})
+        ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName});
+    #else
+    List<${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}> get${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName});
+    #end
 
-            /**
-             * 根据${tableInfo.tableRelationshipMainTableInfo.relationTable.keyColumnInfo.propertyName}删除${tableInfo.capitalizeTableName}
-             */
-            int delete${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} ${mainTableInfo.keyColumnInfo.propertyName});
+    /**
+     * 保存${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
+     */
+    int add${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName});
+
+    /**
+     * 修改${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
+     */
+    int update${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName});
+
+    /**
+     * 根据${tableInfo.tableRelationshipMainTableInfo.relationTable.keyColumnInfo.propertyName}删除${tableInfo.capitalizeTableName}
+     */
+    int delete${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName});
     #end
 }
