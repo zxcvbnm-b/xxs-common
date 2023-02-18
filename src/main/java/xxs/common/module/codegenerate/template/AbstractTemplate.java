@@ -7,18 +7,38 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 抽象模板
+ *
+ * @author xxs
+ */
 public abstract class AbstractTemplate implements Template {
     protected CodeGenerateContext codeGenerateContext;
-    //src/main/java目录
-    protected final static String SRC_MAIN_JAVA_PATH=File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator;
-    //src/main/resources目录
-    protected final static String SRC_MAIN_RESOURCES_PATH=File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
-    //src/test/java目录
-    protected final static String SRC_TEST_JAVA_PATH=File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator;
-    //src/test/resources目录
-    protected final static String SRC_TEST_RESOURCES_PATH=File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator;
-    protected final static String JAVA_FILE_POST=".java";
-    protected final static String XML_FILE_POST=".xml";
+    /**
+     * src/main/java目录
+     */
+    protected final static String SRC_MAIN_JAVA_PATH = File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator;
+    /**
+     * src/main/resources目录
+     */
+    protected final static String SRC_MAIN_RESOURCES_PATH = File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator;
+    /**
+     * src/test/java目录
+     */
+    protected final static String SRC_TEST_JAVA_PATH = File.separator + "src" + File.separator + "test" + File.separator + "java" + File.separator;
+    /**
+     * src/test/resources目录
+     */
+    protected final static String SRC_TEST_RESOURCES_PATH = File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator;
+    /**
+     * java文件后缀
+     */
+    protected final static String JAVA_FILE_POST = ".java";
+    /**
+     * xml文件后缀
+     */
+    protected final static String XML_FILE_POST = ".xml";
+
     public AbstractTemplate(CodeGenerateContext codeGenerateContext) {
         this.codeGenerateContext = codeGenerateContext;
     }
@@ -28,12 +48,13 @@ public abstract class AbstractTemplate implements Template {
         Map<String, Object> objectValueMap = new HashMap<>();
         return objectValueMap;
     }
+
     /**
      * 获取文件名生成
      */
     protected String getFileName(String javaFileName, String basePackageName, String moduleName, String simplePackageName) {
         String packagePath = SRC_MAIN_JAVA_PATH;
-        if(codeGenerateContext.isGenToTestModule()){
+        if (codeGenerateContext.isGenToTestModule()) {
             packagePath = SRC_TEST_JAVA_PATH;
         }
         if (StringUtils.isNotBlank(basePackageName)) {
@@ -51,9 +72,9 @@ public abstract class AbstractTemplate implements Template {
     /**
      * 获取文件名生成到main/resources
      */
-    protected String getResourceFileName(String javaFileName,String basePackageName, String moduleName, String simplePackageName) {
+    protected String getResourceFileName(String javaFileName, String basePackageName, String moduleName, String simplePackageName) {
         String packagePath = SRC_MAIN_RESOURCES_PATH;
-        if(codeGenerateContext.isGenToTestModule()){
+        if (codeGenerateContext.isGenToTestModule()) {
             packagePath = SRC_TEST_RESOURCES_PATH;
         }
         if (StringUtils.isNotBlank(basePackageName)) {
@@ -67,6 +88,7 @@ public abstract class AbstractTemplate implements Template {
         }
         return codeGenerateContext.getAbsoluteDir() + packagePath + javaFileName;
     }
+
     /**
      * 获取文件名
      */
@@ -76,6 +98,7 @@ public abstract class AbstractTemplate implements Template {
         return getResourceFileName(javaFileName, packageName, moduleName, simplePackageName);
 
     }
+
     /**
      * 获取文件名
      */

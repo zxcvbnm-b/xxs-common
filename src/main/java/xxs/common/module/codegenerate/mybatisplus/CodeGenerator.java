@@ -17,7 +17,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-//TODO JDBC相关api https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html
+/**
+ * TODO JDBC相关api https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html
+ * @author
+ */
 public class CodeGenerator {
     static VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
 
@@ -88,7 +91,9 @@ public class CodeGenerator {
         }
     }
 
-    //获取真正的输出文件名称  如果文件存在，那么添加日期作为文件标识 （这样会导致java文件和类名不一样）
+    /**
+     *     获取真正的输出文件名称  如果文件存在，那么添加日期作为文件标识 （这样会导致java文件和类名不一样）
+     */
     private static String getRealOutFilePathName(String outFilePathName, CodeGenerateContext codeGenerateContext) {
         String realOutFilePathName = outFilePathName;
         if (codeGenerateContext.isCoverExistFile()) {

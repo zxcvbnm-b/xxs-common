@@ -1,14 +1,17 @@
 
 package xxs.common.module.codegenerate;
 
-import xxs.common.module.datagenerate.db.jdbc.type.*;
-
 import java.math.BigDecimal;
 import java.sql.JDBCType;
 import java.util.*;
 
+/**
+ * @author xxs
+ */
 public final class TypeMapperRegistry {
-    /*jdbc类型的类型处理器  一个jdbc类型为xxx的可以使用使用什么类型处理器*/
+    /**
+     * jdbc类型的类型处理器  一个jdbc类型为xxx的可以使用使用什么类型处理器
+     */
     private static final Map<Integer, Class> jdbcTypeMapperMap = new HashMap<>();
 
     static {

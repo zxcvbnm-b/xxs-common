@@ -10,7 +10,10 @@ import xxs.common.module.config.enumconfig.OptionsEnumDeserializer;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-/*日期序列化统一配置*/
+/**
+ * 日期序列化统一配置
+ * @author xxs
+ */
 @Configuration
 public class JsonSerializerConfiguration {
     @Bean

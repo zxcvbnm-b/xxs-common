@@ -5,6 +5,10 @@ import cn.hutool.core.bean.BeanUtil;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 模板引擎参数构建器
+ * @author xxs
+ */
 public class VelocityParamBuilder {
     private Map<String, Object> velocityParam = new HashMap<>();
     private CodeGenerateContext codeGenerateContext;

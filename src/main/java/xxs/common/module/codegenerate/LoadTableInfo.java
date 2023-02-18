@@ -14,7 +14,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-// https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html 看元数据（在ResultSet对象下的metadata是这个查询返回的列有那些 名字是什么等。，rows时具体的数据）
+
+/**
+ * https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html 看元数据（在ResultSet对象下的metadata是这个查询返回的列有那些 名字是什么等。，rows时具体的数据）
+ *
+ * @author xxs
+ */
 public class LoadTableInfo {
     public static Map<String, TableInfo> loadTables(DataSourceConfig dataSourceConfig, String tableNames) throws SQLException {
         Map<String, TableInfo> tableInfoHashMap = new HashMap<>();
@@ -31,9 +36,12 @@ public class LoadTableInfo {
                 List<ColumnInfo> columnInfoList = new ArrayList<>();
                 //找出表信息
                 while (tableResultSet.next()) {
-                    String name = tableResultSet.getString("TABLE_NAME");  //表名
-                    String tableType = tableResultSet.getString("TABLE_TYPE");  //表类型
-                    String comment = tableResultSet.getString("REMARKS");       //表备注
+                    //表名
+                    String name = tableResultSet.getString("TABLE_NAME");
+                    //表类型
+                    String tableType = tableResultSet.getString("TABLE_TYPE");
+                    //表备注
+                    String comment = tableResultSet.getString("REMARKS");
                     tableInfo.setName(name);
                     tableInfo.setComment(comment);
                     tableInfo.setTableType(tableType);
@@ -66,7 +74,8 @@ public class LoadTableInfo {
     private static void buildKeyColumn(DatabaseMetaData metaData, String tableName, TableInfo tableInfo, List<ColumnInfo> columnInfoList) throws SQLException {
         ResultSet keyResultSet = metaData.getPrimaryKeys(null, null, tableName);
         while (keyResultSet.next()) {
-            String columnName = keyResultSet.getString("COLUMN_NAME");//主键列名
+            //主键列名
+            String columnName = keyResultSet.getString("COLUMN_NAME");
             columnInfoList:
             for (ColumnInfo columnInfo : columnInfoList) {
                 if (columnName.equalsIgnoreCase(columnInfo.getColumnName())) {
@@ -82,12 +91,17 @@ public class LoadTableInfo {
 
     private static void buildColumn(List<ColumnInfo> columnInfoList, ResultSet columnResultSet) throws SQLException {
         ColumnInfo columnInfo = new ColumnInfo();
-        String columnName = columnResultSet.getString("COLUMN_NAME");  //列名
+        //列名
+        String columnName = columnResultSet.getString("COLUMN_NAME");
         columnInfo.setColumnName(columnName);
-        int dataTypeCode = columnResultSet.getInt("DATA_TYPE");     //对应的java.sql.Types的SQL类型(列类型ID)
-        String dataTypeName = columnResultSet.getString("TYPE_NAME");  //java.sql.Types类型名称(列类型名称)
-        String isAutoincrement = columnResultSet.getString("IS_AUTOINCREMENT");  // 是否是自增长
-        int columnSize = columnResultSet.getInt("COLUMN_SIZE");  // 列的长度
+        //对应的java.sql.Types的SQL类型(列类型ID)
+        int dataTypeCode = columnResultSet.getInt("DATA_TYPE");
+        //java.sql.Types类型名称(列类型名称)
+        String dataTypeName = columnResultSet.getString("TYPE_NAME");
+        // 是否是自增长
+        String isAutoincrement = columnResultSet.getString("IS_AUTOINCREMENT");
+        // 列的长度
+        int columnSize = columnResultSet.getInt("COLUMN_SIZE");
         columnInfo.setColumnSize(columnSize);
         columnInfo.setAutoincrement("YES".equalsIgnoreCase(isAutoincrement));
         columnInfo.setJdbcTypeCode(dataTypeCode);
@@ -103,9 +117,11 @@ public class LoadTableInfo {
          *  1 (columnNullable) - 该列允许为空
          *  2 (columnNullableUnknown) - 不确定该列是否为空
          */
-        int nullAble = columnResultSet.getInt("NULLABLE");  //是否允许为null
+        //是否允许为null
+        int nullAble = columnResultSet.getInt("NULLABLE");
         columnInfo.setNullAble(nullAble == 1);
-        String remarks = columnResultSet.getString("REMARKS");  //列描述
+        //列描述
+        String remarks = columnResultSet.getString("REMARKS");
         columnInfo.setComment(remarks);
         /*   String columnDef = columnResultSet.getString("COLUMN_DEF");  //默认值*/
         columnInfoList.add(columnInfo);

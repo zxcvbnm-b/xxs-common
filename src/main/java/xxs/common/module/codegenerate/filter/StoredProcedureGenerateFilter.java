@@ -9,7 +9,11 @@ import xxs.common.module.codegenerate.template.Template;
 import java.io.File;
 import java.util.Collections;
 import java.util.Map;
-
+/**
+ * 通用sql存储过程代码生成拦截
+ *
+ * @author xxs
+ */
 public class StoredProcedureGenerateFilter implements IGenerateFilter {
     @Override
     public void init(CodeGenerateContext generateContext) {

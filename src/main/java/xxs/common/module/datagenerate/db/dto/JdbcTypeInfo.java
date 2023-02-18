@@ -4,10 +4,20 @@ import xxs.common.module.datagenerate.db.jdbc.type.JdbcType;
 
 import java.util.List;
 
-/*字段的类型信息*/
+/**
+ * 字段的类型信息
+ *
+ * @author issuser
+ */
 public class JdbcTypeInfo {
-    private JdbcType jdbcType;//jdbc类型 ，来源：java.sql.Types
-    private List<Object> arguments;// 字段的参数信息，比如 int(10)中的10等
+    /**
+     * jdbc类型 ，来源：java.sql.Types
+     */
+    private JdbcType jdbcType;
+    /**
+     * 字段的参数信息，比如 int(10)中的10等
+     */
+    private List<Object> arguments;
 
     public JdbcType getJdbcType() {
         return jdbcType;

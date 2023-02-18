@@ -1,16 +1,24 @@
 package xxs.common.module.datagenerate.db.dto;
 
-import xxs.common.module.datagenerate.db.jdbc.type.TypeHandler;
-
 import java.util.function.Function;
 
-/*SQL参数映射：比如 1，xxx，2，xxx，3，xxx*/
+/**
+ * SQL参数映射：比如 1，xxx，2，xxx，3，xxx
+ *
+ * @author xxs
+ */
 public class SQLParameterMapping {
-    //下标 从1开始
+    /**
+     * 下标 从1开始
+     */
     private int index;
-    //列的信息
+    /**
+     * 列的信息
+     */
     private TableColumnInfo tableColumnInfo;
-    //获取值的回调
+    /**
+     * 获取值的回调
+     */
     private Function<TableColumnInfo, Object> parameterCallBack;
 
     public int getIndex() {

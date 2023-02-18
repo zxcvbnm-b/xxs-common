@@ -5,6 +5,9 @@ import lombok.Data;
 import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.Constants;
 
+/**实体类模板配置
+ * @author xxs
+ */
 @Data
 public class EntityTemplateConfig extends AbstractTemplateConfig {
     public EntityTemplateConfig(CodeGenerateContext codeGenerateContext) {

@@ -6,9 +6,10 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description :ApplicationContextUtil
+ * 容器对象上下文
+ *
+ * @author xxs
  */
-//容器对象上下文
 @Component
 public class ApplicationContextUtil implements ApplicationContextAware {
 

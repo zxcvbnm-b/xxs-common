@@ -11,6 +11,11 @@ import java.util.Map;
 import java.util.Properties;
 
 
+/**
+ * Velocity代码生成模板引擎
+ *
+ * @author issuser
+ */
 public class VelocityTemplateEngine {
     private static VelocityEngine velocityEngine = null;
 
@@ -30,22 +35,27 @@ public class VelocityTemplateEngine {
         velocityEngine = new VelocityEngine(prop);
     }
 
-    /*objectValueMap:参数，用于给模板设置值的 */
-    /*templatePath:模板文件位置 */
-    /*outputFile：文件输出位置*/
+
+    /**
+     * @param objectValueMap 参数，用于给模板设置值的
+     * @param templatePath   模板文件位置
+     * @param outputFile     文件输出位置
+     * @throws Exception
+     */
     public void generate(Map<String, Object> objectValueMap, String templatePath, File outputFile) throws Exception {
         Template template = velocityEngine.getTemplate(templatePath, ConstVal.UTF8);
         String path = outputFile.getPath();
         String mkdirsPath = path.substring(0, path.lastIndexOf("\\"));
-        File mkdirs = new File(mkdirsPath);/*要有文件夹才能生成文件*/
+        /*要有文件夹才能生成文件*/
+        File mkdirs = new File(mkdirsPath);
         mkdirs.mkdirs();
-        try  {
+        try {
             //TODO 这里的sw使用 OutputStreamWriter的时候生成的文件会错误 不知道为什么 换成StringWriter解决
             StringWriter sw = new StringWriter();
             template.merge(new VelocityContext(objectValueMap), sw);
             writeFile(outputFile, sw.toString(), ConstVal.UTF8);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -54,7 +64,8 @@ public class VelocityTemplateEngine {
 
         String path = file.getPath();
         path = path.substring(0, path.lastIndexOf("\\"));
-        File file2 = new File(path);/*要有文件夹才能生成文件*/
+        /*要有文件夹才能生成文件*/
+        File file2 = new File(path);
         file2.mkdirs();
         FileOutputStream fos = new FileOutputStream(file, false);
         OutputStreamWriter osw;

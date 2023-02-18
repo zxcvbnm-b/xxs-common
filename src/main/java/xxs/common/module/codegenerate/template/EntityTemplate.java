@@ -3,7 +3,11 @@ package xxs.common.module.codegenerate.template;
 import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.model.TableInfo;
 
-/*实体类模板*/
+/**
+ * 实体类模板
+ *
+ * @author xxs
+ */
 public class EntityTemplate extends AbstractTemplate {
 
     public EntityTemplate(CodeGenerateContext codeGenerateContext) {

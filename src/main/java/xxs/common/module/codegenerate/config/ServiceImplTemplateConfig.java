@@ -3,7 +3,11 @@ package xxs.common.module.codegenerate.config;
 import lombok.Data;
 import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.Constants;
-
+/**
+ * ServiceImpl xml模板配置
+ *
+ * @author xxs
+ */
 @Data
 public class ServiceImplTemplateConfig extends AbstractTemplateConfig {
     public ServiceImplTemplateConfig(CodeGenerateContext codeGenerateContext) {

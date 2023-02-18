@@ -6,10 +6,15 @@ import xxs.common.module.codegenerate.model.TableInfo;
 
 import java.util.Map;
 
-/*paramDTO类模板*/
+/**
+ * paramDTO类模板
+ *
+ * @author xxs
+ */
 public class ResultDTOTemplate extends AbstractTemplate {
-    private final static String FILE_POST="Result";
-    private final static String PACKAGE_SIMPLE_NAME="model.result";
+    private final static String FILE_POST = "Result";
+    private final static String PACKAGE_SIMPLE_NAME = "model.result";
+
     public ResultDTOTemplate(CodeGenerateContext codeGenerateContext) {
         super(codeGenerateContext);
     }
@@ -23,10 +28,11 @@ public class ResultDTOTemplate extends AbstractTemplate {
     public String getOutFilePathName(TableInfo tableInfo) {
         return getFileName(tableInfo.getCapitalizeTableName() + FILE_POST + super.JAVA_FILE_POST, PACKAGE_SIMPLE_NAME);
     }
+
     @Override
     public Map<String, Object> getObjectValueMap() {
         Map<String, Object> objectValueMap = super.getObjectValueMap();
-        objectValueMap.put("resultDTOConfig", new AbstractTemplateConfig(PACKAGE_SIMPLE_NAME,FILE_POST,codeGenerateContext) {
+        objectValueMap.put("resultDTOConfig", new AbstractTemplateConfig(PACKAGE_SIMPLE_NAME, FILE_POST, codeGenerateContext) {
         });
         return objectValueMap;
     }

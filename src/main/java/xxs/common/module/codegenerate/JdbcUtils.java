@@ -10,6 +10,11 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
+/**
+ * JDBC工具
+ *
+ * @author xxs
+ */
 public class JdbcUtils {
     DataSource dataSource;
     public final static String PROP_DRIVER_CLASS_NAME = "driverClassName";
@@ -18,9 +23,9 @@ public class JdbcUtils {
     public final static String PROP_USERNAME = "username";
 
 
-    /*
+    /**
      * 读取配置文件
-     * */
+     */
     public JdbcUtils(String driverClassName, String url, String username, String password) {
         //数据源配置
         Properties prop = new Properties();

@@ -6,7 +6,10 @@ import xxs.common.module.codegenerate.model.TableInfo;
 
 import java.util.Map;
 
-/*paramDTO类模板*/
+/**
+ * paramDTO类模板
+ * @author xxs
+ */
 public class ParamDTOTemplate extends AbstractTemplate {
     private final static String FILE_POST="Param";
     private final static String PACKAGE_SIMPLE_NAME="model.param";

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author issuser
  * @Description :Swagger配置。swagger文档是可以要求配置账号密码的 doc.html文档
  */
 @Configuration
@@ -40,10 +41,12 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.controller"))//api接口所在包
+                //api接口所在包
+                .apis(RequestHandlerSelectors.basePackage("com.controller"))
                 .paths(PathSelectors.any())
                 .build()
-                .globalOperationParameters(pars);//额外的参数，比如可以是请求头，cookie，请求体等 （页面会提供让你传递这些参数的入口）
+                //额外的参数，比如可以是请求头，cookie，请求体等 （页面会提供让你传递这些参数的入口）
+                .globalOperationParameters(pars);
     }
 
     private ApiInfo apiInfo() {

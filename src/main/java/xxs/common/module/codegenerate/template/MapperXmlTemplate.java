@@ -4,7 +4,11 @@ import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.config.MapperXmlTemplateConfig;
 import xxs.common.module.codegenerate.model.TableInfo;
 
-/*Mapper.xml模板*/
+/**
+ * Mapper.xml模板
+ *
+ * @author xxs
+ */
 public class MapperXmlTemplate extends AbstractTemplate {
 
     public MapperXmlTemplate(CodeGenerateContext codeGenerateContext) {
@@ -22,7 +26,7 @@ public class MapperXmlTemplate extends AbstractTemplate {
         //如果生成到resources文件夹
         if (mapperXmlConfig.isResources()) {
             return getResourceFileName(tableInfo.getCapitalizeTableName() + mapperXmlConfig.getFilePost() + XML_FILE_POST, codeGenerateContext.getMapperXmlConfig()
-            .getResourcesPackageSimpleName(), codeGenerateContext.getModuleName(), tableInfo.getTableName());
+                    .getResourcesPackageSimpleName(), codeGenerateContext.getModuleName(), tableInfo.getTableName());
         }
         return getFileName(tableInfo.getCapitalizeTableName() + mapperXmlConfig.getFilePost() + XML_FILE_POST, codeGenerateContext.getMapperXmlConfig().getPackageSimpleName());
     }

@@ -8,18 +8,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 表的关联关系 ，通过某一个列关联到表等
+ *
+ * @author issuser
+ */
 @Data
 public class TableRelationship {
-    /*一对一*/
+    /**
+     * 一对一
+     */
     private boolean one2One;
 
-    /*主表关联列信息--一般就是使用主键关联 TODO  第一阶段只支持以主表主键作为关联*/
-    private ColumnInfo masterColumnInfo;
-
-    /*附表关联列信息*/
+    /**
+     * 附表关联列信息
+     */
     private ColumnInfo relationColumnInfo;
 
-    /*表名*/
+    /**
+     * 表名
+     */
     private TableInfo relationTable;
 
 }

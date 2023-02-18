@@ -6,7 +6,11 @@ import xxs.common.module.codegenerate.model.TableInfo;
 
 import java.util.Map;
 
-/*实体类模板*/
+/**
+ * 默认模板
+ *
+ * @author xxs
+ */
 public class DefaultConfigTemplate extends AbstractTemplate {
     private String templateFilePathName;
     private String outFilePathName;

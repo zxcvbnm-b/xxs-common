@@ -2,10 +2,17 @@ package xxs.common.module.datagenerate.db.dto;
 
 import java.util.List;
 
+/**
+ * @author xxs
+ */
 public class StatementSqlBuilderResult {
-    // 占位符sql
+    /**
+     * 占位符sql
+     */
     private String preparedStatementSql;
-    //sql参数映射，（占位符映射）
+    /**
+     * sql参数映射，（占位符映射）
+     */
     private List<SQLParameterMapping> sqlParameterMappings;
 
     public String getPreparedStatementSql() {
