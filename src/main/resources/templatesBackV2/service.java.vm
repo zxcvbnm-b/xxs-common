@@ -59,34 +59,4 @@ public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePo
     */
     int delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
     #end
-## 根据主表操作从表的接口
-    #if(${tableInfo.tableRelationshipMainTableInfo})
-        #if(${tableInfo.tableRelationshipMainTableInfo.one2One})
-            #set($methodTablePostkey="")
-        #else
-            #set($methodTablePostkey="s")
-        #end
-        #set($mainTableInfo=${tableInfo.tableRelationshipMainTableInfo.relationTable})
-            /**
-             * 根据${mainTableInfo.keyColumnInfo.propertyName}获取${tableInfo.capitalizeTableName}${methodTablePostkey}
-             */
-            #if(${tableInfo.tableRelationshipMainTableInfo.one2One})
-                ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.propertyName});
-            #else
-                List<${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}> get${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.propertyName});
-            #end
-            /**
-             * 保存${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
-             */
-            int add${tableInfo.capitalizeTableName}${methodTablePostkey}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.propertyName});
-            /**
-             * 修改${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
-             */
-            int update${tableInfo.capitalizeTableName}${methodTablePostkey}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.propertyName});
-
-            /**
-             * 根据${tableInfo.tableRelationshipMainTableInfo.relationTable.keyColumnInfo.propertyName}删除${tableInfo.capitalizeTableName}
-             */
-            int delete${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} ${mainTableInfo.keyColumnInfo.propertyName});
-    #end
 }

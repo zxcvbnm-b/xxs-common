@@ -1,0 +1,110 @@
+package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${paramDTOConfig.packageSimpleName}).${paramDTOConfig.packageSimpleName}#end;
+
+#foreach($packageName in ${tableInfo.getColumnTypePackageNames()})
+import ${packageName};
+#end
+import java.io.Serializable;
+import java.util.*;
+#if(${swagger})
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#end
+#if(${lombok})
+import lombok.Getter;
+import lombok.Setter;
+#end
+#if(${jsr303Verify})
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+#end
+
+#if(${tableInfo.tableRelationships})
+    #foreach($relationTableInfo in ${tableInfo.tableRelationships})
+import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost};
+    #end
+#end
+/**
+ * $!{tableInfo.comment}${paramDTOConfig.filePost}类
+ *
+ * @author ${author}
+ * @since ${generateTime}
+ */
+#if(${lombok})
+@Getter
+@Setter
+#end
+#if(${swagger})
+@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}")
+#end
+public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implements Serializable {
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($column in ${tableInfo.columnInfos})
+
+#if("$!column.comment" != "")
+  #if(${swagger})
+    @ApiModelProperty("${column.comment}")
+  #else
+    /**
+     * ${column.comment}
+     */
+  #end
+#end
+## jsr303校验 不是主键才加注解
+    #if(${jsr303Verify}&&!${column.keyFlag})
+        #if(!${column.nullAble})
+        #if(${column.javaType.getSimpleName().equals("String")})
+    @NotEmpty(message = "${column.propertyName}不能为空" )
+        #else
+    @NotNull(message = "${column.propertyName}不能为空" )
+        #end
+        #end
+        #if(${column.javaType.getSimpleName().equals("String")}&&${column.columnSize}<2147483647)
+    @Length(max = ${column.columnSize}, message = "${column.propertyName}最大大小为${column.columnSize}" )
+        #end
+    #end
+    private ${column.javaType.getSimpleName()} ${column.propertyName};
+#end
+## ----------  END 字段循环遍历  ----------
+
+#if(!${lombok})
+#foreach($column in ${tableInfo.columnInfos})
+  #if(${column.javaType.getName().equals("boolean")})
+    #set($getprefix="is")
+  #else
+    #set($getprefix="get")
+  #end
+    public ${column.javaType.getSimpleName()} ${getprefix}${column.capitalizePropertyName}() {
+        return ${column.propertyName};
+    }
+
+    public void set${column.capitalizePropertyName}(${column.javaType.getSimpleName()} ${column.propertyName}) {
+        this.${column.propertyName} = ${column.propertyName};
+    }
+#end
+#end
+#if(${tableInfo.tableRelationships})
+    #foreach($relationTableInfo in ${tableInfo.tableRelationships})
+    #if(${relationTableInfo.one2One})
+           #*一对一  先默认开启lombok TODO 不生成get set方法*#
+    private ${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
+    #else
+     #*一对多*#
+    private List<${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}List;
+    #end
+    #end
+#end
+#*一对多关系*#
+    @Override
+    public String toString() {
+        return "${tableInfo.capitalizeTableName}{" +
+          #foreach($columnn in ${tableInfo.columnInfos})
+            #if($!{foreach.index}==0)
+                "${columnn.propertyName}=" + ${columnn.propertyName} +
+            #else
+                ", ${columnn.propertyName}=" + ${columnn.propertyName} +
+            #end
+          #end
+                "}";
+    }
+}

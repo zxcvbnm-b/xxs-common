@@ -54,9 +54,17 @@ public class CodeGenerator {
         List<TableRelationship> tableRelationships = new ArrayList<>();
         TableRelationship tableRelationship = new TableRelationship();
         tableRelationship.setRelationTable(tableInfo1);
-        tableRelationship.setRelationColumnInfo(tableInfo1.getColumnInfos().get(1));
+        ColumnInfo relationColumnInfo = tableInfo1.getColumnInfos().get(1);
+        tableRelationship.setRelationColumnInfo(relationColumnInfo);
         tableRelationship.setOne2One(false);
         tableRelationships.add(tableRelationship);
+
+        TableRelationship tableRelationshipMainTableInfo=new TableRelationship();
+        tableRelationshipMainTableInfo.setRelationTable(tableInfo);
+        tableRelationshipMainTableInfo.setRelationColumnInfo(relationColumnInfo);
+        tableRelationshipMainTableInfo.setOne2One(false);
+        tableInfo1.setTableRelationshipMainTableInfo(tableRelationshipMainTableInfo);
+
         tableInfo.setTableRelationships(tableRelationships);
     }
 

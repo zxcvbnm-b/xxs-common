@@ -47,6 +47,13 @@ public class TableInfo {
     private List<TableRelationship> tableRelationships;
 
     /**
+     *  主表和当前表的映射信息 比如user和role的关系，如果当前表是user表，那么他的tableRelationships为role，
+     *  没有tableRelationshipMainTableInfo值，如果当前表是role表，那么tableRelationships没值，tableRelationshipMainTableInfo的值内user的tableInfo 和role表关联user的列。。。
+     *
+     */
+    private TableRelationship tableRelationshipMainTableInfo;
+
+    /**
      * 获取列的java类型的全路径名
      */
     public Set<String> getColumnTypePackageNames() {
