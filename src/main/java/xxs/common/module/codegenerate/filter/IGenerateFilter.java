@@ -17,7 +17,7 @@ public interface IGenerateFilter {
     ;
 
     /**
-     * 执行表时
+     * 表逻辑执行之前--可以修改表的信息，还有一对一 一对多的关联关系，可以实现比较复杂的内容
      */
     default void tableExePre(CodeGenerateContext generateContext, TableInfo tableInfo) {
     }

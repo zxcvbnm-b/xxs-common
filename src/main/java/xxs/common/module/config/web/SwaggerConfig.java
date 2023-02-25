@@ -30,6 +30,7 @@ public class SwaggerConfig {
     public Docket createRestApi() {
 
         List<Parameter> pars = new ArrayList<>();
+        //cookie也可以通过请求头传递吧。名字是Cookie
         pars.add(new ParameterBuilder()
                 .name("jwtToken")
                 .description("user token")
