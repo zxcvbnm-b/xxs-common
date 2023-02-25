@@ -18,7 +18,12 @@ public class StatementSqlBuilder {
         this.tableInfo = tableInfo;
     }
 
-    public StatementSqlBuilderResult builder() {
+    /**
+     *
+     * @param defaultFunctionCallBack  设置值的回调 可以手动设置值 不需要随机生成无规律的值。
+     * @return
+     */
+    public StatementSqlBuilderResult builder(DefaultFunctionCallBack defaultFunctionCallBack) {
         StringBuilder insertSqlValues = new StringBuilder();
         insertSqlValues.append("(");
         StringBuilder insertSqlPlaceholder = new StringBuilder();
@@ -34,7 +39,7 @@ public class StatementSqlBuilder {
             }
             SQLParameterMapping sqlParameterMapping = new SQLParameterMapping();
             //扩展 设置回调
-            Function functionCallBack = DefaultFunctionCallBack.getFunctionCallBack(tableColumnInfo);
+            Function functionCallBack = defaultFunctionCallBack.getFunctionCallBack(tableColumnInfo);
             if (functionCallBack != null) {
                 sqlParameterMapping.setParameterCallBack(functionCallBack);
             }
@@ -53,7 +58,9 @@ public class StatementSqlBuilder {
         statementSqlBuilderResult.setSqlParameterMappings(sqlParameterMappings);
         return statementSqlBuilderResult;
     }
-
+    public StatementSqlBuilderResult builder() {
+        return this.builder(new DefaultFunctionCallBack());
+    }
     public static void main(String[] args) {
         TableInfo tableInfo = CreateTableSQLParseUtils.getTableInfo(DbType.mysql,
                 "CREATE TABLE  'student'(\n" +

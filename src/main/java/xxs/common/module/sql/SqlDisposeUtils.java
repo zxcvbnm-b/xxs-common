@@ -1,6 +1,5 @@
 package xxs.common.module.sql;
 
-
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
@@ -26,32 +25,33 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * sql解析 动态的给某一个表添加某一些where 条件。
- *
+ * 不支持 （column regexp xxx）=false语法
  * @author issuser
  */
 public class SqlDisposeUtils {
     public static void main(String[] args) throws JSQLParserException {
         String customSql = "WITH\n" +
                 "  cte1 AS (select 1),\n" +
-                "  cte2 AS (SELECT c, d FROM user where id=3 group by a)\n" +
+                "  cte2 AS (SELECT c, d FROM table2 where id=3 group by a)\n" +
                 "SELECT b, d FROM cte1 JOIN cte2\n" +
                 "WHERE cte1.a = cte2.c and id = (select * from user u inner join user u2 on u.id=u.u2 group by 1);\n";
-        String customSql2 = "select * from user a inner join user b on a.a=b.b where id in (select * from user c)";
-        String result = processCheckSqlWhere(customSql2, "(del_flag=1)", "user");
+        String result = processCheckSqlWhere(customSql, "id > (select * from user )", "user", true);
         System.out.println(result);
-        boolean b = validSql(customSql);
+        boolean b = validSql(customSql, true);
         System.out.println(b);
     }
 
     /**
      * 添加where条件
+     * isWrapTableName :针对达梦不需要包装`table_name`
      */
-    public static String processCheckSqlWhere(String checkSql, String whereSqlBlock, String tableName) throws JSQLParserException {
+    public static String processCheckSqlWhere(String checkSql, String whereSqlBlock, String tableName, boolean isWrapTableName) throws JSQLParserException {
         if (StringUtils.isEmpty(whereSqlBlock) || StringUtils.isEmpty(checkSql) || StringUtils.isEmpty(tableName)) {
             return checkSql;
         }
-        checkSql = wrapTableName(checkSql, null);
+        if (isWrapTableName) {
+            checkSql = wrapTableName(checkSql, null);
+        }
         SelectDisposeWhereBlock selectDisposeWhereBlock = new SelectDisposeWhereBlock(checkSql, whereSqlBlock, tableName);
         return selectDisposeWhereBlock.processSelectBody();
     }
@@ -59,9 +59,11 @@ public class SqlDisposeUtils {
     /**
      * 简单验证SQL
      */
-    public static boolean validSql(String checkSql) {
+    public static boolean validSql(String checkSql, boolean isWrapTableName) {
         try {
-            checkSql = wrapTableName(checkSql, null);
+            if (isWrapTableName) {
+                checkSql = wrapTableName(checkSql, null);
+            }
             CCJSqlParserUtil.parse(checkSql);
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,7 +206,6 @@ public class SqlDisposeUtils {
                 plain.setWhere(new AndExpression(plain.getWhere(), envCondition));
             }
         }
-
         //递归处理where表达式，子查询，包括 in 后面的子查询，> < =等 ,例：id in (select 1)
         public void processWhereSubSelectBody(Expression where) {
             where.accept(new ExpressionVisitorAdapter() {
@@ -238,6 +239,3 @@ public class SqlDisposeUtils {
         return SQLUtils.toSQLString(statements, JdbcConstants.HIVE);
     }
 }
-
-
-
