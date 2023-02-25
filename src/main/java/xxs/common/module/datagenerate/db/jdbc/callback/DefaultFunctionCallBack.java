@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 /**
  * 列参数值值生成回调  可以引入datafaker 进行数据生成 （生成地址，名字什么的，手机号）
- *
+ *https://www.datafaker.net/documentation/custom-providers/#usage
  * @author issuser
  */
 public class DefaultFunctionCallBack {
