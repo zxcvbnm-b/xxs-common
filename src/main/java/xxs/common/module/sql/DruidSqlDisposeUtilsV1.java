@@ -44,7 +44,7 @@ public class DruidSqlDisposeUtilsV1 {
             if (JdbcConstants.MYSQL.equals(dbType)) {
                 throw new RuntimeException(e);
             }
-            SelectDisposeWhereBlock mysqlSelectDisposeWhereBlock = new SelectDisposeWhereBlock(checkSql, whereSqlBlock, tableName, JdbcConstants.MYSQL);
+            SelectDisposeWhereBlock mysqlSelectDisposeWhereBlock = new SelectDisposeWhereBlock(checkSql, whereSqlBlock, tableName, JdbcConstants.MYSQL.name());
             return mysqlSelectDisposeWhereBlock.processSelectBody();
         }
         return result;
@@ -83,7 +83,7 @@ public class DruidSqlDisposeUtilsV1 {
             this.selectSql = selectSql;
             this.whereSqlBlock = whereSqlBlock;
             this.tableName = tableName;
-            this.dbType = StringUtils.isEmpty(dbType) ? JdbcConstants.MYSQL : dbType;
+            this.dbType = StringUtils.isEmpty(dbType) ? JdbcConstants.MYSQL.name() : dbType;
         }
 
         /**

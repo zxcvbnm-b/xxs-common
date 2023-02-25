@@ -29,7 +29,7 @@ public class DruidSqlDisposeUtils {
                 "union all\n" +
                 "\n" +
                 "select * from student2 where id > 2 and id < 6";
-        String result = DruidSqlDisposeUtils.processCheckSqlWhere(sql, "a=1 or b=1 ", "1shujuzhiliang01", JdbcConstants.HIVE);
+        String result = DruidSqlDisposeUtils.processCheckSqlWhere(sql, "a=1 or b=1 ", "1shujuzhiliang01", JdbcConstants.HIVE.name());
         System.out.println(result);
     }
 
@@ -47,7 +47,7 @@ public class DruidSqlDisposeUtils {
             if (JdbcConstants.MYSQL.equals(dbType)) {
                 throw new RuntimeException(e);
             }
-            SelectDisposeWhereBlock mysqlSelectDisposeWhereBlock = new SelectDisposeWhereBlock(checkSql, whereSqlBlock, tableName, JdbcConstants.MYSQL);
+            SelectDisposeWhereBlock mysqlSelectDisposeWhereBlock = new SelectDisposeWhereBlock(checkSql, whereSqlBlock, tableName, JdbcConstants.MYSQL.name());
             return mysqlSelectDisposeWhereBlock.processSelectBody();
         }
         return result;
@@ -86,7 +86,7 @@ public class DruidSqlDisposeUtils {
             this.selectSql = selectSql;
             this.whereSqlBlock = whereSqlBlock;
             this.tableName = tableName;
-            this.dbType = StringUtils.isEmpty(dbType) ? JdbcConstants.MYSQL : dbType;
+            this.dbType = StringUtils.isEmpty(dbType) ? JdbcConstants.MYSQL.name() : dbType;
         }
 
         /**

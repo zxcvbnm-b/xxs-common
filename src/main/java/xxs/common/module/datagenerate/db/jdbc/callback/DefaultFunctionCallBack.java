@@ -6,6 +6,7 @@ import xxs.common.module.datagenerate.db.dto.TableColumnInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Function;
 
 /**
@@ -35,29 +36,24 @@ public class DefaultFunctionCallBack {
     }
 
     public static void main(String[] args) {
-        Faker faker = new Faker();
+        Faker faker = new Faker(Locale.CHINA);
         System.out.println(faker.address().city());
+        System.out.println(faker.name().fullName());
         DefaultFunctionCallBack back = new DefaultFunctionCallBack();
         back.addFunctionCallBack(new FunctionCallBack<TableColumnInfo>() {
-
             @Override
             public boolean support(TableColumnInfo source) {
+                if(source.getColumnName().equalsIgnoreCase("address")){
+                    return true;
+                }
                 return false;
             }
 
             @Override
             public Function<TableColumnInfo, Object> generate() {
-                return null;
-            }
-        }).addFunctionCallBack(new FunctionCallBack<TableColumnInfo>() {
-            @Override
-            public boolean support(TableColumnInfo source) {
-                return false;
-            }
-
-            @Override
-            public Function<TableColumnInfo, Object> generate() {
-                return null;
+                return t->{
+                    return faker.address().cityName();
+                };
             }
         });
     }
