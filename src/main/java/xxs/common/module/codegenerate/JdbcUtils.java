@@ -1,12 +1,7 @@
 package xxs.common.module.codegenerate;
 
-import com.alibaba.druid.DbType;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-import xxs.common.module.datagenerate.db.jdbc.DatabaseMapping;
-
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 

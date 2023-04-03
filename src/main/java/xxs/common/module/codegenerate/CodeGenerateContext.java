@@ -32,6 +32,10 @@ public class CodeGenerateContext {
      */
     private String basePackageName = "xxs.common";
     /**
+     * TODO 去除表前缀问题未修复
+     */
+    private String tablePre = "";
+    /**
      * xml文件存放的位置,绝对路径如果为空，那么存放的位置就是跟mapper接口放一块，否则就放到resources文件夹下
      */
     private String mapperXmlPathName;
