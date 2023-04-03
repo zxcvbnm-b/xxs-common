@@ -9,7 +9,7 @@ import xxs.common.module.codegenerate.CodeGenerateContext;
  */
 @Data
 public  class DefaultTemplateTemplateConfig extends AbstractTemplateConfig {
-    public DefaultTemplateTemplateConfig(CodeGenerateContext codeGenerateContext, String packageSimpleName, String filePost) {
-        super(filePost,packageSimpleName, codeGenerateContext);
+    public DefaultTemplateTemplateConfig(String packageSimpleName, String filePost) {
+        super(filePost,packageSimpleName);
     }
 }

@@ -20,8 +20,14 @@ import java.util.Map;
  *
  * @author xxs
  */
-public class LoadTableInfo {
-    public static Map<String, TableInfo> loadTables(DataSourceConfig dataSourceConfig, String tableNames) throws SQLException {
+public class LoadTableService {
+    private DataSourceConfig dataSourceConfig;
+
+    public LoadTableService(DataSourceConfig dataSourceConfig) {
+        this.dataSourceConfig = dataSourceConfig;
+    }
+
+    public  Map<String, TableInfo> loadTables(String tableNames) throws SQLException {
         Map<String, TableInfo> tableInfoHashMap = new HashMap<>();
         JdbcUtils jdbcUtils = new JdbcUtils(dataSourceConfig.getDriverClassName(), dataSourceConfig.getJdbcUrl(), dataSourceConfig.getJdbcUsername(), dataSourceConfig.getJdbcPassword());
         Connection connection = jdbcUtils.getConnection();
@@ -71,7 +77,7 @@ public class LoadTableInfo {
         return tableInfoHashMap;
     }
 
-    private static void buildKeyColumn(DatabaseMetaData metaData, String tableName, TableInfo tableInfo, List<ColumnInfo> columnInfoList) throws SQLException {
+    private  void buildKeyColumn(DatabaseMetaData metaData, String tableName, TableInfo tableInfo, List<ColumnInfo> columnInfoList) throws SQLException {
         ResultSet keyResultSet = metaData.getPrimaryKeys(null, null, tableName);
         while (keyResultSet.next()) {
             //主键列名
@@ -89,7 +95,7 @@ public class LoadTableInfo {
         }
     }
 
-    private static void buildColumn(List<ColumnInfo> columnInfoList, ResultSet columnResultSet) throws SQLException {
+    private  void buildColumn(List<ColumnInfo> columnInfoList, ResultSet columnResultSet) throws SQLException {
         ColumnInfo columnInfo = new ColumnInfo();
         //列名
         String columnName = columnResultSet.getString("COLUMN_NAME");

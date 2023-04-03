@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.template;
 
+import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.model.TableInfo;
 
 import java.util.Map;
@@ -18,7 +19,7 @@ public interface Template {
     /**
      * 输出文件地址
      */
-    String getOutFilePathName(TableInfo tableInfo);
+    String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo);
 
     /**
      * 模板需要的额外参数

@@ -16,19 +16,13 @@ public abstract class AbstractTemplateConfig {
      * 文件后缀名
      */
     protected String filePost = "";
-    /**
-     * 代码生成的基本配置
-     */
-    protected CodeGenerateContext codeGenerateContext;
 
-    public AbstractTemplateConfig(CodeGenerateContext codeGenerateContext) {
-        this.codeGenerateContext = codeGenerateContext;
+    public AbstractTemplateConfig() {
     }
 
-    public AbstractTemplateConfig(String packageSimpleName, String filePost, CodeGenerateContext codeGenerateContext) {
+    public AbstractTemplateConfig(String packageSimpleName, String filePost) {
         this.packageSimpleName = packageSimpleName;
         this.filePost = filePost;
-        this.codeGenerateContext = codeGenerateContext;
     }
 
     public String getPackageSimpleName() {
@@ -45,13 +39,5 @@ public abstract class AbstractTemplateConfig {
 
     public void setFilePost(String filePost) {
         this.filePost = filePost;
-    }
-
-    public CodeGenerateContext getCodeGenerateContext() {
-        return codeGenerateContext;
-    }
-
-    public void setCodeGenerateContext(CodeGenerateContext codeGenerateContext) {
-        this.codeGenerateContext = codeGenerateContext;
     }
 }

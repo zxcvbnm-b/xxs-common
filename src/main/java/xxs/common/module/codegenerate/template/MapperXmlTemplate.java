@@ -11,8 +11,7 @@ import xxs.common.module.codegenerate.model.TableInfo;
  */
 public class MapperXmlTemplate extends AbstractTemplate {
 
-    public MapperXmlTemplate(CodeGenerateContext codeGenerateContext) {
-        super(codeGenerateContext);
+    public MapperXmlTemplate() {
     }
 
     @Override
@@ -21,14 +20,13 @@ public class MapperXmlTemplate extends AbstractTemplate {
     }
 
     @Override
-    public String getOutFilePathName(TableInfo tableInfo) {
+    public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
         MapperXmlTemplateConfig mapperXmlConfig = codeGenerateContext.getMapperXmlConfig();
         //如果生成到resources文件夹
         if (mapperXmlConfig.isResources()) {
-            return getResourceFileName(tableInfo.getCapitalizeTableName() + mapperXmlConfig.getFilePost() + XML_FILE_POST, codeGenerateContext.getMapperXmlConfig()
-                    .getResourcesPackageSimpleName(), codeGenerateContext.getModuleName(), tableInfo.getTableName());
+            return getResourceFileName(codeGenerateContext, tableInfo.getCapitalizeTableName() + mapperXmlConfig.getFilePost() + XML_FILE_POST, codeGenerateContext.getMapperXmlConfig().getResourcesPackageSimpleName());
         }
-        return getFileName(tableInfo.getCapitalizeTableName() + mapperXmlConfig.getFilePost() + XML_FILE_POST, codeGenerateContext.getMapperXmlConfig().getPackageSimpleName());
+        return getFileName(codeGenerateContext, tableInfo.getCapitalizeTableName() + mapperXmlConfig.getFilePost() + XML_FILE_POST, codeGenerateContext.getMapperXmlConfig().getPackageSimpleName());
     }
 
 }

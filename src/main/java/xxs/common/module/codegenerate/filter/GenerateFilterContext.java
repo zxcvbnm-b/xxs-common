@@ -42,7 +42,7 @@ public class GenerateFilterContext implements IGenerateFilter {
         }
     }
 
-    public void putGenerateFilter(IGenerateFilter iGenerateFilter) {
+    public void addGenerateFilter(IGenerateFilter iGenerateFilter) {
         generateFilters.add(iGenerateFilter);
     }
 }

@@ -10,8 +10,7 @@ import xxs.common.module.codegenerate.model.TableInfo;
  */
 public class ControllerTemplate extends AbstractTemplate {
 
-    public ControllerTemplate(CodeGenerateContext codeGenerateContext) {
-        super(codeGenerateContext);
+    public ControllerTemplate() {
     }
 
     @Override
@@ -20,8 +19,8 @@ public class ControllerTemplate extends AbstractTemplate {
     }
 
     @Override
-    public String getOutFilePathName(TableInfo tableInfo) {
-        return getFileName(tableInfo.getCapitalizeTableName() + codeGenerateContext.getControllerConfig()
-                .getFilePost() + super.JAVA_FILE_POST, codeGenerateContext.getControllerConfig().getPackageSimpleName());
+    public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
+        return getFileName(codeGenerateContext, tableInfo.getCapitalizeTableName() + codeGenerateContext.getControllerConfig()
+                .getFilePost() + JAVA_FILE_POST, codeGenerateContext.getControllerConfig().getPackageSimpleName());
     }
 }

@@ -12,6 +12,6 @@ import xxs.common.module.codegenerate.template.Template;
 public class ParamDTOGenerateFilter implements IGenerateFilter {
     @Override
     public void init(CodeGenerateContext generateContext) {
-        generateContext.addTemplate(new ParamDTOTemplate(generateContext));
+        generateContext.addTemplate(new ParamDTOTemplate());
     }
 }

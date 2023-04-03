@@ -9,6 +9,7 @@ import xxs.common.module.codegenerate.template.Template;
 import java.io.File;
 import java.util.Collections;
 import java.util.Map;
+
 /**
  * 通用sql存储过程代码生成拦截
  *
@@ -17,15 +18,15 @@ import java.util.Map;
 public class StoredProcedureGenerateFilter implements IGenerateFilter {
     @Override
     public void init(CodeGenerateContext generateContext) {
-        generateContext.addTemplate(new AbstractTemplate(generateContext) {
+        generateContext.addTemplate(new AbstractTemplate() {
             @Override
             public String getTemplateFilePathName() {
                 return "templates/storedProcedure.sql.vm";
             }
 
             @Override
-            public String getOutFilePathName(TableInfo tableInfo) {
-                String filePathName = codeGenerateContext.getAbsoluteDir()+AbstractTemplate.SRC_TEST_RESOURCES_PATH+ "sql" + File.separator+"batch_add_"+tableInfo.getName()+".sql";
+            public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
+                String filePathName = codeGenerateContext.getAbsoluteDir() + AbstractTemplate.SRC_TEST_RESOURCES_PATH + "sql" + File.separator + "batch_add_" + tableInfo.getName() + ".sql";
                 return filePathName;
             }
 

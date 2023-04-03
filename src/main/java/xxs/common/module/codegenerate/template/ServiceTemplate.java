@@ -11,8 +11,8 @@ import xxs.common.module.codegenerate.model.TableInfo;
  */
 public class ServiceTemplate extends AbstractTemplate {
 
-    public ServiceTemplate(CodeGenerateContext codeGenerateContext) {
-        super(codeGenerateContext);
+    public ServiceTemplate() {
+        super();
     }
 
     @Override
@@ -21,9 +21,9 @@ public class ServiceTemplate extends AbstractTemplate {
     }
 
     @Override
-    public String getOutFilePathName(TableInfo tableInfo) {
-        return getFileName(tableInfo.getCapitalizeTableName() + codeGenerateContext.getServiceInterfaceConfig()
-                .getFilePost() + super.JAVA_FILE_POST, codeGenerateContext.getServiceInterfaceConfig().getPackageSimpleName());
+    public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
+        return getFileName(codeGenerateContext, tableInfo.getCapitalizeTableName() + codeGenerateContext.getServiceInterfaceConfig()
+                .getFilePost() + JAVA_FILE_POST, codeGenerateContext.getServiceInterfaceConfig().getPackageSimpleName());
     }
 
 }

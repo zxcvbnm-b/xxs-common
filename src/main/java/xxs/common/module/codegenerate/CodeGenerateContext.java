@@ -3,13 +3,14 @@ package xxs.common.module.codegenerate;
 import lombok.Data;
 import xxs.common.module.codegenerate.config.*;
 import xxs.common.module.codegenerate.filter.GenerateFilterContext;
+import xxs.common.module.codegenerate.filter.IGenerateFilter;
 import xxs.common.module.codegenerate.template.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * 代码生成的基本上下文（参数，默认配置）
+ * 代码生成的基本上下文（参数，默认配置）---基本配置 ，配置应该是在运行前完成属性修改的。可以整合springboot的自动配置
  *
  * @author xxs
  */
@@ -46,7 +47,7 @@ public class CodeGenerateContext {
     /**
      * 作者
      */
-    private String author = "aaa";
+    private String author = "xxs";
     /**
      * 是否使用jsr303Verify
      */
@@ -97,16 +98,20 @@ public class CodeGenerateContext {
      */
     private GenerateFilterContext generateFilterContext = new GenerateFilterContext();
     /**
+     * 模板扩展
+     */
+    private VelocityParamBuilder velocityParamBuilder = new VelocityParamBuilder(this);
+
+    /**
      * 如下的配置是提供默认提供的配置
      */
     private DataSourceConfig dataSourceConfig = new DataSourceConfig();
-    private ControllerTemplateConfig controllerConfig = new ControllerTemplateConfig(this);
-    private EntityTemplateConfig entityConfig = new EntityTemplateConfig(this);
-    private MapperInterfaceTemplateConfig mapperInterfaceConfig = new MapperInterfaceTemplateConfig(this);
-    private MapperXmlTemplateConfig mapperXmlConfig = new MapperXmlTemplateConfig(this);
-    private ServiceImplTemplateConfig serviceImplConfig = new ServiceImplTemplateConfig(this);
-    private ServiceInterfaceTemplateConfig serviceInterfaceConfig = new ServiceInterfaceTemplateConfig(this);
-
+    private ControllerTemplateConfig controllerConfig = new ControllerTemplateConfig();
+    private EntityTemplateConfig entityConfig = new EntityTemplateConfig();
+    private MapperInterfaceTemplateConfig mapperInterfaceConfig = new MapperInterfaceTemplateConfig();
+    private MapperXmlTemplateConfig mapperXmlConfig = new MapperXmlTemplateConfig();
+    private ServiceImplTemplateConfig serviceImplConfig = new ServiceImplTemplateConfig();
+    private ServiceInterfaceTemplateConfig serviceInterfaceConfig = new ServiceInterfaceTemplateConfig();
 
     public CodeGenerateContext() {
         this.initTemplate();
@@ -116,16 +121,20 @@ public class CodeGenerateContext {
      * 初始化默认模板
      */
     public void initTemplate() {
-        templates.add(new ServiceTemplate(this));
-        templates.add(new ControllerTemplate(this));
-        templates.add(new ServiceImplTemplate(this));
-        templates.add(new MapperTemplate(this));
-        templates.add(new MapperXmlTemplate(this));
-        templates.add(new EntityTemplate(this));
+        templates.add(new ServiceTemplate());
+        templates.add(new ControllerTemplate());
+        templates.add(new ServiceImplTemplate());
+        templates.add(new MapperTemplate());
+        templates.add(new MapperXmlTemplate());
+        templates.add(new EntityTemplate());
     }
 
     public CodeGenerateContext addTemplate(Template template) {
         templates.add(template);
         return this;
+    }
+
+    public void addGenerateFilter(IGenerateFilter iGenerateFilter) {
+        generateFilterContext.addGenerateFilter(iGenerateFilter);
     }
 }

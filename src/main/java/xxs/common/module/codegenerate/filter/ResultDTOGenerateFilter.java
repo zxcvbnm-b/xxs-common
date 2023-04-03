@@ -14,6 +14,6 @@ import javax.xml.transform.Result;
 public class ResultDTOGenerateFilter implements IGenerateFilter {
     @Override
     public void init(CodeGenerateContext generateContext) {
-        generateContext.addTemplate(new ResultDTOTemplate(generateContext));
+        generateContext.addTemplate(new ResultDTOTemplate());
     }
 }

@@ -10,8 +10,7 @@ import xxs.common.module.codegenerate.model.TableInfo;
  */
 public class MapperTemplate extends AbstractTemplate {
 
-    public MapperTemplate(CodeGenerateContext codeGenerateContext) {
-        super(codeGenerateContext);
+    public MapperTemplate() {
     }
 
     @Override
@@ -20,9 +19,9 @@ public class MapperTemplate extends AbstractTemplate {
     }
 
     @Override
-    public String getOutFilePathName(TableInfo tableInfo) {
-        return getFileName(tableInfo.getCapitalizeTableName() + codeGenerateContext.getMapperInterfaceConfig()
-                .getFilePost() + super.JAVA_FILE_POST, codeGenerateContext.getMapperInterfaceConfig().getPackageSimpleName());
+    public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
+        return getFileName(codeGenerateContext, tableInfo.getCapitalizeTableName() + codeGenerateContext.getMapperInterfaceConfig()
+                .getFilePost() + JAVA_FILE_POST, codeGenerateContext.getMapperInterfaceConfig().getPackageSimpleName());
     }
 
 }

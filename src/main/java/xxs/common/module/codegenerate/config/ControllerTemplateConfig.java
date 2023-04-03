@@ -26,8 +26,7 @@ public class ControllerTemplateConfig extends AbstractTemplateConfig {
      */
     private Class responseClass;
 
-    public ControllerTemplateConfig(CodeGenerateContext codeGenerateContext) {
-        super(codeGenerateContext);
+    public ControllerTemplateConfig() {
         this.filePost = Constants.DEFAULT_CONTROLLER_FILE_POST;
         this.packageSimpleName = Constants.DEFAULT_CONTROLLER_PACKAGE_SIMPLE_NAME;
     }

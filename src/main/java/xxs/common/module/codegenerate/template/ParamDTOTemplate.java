@@ -8,13 +8,15 @@ import java.util.Map;
 
 /**
  * paramDTO类模板
+ *
  * @author xxs
  */
 public class ParamDTOTemplate extends AbstractTemplate {
-    private final static String FILE_POST="Param";
-    private final static String PACKAGE_SIMPLE_NAME="model.param";
-    public ParamDTOTemplate(CodeGenerateContext codeGenerateContext) {
-        super(codeGenerateContext);
+    private final static String FILE_POST = "Param";
+    private final static String PACKAGE_SIMPLE_NAME = "model.param";
+
+    public ParamDTOTemplate() {
+        super();
     }
 
     @Override
@@ -23,14 +25,14 @@ public class ParamDTOTemplate extends AbstractTemplate {
     }
 
     @Override
-    public String getOutFilePathName(TableInfo tableInfo) {
-        return getFileName(tableInfo.getCapitalizeTableName() + FILE_POST + super.JAVA_FILE_POST, PACKAGE_SIMPLE_NAME);
+    public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
+        return getFileName(codeGenerateContext, tableInfo.getCapitalizeTableName() + FILE_POST + JAVA_FILE_POST, PACKAGE_SIMPLE_NAME);
     }
 
     @Override
     public Map<String, Object> getObjectValueMap() {
         Map<String, Object> objectValueMap = super.getObjectValueMap();
-        objectValueMap.put("paramDTOConfig", new AbstractTemplateConfig(PACKAGE_SIMPLE_NAME,FILE_POST,codeGenerateContext) {
+        objectValueMap.put("paramDTOConfig", new AbstractTemplateConfig(PACKAGE_SIMPLE_NAME, FILE_POST) {
         });
         return objectValueMap;
     }

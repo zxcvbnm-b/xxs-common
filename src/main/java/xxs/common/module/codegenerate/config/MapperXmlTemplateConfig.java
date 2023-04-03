@@ -13,7 +13,7 @@ import xxs.common.module.codegenerate.Constants;
 public class MapperXmlTemplateConfig extends AbstractTemplateConfig {
     private CodeGenerateContext codeGenerateContext;
     /**
-     * 是否放到resources文件下，如果是，那么路径为/packageSimpleName/tableName/xxxMapper.xml
+     * 是否放到resources文件下，如果是，那么路径为/resources/packageSimpleName/tableName/xxxMapper.xml
      */
     private boolean resources = true;
     /**
@@ -21,7 +21,7 @@ public class MapperXmlTemplateConfig extends AbstractTemplateConfig {
      */
     private String resourcesPackageSimpleName = "mapper";
 
-    public MapperXmlTemplateConfig(CodeGenerateContext codeGenerateContext) {
-        super(Constants.DEFAULT_MAPPER_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_MAPPER_FILE_POST, codeGenerateContext);
+    public MapperXmlTemplateConfig() {
+        super(Constants.DEFAULT_MAPPER_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_MAPPER_FILE_POST);
     }
 }

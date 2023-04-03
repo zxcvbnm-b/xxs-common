@@ -15,8 +15,7 @@ public class DefaultConfigTemplate extends AbstractTemplate {
     private String templateFilePathName;
     private String outFilePathName;
 
-    public DefaultConfigTemplate(CodeGenerateContext codeGenerateContext, String templateFilePathName) {
-        super(codeGenerateContext);
+    public DefaultConfigTemplate(String templateFilePathName) {
         this.templateFilePathName = templateFilePathName;
     }
 
@@ -26,7 +25,7 @@ public class DefaultConfigTemplate extends AbstractTemplate {
     }
 
     @Override
-    public String getOutFilePathName(TableInfo tableInfo) {
+    public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
         return outFilePathName;
     }
 }
