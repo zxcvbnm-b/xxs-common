@@ -26,6 +26,11 @@ public class TableRelationship {
     private ColumnInfo relationColumnInfo;
 
     /**
+     * 附表关联列信息 关联的唯一的裂名 用于在删除的时候可以匹配删除 比如一个用户关联了多个角色，那么删除的时候，更新的时候是根据 roleid去匹配的 而不是id （当然也可以使用id）*
+     */
+    private ColumnInfo relationUniqueColumnInfo;
+
+    /**
      * 表名
      */
     private TableInfo relationTable;
