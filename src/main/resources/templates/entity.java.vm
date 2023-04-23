@@ -38,10 +38,10 @@ import lombok.Setter;
 @Setter
 #end
 #if(${mybatisPlus})
-@TableName("${tableInfo.name}")
+@TableName("${tableInfo.name}" )
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}实体", description = "$!{tableInfo.comment}")
+@ApiModel(value = "${tableInfo.capitalizeTableName}实体", description = "$!{tableInfo.comment}" )
 #end
 public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
@@ -49,7 +49,7 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
 
 #if("$!column.comment" != "")
   #if(${swagger})
-    @ApiModelProperty("${column.comment}")
+    @ApiModelProperty("${column.comment}" )
   #else
     /**
      * ${column.comment}
@@ -60,18 +60,18 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
 #if(${column.keyFlag})
 ## 主键
   #if(${column.autoincrement})
-    @TableId(value = "${column.columnName}", type = IdType.AUTO)
+    @TableId(value = "${column.columnName}", type = IdType.AUTO )
   #else
-    @TableId("${column.columnName}")
+    @TableId("${column.columnName}" )
   #end
 #elseif(${insertFillColumn.contains(${column.columnName})}&&${updateFillColumn.contains(${column.columnName})})
-    @TableField(value = "${column.columnName}", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "${column.columnName}", fill = FieldFill.INSERT_UPDATE )
 #elseif(${insertFillColumn.contains(${column.columnName})})
-    @TableField(value = "${column.columnName}", fill = FieldFill.INSERT)
+    @TableField(value = "${column.columnName}", fill = FieldFill.INSERT )
 #elseif(${updateFillColumn.contains(${column.columnName})})
-    @TableField(value = "${column.columnName}", fill = FieldFill.UPDATE)
+    @TableField(value = "${column.columnName}", fill = FieldFill.UPDATE )
 #else
-    @TableField("${column.columnName}")
+    @TableField("${column.columnName}" )
 #end
 ## 乐观锁注解
 #if(${versionColumn}==${column.columnName})
@@ -79,7 +79,7 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
 #end
 ## 逻辑删除注解
 #if(${deletedColumn}==${column.columnName})
-    @TableLogic("${column.columnName}")
+    @TableLogic("${column.columnName}" )
 #end
 #end
     private ${column.javaType.getSimpleName()} ${column.propertyName};
