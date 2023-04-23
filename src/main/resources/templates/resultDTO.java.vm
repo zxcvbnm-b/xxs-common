@@ -30,14 +30,14 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.
 @Setter
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}" )
+@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}")
 #end
 public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($column in ${tableInfo.columnInfos})
   #if("$!column.comment" != "")
     #if(${swagger})
-    @ApiModelProperty("${column.comment}" )
+    @ApiModelProperty("${column.comment}")
     #else
     /**
      * ${column.comment}

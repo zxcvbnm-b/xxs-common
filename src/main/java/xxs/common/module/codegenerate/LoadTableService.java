@@ -1,33 +1,35 @@
 package xxs.common.module.codegenerate;
 
 import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
-import xxs.common.module.codegenerate.cache.TableInfoTemCache;
 import xxs.common.module.codegenerate.config.DataSourceConfig;
 import xxs.common.module.codegenerate.model.ColumnInfo;
-import xxs.common.module.codegenerate.model.SearchColumnInfo;
 import xxs.common.module.codegenerate.model.TableInfo;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html 看元数据（在ResultSet对象下的metadata是这个查询返回的列有那些 名字是什么等。，rows时具体的数据）
  *
  * @author xxs
  */
-@Slf4j
 public class LoadTableService {
-    private JdbcUtils jdbcUtils;
+    private DataSourceConfig dataSourceConfig;
 
     public LoadTableService(DataSourceConfig dataSourceConfig) {
-        jdbcUtils = new JdbcUtils(dataSourceConfig.getDriverClassName(), dataSourceConfig.getJdbcUrl(), dataSourceConfig.getJdbcUsername(), dataSourceConfig.getJdbcPassword());
+        this.dataSourceConfig = dataSourceConfig;
     }
 
-    public Map<String, TableInfo> loadTables(String tableNames) throws SQLException {
+    public  Map<String, TableInfo> loadTables(String tableNames) throws SQLException {
         Map<String, TableInfo> tableInfoHashMap = new HashMap<>();
+        JdbcUtils jdbcUtils = new JdbcUtils(dataSourceConfig.getDriverClassName(), dataSourceConfig.getJdbcUrl(), dataSourceConfig.getJdbcUsername(), dataSourceConfig.getJdbcPassword());
         Connection connection = jdbcUtils.getConnection();
         connection.setAutoCommit(false);
         try {
@@ -75,7 +77,7 @@ public class LoadTableService {
         return tableInfoHashMap;
     }
 
-    private void buildKeyColumn(DatabaseMetaData metaData, String tableName, TableInfo tableInfo, List<ColumnInfo> columnInfoList) throws SQLException {
+    private  void buildKeyColumn(DatabaseMetaData metaData, String tableName, TableInfo tableInfo, List<ColumnInfo> columnInfoList) throws SQLException {
         ResultSet keyResultSet = metaData.getPrimaryKeys(null, null, tableName);
         while (keyResultSet.next()) {
             //主键列名
@@ -93,7 +95,7 @@ public class LoadTableService {
         }
     }
 
-    private void buildColumn(List<ColumnInfo> columnInfoList, ResultSet columnResultSet) throws SQLException {
+    private  void buildColumn(List<ColumnInfo> columnInfoList, ResultSet columnResultSet) throws SQLException {
         ColumnInfo columnInfo = new ColumnInfo();
         //列名
         String columnName = columnResultSet.getString("COLUMN_NAME");
@@ -129,94 +131,5 @@ public class LoadTableService {
         columnInfo.setComment(remarks);
         /*   String columnDef = columnResultSet.getString("COLUMN_DEF");  //默认值*/
         columnInfoList.add(columnInfo);
-    }
-
-    /**
-     * 根据查询sql得到查询的sql的列的信息
-     * @param sql
-     * @return
-     */
-    public List<SearchColumnInfo> getSearchColumnInfoBySearchSql(String sql) {
-        List<SearchColumnInfo> searchColumnInfoList = new ArrayList<>();
-        try (Connection con = jdbcUtils.getConnection()) {
-            ResultSet resultSet = null;
-            try (PreparedStatement statement = con.prepareStatement(sql)) {
-                if (statement.execute()) {
-                    resultSet = statement.getResultSet();
-                    ResultSetMetaData metaData = resultSet.getMetaData();
-                    int columnCount = metaData.getColumnCount();
-                    Set<String> existColumnNames = new HashSet<>();
-                    for (int columnIndex = 1; columnIndex < columnCount; columnIndex++) {
-                        SearchColumnInfo searchColumnInfo = new SearchColumnInfo();
-                        String columnName = metaData.getColumnName(columnIndex);
-                        int columnType = metaData.getColumnType(columnIndex);
-                        String columnClassName = metaData.getColumnClassName(columnIndex);
-                        String tableName = metaData.getTableName(columnIndex);
-                        boolean addExistColumn = existColumnNames.add(columnName);
-                        searchColumnInfo.setRealColumnName(columnName);
-                        if (addExistColumn == false) {
-                            //TODO 如果列名已经存在，那么需要重写列名，并且，需要重写SQL为结果集和为指定的列名
-                            columnName = tableName + "_" + columnName;
-                            searchColumnInfo.setColumnNameRewrite(true);
-                        }
-                        searchColumnInfo.setTableName(tableName);
-                        String camelCaseColumnName = StrUtil.toCamelCase(columnName);
-                        //首字母大写
-                        String capitalizeColumnName = StringUtils.capitalize(camelCaseColumnName);
-                        searchColumnInfo.setColumnName(columnName);
-                        searchColumnInfo.setJdbcTypeCode(columnType);
-                        searchColumnInfo.setJdbcTypeName(columnClassName);
-                        searchColumnInfo.setCapitalizeColumnName(capitalizeColumnName);
-                        searchColumnInfo.setCamelCaseColumnName(camelCaseColumnName);
-                        searchColumnInfoList.add(searchColumnInfo);
-                    }
-                    this.wrapSearchColumnInfo(searchColumnInfoList);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                String format = String.format("执行sql出错,sql: %s,msg: %s ", sql, e.getMessage());
-                throw new RuntimeException(format);
-            } finally {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-            }
-            return searchColumnInfoList;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return searchColumnInfoList;
-    }
-
-    private void wrapSearchColumnInfo(List<SearchColumnInfo> searchColumnInfoList) throws SQLException {
-        if (!CollectionUtils.isEmpty(searchColumnInfoList)) {
-            TableInfoTemCache tableInfoTemCache = new TableInfoTemCache(this);
-            for (SearchColumnInfo searchColumnInfo : searchColumnInfoList) {
-                String tableName = searchColumnInfo.getTableName();
-                TableInfo tableInfo = tableInfoTemCache.getTableInfo(tableName);
-                if (tableInfo == null) {
-                    log.warn("wrapSearchColumnInfo  table no exist {}", tableName);
-                    continue;
-                }
-                List<ColumnInfo> columnInfos = tableInfo.getColumnInfos();
-                if (CollectionUtils.isEmpty(columnInfos)) {
-                    log.warn("wrapSearchColumnInfo  table no exist {}", tableName);
-                    continue;
-                }
-                inner:for (ColumnInfo columnInfo : columnInfos) {
-                    if(columnInfo.getColumnName().equals(searchColumnInfo.getColumnName())){
-                        searchColumnInfo.setComment(columnInfo.getComment());
-                        break inner;
-                    }
-                }
-                log.warn("wrapSearchColumnInfo  columnInfo no exist {}", searchColumnInfo.getColumnName());
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        LoadTableService loadTableService = new LoadTableService(new DataSourceConfig());
-        List<SearchColumnInfo> searchColumnInfoBySearchSql = loadTableService.getSearchColumnInfoBySearchSql("select *,1 from perm_user_group a inner join perm_user_group_admin_relation b on a.user_group_id = b.user_group_id");
-        System.out.println(searchColumnInfoBySearchSql);
     }
 }

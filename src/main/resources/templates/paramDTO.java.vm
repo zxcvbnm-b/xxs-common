@@ -35,7 +35,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.p
 @Setter
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}" )
+@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}")
 #end
 public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
@@ -43,7 +43,7 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
 
 #if("$!column.comment" != "")
   #if(${swagger})
-    @ApiModelProperty("${column.comment}" )
+    @ApiModelProperty("${column.comment}")
   #else
     /**
      * ${column.comment}
