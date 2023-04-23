@@ -62,19 +62,19 @@ public class CodeGenerateContext {
      */
     private boolean swagger = true;
     /**
-     * 逻辑删除字段
+     * 逻辑删除列名-mybatisplus使用（未驼峰）
      */
     private String deletedColumn;
     /**
-     * 乐观锁列
+     * 乐观锁列名-mybatisplus使用（未驼峰）
      */
     private String versionColumn;
     /**
-     * 插入时自动插入值字段-mybatisplus使用
+     * 插入时自动插入值字段-mybatisplus使用（未驼峰）
      */
     private List<String> insertFillColumn;
     /**
-     * 更新时自动插入值字段-mybatisplus使用
+     * 更新时自动插入值字段-mybatisplus使用（未驼峰）
      */
     private List<String> updateFillColumn;
     /**
