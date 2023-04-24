@@ -14,7 +14,6 @@ public interface IGenerateFilter {
 
     default void init(CodeGenerateContext generateContext) {
     }
-    ;
 
     /**
      * 表逻辑执行之前--可以修改表的信息，还有一对一 一对多的关联关系，可以实现比较复杂的内容
@@ -22,12 +21,9 @@ public interface IGenerateFilter {
     default void tableExePre(CodeGenerateContext generateContext, TableInfo tableInfo) {
     }
 
-    ;
     /**
      * 在执行某一个模板之前
      */
     default void templateExePre(CodeGenerateContext generateContext, TableInfo tableInfo, Template template) {
     }
-
-    ;
 }

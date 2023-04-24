@@ -1,7 +1,7 @@
 package xxs.common.module.codegenerate.mybatisplus;
 
 import cn.hutool.core.collection.CollectionUtil;
-import org.apache.commons.lang3.time.DateFormatUtils;
+import cn.hutool.json.JSONUtil;
 import org.springframework.util.CollectionUtils;
 import xxs.common.module.codegenerate.*;
 import xxs.common.module.codegenerate.config.DataSourceConfig;
@@ -11,11 +11,8 @@ import xxs.common.module.codegenerate.model.RelationTableInfo;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.model.TableRelationship;
 import xxs.common.module.codegenerate.template.*;
-
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -145,8 +142,8 @@ public class DefaultCodeGenerator implements CodeGenerator {
     /**
      * 只能处理一对一对一/一对多的关系  多个从表
      *
-     * @param mainTableName       主表 user
-     * @param relationTableInfos  从表 关系
+     * @param mainTableName      主表 user
+     * @param relationTableInfos 从表 关系
      * @throws Exception
      */
     @Override
@@ -201,31 +198,9 @@ public class DefaultCodeGenerator implements CodeGenerator {
         //真正执行
         for (Template template : genTemplate) {
             String outFilePathName = template.getOutFilePathName(codeGenerateContext, tableInfo);
-            String realOutFilePathName = getRealOutFilePathName(outFilePathName, codeGenerateContext);
             String templateFilePathName = template.getTemplateFilePathName();
-//   TODO 未测试         Map<String, Object> params = template.getObjectValueMap();
-//   TODO 未测试        objectValueMap.putAll(params);
-            velocityTemplateEngine.generate(objectValueMap, templateFilePathName, new File(realOutFilePathName));
+            velocityTemplateEngine.generate(objectValueMap, templateFilePathName, outFilePathName, false, codeGenerateContext.isCoverExistFile());
         }
-    }
-
-    /**
-     * 获取真正的输出文件名称  如果文件存在，那么添加日期作为文件标识 （这样会导致java文件和类名不一样）
-     */
-    private String getRealOutFilePathName(String outFilePathName, CodeGenerateContext codeGenerateContext) {
-        String realOutFilePathName = outFilePathName;
-        if (codeGenerateContext.isCoverExistFile()) {
-            return realOutFilePathName;
-        }
-        File outFile = new File(realOutFilePathName);
-        if (outFile.exists()) {
-            String fileName = outFilePathName.substring(outFilePathName.lastIndexOf("\\") + 1, outFilePathName.lastIndexOf("."));
-            String filePost = outFilePathName.substring(outFilePathName.lastIndexOf(".") + 1);
-            String filePre = outFilePathName.substring(0, outFilePathName.lastIndexOf("\\") + 1);
-            String newFileName = fileName + DateFormatUtils.format(new Date(), "yyyy-MM-dd HH-mm-ss");
-            realOutFilePathName = filePre + newFileName + "." + filePost;
-        }
-        return realOutFilePathName;
     }
 
     public VelocityTemplateEngine getVelocityTemplateEngine() {
