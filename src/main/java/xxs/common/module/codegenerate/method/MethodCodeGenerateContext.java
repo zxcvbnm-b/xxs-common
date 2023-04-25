@@ -6,6 +6,8 @@ import xxs.common.module.codegenerate.config.*;
 import xxs.common.module.codegenerate.filter.ParamDTOGenerateFilter;
 import xxs.common.module.codegenerate.filter.ResultDTOGenerateFilter;
 import xxs.common.module.codegenerate.filter.StoredProcedureGenerateFilter;
+import xxs.common.module.codegenerate.method.config.*;
+import xxs.common.module.codegenerate.method.template.*;
 import xxs.common.module.codegenerate.template.*;
 
 /**
@@ -22,19 +24,18 @@ public class MethodCodeGenerateContext extends CodeGenerateContext {
 
     public MethodCodeGenerateContext initMethodCodeGenerateContext() {
         this.initTemplate();
-        this.initTemplateConfig();
         return this;
     }
-
-    /**
-     * 初始化模板配置
-     */
-    private void initTemplateConfig() {
-    }
-
     /**
      * 初始化默认模板
      */
     private void initTemplate() {
+        templates.add(new MethodControllerTemplate(new MethodControllerTemplateConfig()));
+        templates.add(new MethodMapperTemplate(new MethodMapperInterfaceTemplateConfig()));
+        templates.add(new MethodMapperXmlTemplate(new MethodMapperXmlTemplateConfig()));
+        templates.add(new MethodParamDTOTemplate());
+        templates.add(new MethodResultDTOTemplate());
+        templates.add(new MethodServiceImplTemplate(new MethodServiceImplTemplateConfig()));
+        templates.add(new MethodServiceTemplate(new MethodServiceInterfaceTemplateConfig()));
     }
 }

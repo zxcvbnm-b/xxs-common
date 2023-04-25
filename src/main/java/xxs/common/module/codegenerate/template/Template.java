@@ -25,4 +25,13 @@ public interface Template {
      * 模板需要的额外参数
      */
     Map<String, Object> getObjectValueMap();
+
+    /**
+     * 是否追加到bean
+     *
+     * @return
+     */
+    default boolean append() {
+        return false;
+    }
 }

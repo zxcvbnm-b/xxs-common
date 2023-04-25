@@ -35,7 +35,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.p
 @Setter
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}" )
+@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}")
 #end
 public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
@@ -43,7 +43,7 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
 
 #if("$!column.comment" != "")
   #if(${swagger})
-    @ApiModelProperty("${column.comment}" )
+    @ApiModelProperty("${column.comment}")
   #else
     /**
      * ${column.comment}
@@ -54,13 +54,13 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
     #if(${jsr303Verify}&&!${column.keyFlag})
         #if(!${column.nullAble})
         #if(${column.javaType.getSimpleName().equals("String")})
-    @NotEmpty(message = "${column.propertyName}不能为空" )
+    @NotEmpty(message = "${column.propertyName}不能为空")
         #else
-    @NotNull(message = "${column.propertyName}不能为空" )
+    @NotNull(message = "${column.propertyName}不能为空")
         #end
         #end
         #if(${column.javaType.getSimpleName().equals("String")}&&${column.columnSize}<2147483647)
-    @Length(max = ${column.columnSize}, message = "${column.propertyName}最大大小为${column.columnSize}" )
+    @Length(max = ${column.columnSize}, message = "${column.propertyName}最大大小为${column.columnSize}")
         #end
     #end
     private ${column.javaType.getSimpleName()} ${column.propertyName};
