@@ -8,8 +8,8 @@ import lombok.Data;
  */
 @Data
 public class DataSourceConfig {
-    private String jdbcUrl = "jdbc:mysql://10.19.20.111:3306/data_center_manager?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&nullCatalogMeansCurrent=true";
-    private String jdbcUsername = "dbapp";
-    private String jdbcPassword = "dbapp_321";
+    private String jdbcUrl = "jdbc:mysql://10.19.1.82:3306/dolphinscheduler205?useUnicode=true&characterEncoding=UTF-8&useSSL=false&nullCatalogMeansCurrent=true";
+    private String jdbcUsername = "dolphinscheduler";
+    private String jdbcPassword = "Caih_123456";
     private String driverClassName = "com.mysql.cj.jdbc.Driver";
 }

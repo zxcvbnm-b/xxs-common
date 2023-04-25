@@ -14,26 +14,24 @@ import java.util.Map;
 public class ResultDTOTemplate extends AbstractTemplate {
     private final static String FILE_POST = "Result";
     private final static String PACKAGE_SIMPLE_NAME = "model.result";
-
+    private final static String CONFIG_NAME = "resultDTOConfig";
+    private final static String TEMPLATE_NAME = "templates/resultDTO.java.vm";
     public ResultDTOTemplate() {
-        super();
+        super(new AbstractTemplateConfig(PACKAGE_SIMPLE_NAME, FILE_POST, CONFIG_NAME) {
+        });
     }
 
     @Override
     public String getTemplateFilePathName() {
-        return "templates/resultDTO.java.vm";
+        return TEMPLATE_NAME;
     }
 
     @Override
     public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
-        return getFileName(codeGenerateContext, tableInfo.getCapitalizeTableName() + FILE_POST + JAVA_FILE_POST, PACKAGE_SIMPLE_NAME);
+        return getFileName(codeGenerateContext, tableInfo.getCapitalizeTableName());
     }
-
     @Override
-    public Map<String, Object> getObjectValueMap() {
-        Map<String, Object> objectValueMap = super.getObjectValueMap();
-        objectValueMap.put("resultDTOConfig", new AbstractTemplateConfig(PACKAGE_SIMPLE_NAME, FILE_POST) {
-        });
-        return objectValueMap;
+    public String getFileSuffix() {
+        return JAVA_FILE_POST;
     }
 }

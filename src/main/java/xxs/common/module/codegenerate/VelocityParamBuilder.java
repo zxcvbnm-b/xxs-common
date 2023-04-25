@@ -1,8 +1,6 @@
 package xxs.common.module.codegenerate;
 
 import cn.hutool.core.bean.BeanUtil;
-import xxs.common.module.codegenerate.config.AbstractTemplateConfig;
-
 import java.util.HashMap;
 import java.util.Map;
 

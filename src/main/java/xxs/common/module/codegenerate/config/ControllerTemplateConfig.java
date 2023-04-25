@@ -27,8 +27,7 @@ public class ControllerTemplateConfig extends AbstractTemplateConfig {
     private Class responseClass;
 
     public ControllerTemplateConfig() {
-        this.filePost = Constants.DEFAULT_CONTROLLER_FILE_POST;
-        this.packageSimpleName = Constants.DEFAULT_CONTROLLER_PACKAGE_SIMPLE_NAME;
+        super(Constants.DEFAULT_CONTROLLER_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_CONTROLLER_FILE_POST, "controllerConfig");
     }
 
 }

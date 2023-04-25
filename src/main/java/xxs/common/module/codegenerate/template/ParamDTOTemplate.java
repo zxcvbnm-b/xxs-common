@@ -14,26 +14,25 @@ import java.util.Map;
 public class ParamDTOTemplate extends AbstractTemplate {
     private final static String FILE_POST = "Param";
     private final static String PACKAGE_SIMPLE_NAME = "model.param";
+    private final static String CONFIG_NAME = "paramDTOConfig";
+    private final static String TEMPLATE_NAME = "templates/paramDTO.java.vm";
 
     public ParamDTOTemplate() {
-        super();
+        super(new AbstractTemplateConfig(PACKAGE_SIMPLE_NAME, FILE_POST, CONFIG_NAME) {
+        });
     }
 
     @Override
     public String getTemplateFilePathName() {
-        return "templates/paramDTO.java.vm";
+        return TEMPLATE_NAME;
     }
 
     @Override
     public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
-        return getFileName(codeGenerateContext, tableInfo.getCapitalizeTableName() + FILE_POST + JAVA_FILE_POST, PACKAGE_SIMPLE_NAME);
+        return getFileName(codeGenerateContext, tableInfo.getCapitalizeTableName());
     }
-
     @Override
-    public Map<String, Object> getObjectValueMap() {
-        Map<String, Object> objectValueMap = super.getObjectValueMap();
-        objectValueMap.put("paramDTOConfig", new AbstractTemplateConfig(PACKAGE_SIMPLE_NAME, FILE_POST) {
-        });
-        return objectValueMap;
+    public String getFileSuffix() {
+        return JAVA_FILE_POST;
     }
 }

@@ -2,6 +2,7 @@ package xxs.common.module.codegenerate.template;
 
 import org.apache.commons.lang3.StringUtils;
 import xxs.common.module.codegenerate.CodeGenerateContext;
+import xxs.common.module.codegenerate.config.AbstractTemplateConfig;
 
 import java.io.File;
 import java.util.HashMap;
@@ -37,20 +38,28 @@ public abstract class AbstractTemplate implements Template {
      * xml文件后缀
      */
     protected final static String XML_FILE_POST = ".xml";
+    protected AbstractTemplateConfig abstractTemplateConfig;
 
-    public AbstractTemplate() {
+
+    public AbstractTemplate(AbstractTemplateConfig abstractTemplateConfig) {
+        this.abstractTemplateConfig = abstractTemplateConfig;
     }
+
+    public abstract String getFileSuffix();
 
     @Override
     public Map<String, Object> getObjectValueMap() {
-        Map<String, Object> objectValueMap = new HashMap<>();
+        Map<String, Object> objectValueMap = new HashMap<>(8);
+        if (abstractTemplateConfig != null) {
+            objectValueMap.put(abstractTemplateConfig.getConfigName(), this.abstractTemplateConfig);
+        }
         return objectValueMap;
     }
 
     /**
      * 获取文件名生成
      */
-    protected String getFileName(CodeGenerateContext codeGenerateContext, String javaFileName, String simplePackageName) {
+    protected String getFileName(CodeGenerateContext codeGenerateContext, String javaFileName) {
         String basePackageName = codeGenerateContext.getBasePackageName();
         String moduleName = codeGenerateContext.getModuleName();
         String packagePath = SRC_MAIN_JAVA_PATH;
@@ -63,24 +72,44 @@ public abstract class AbstractTemplate implements Template {
         if (StringUtils.isNotBlank(moduleName)) {
             packagePath += File.separator + moduleName + File.separator;
         }
-        if (StringUtils.isNotBlank(simplePackageName)) {
-            packagePath += File.separator + simplePackageName.replace(".", File.separator) + File.separator;
+        //实体包名
+        if (abstractTemplateConfig != null && StringUtils.isNotBlank(abstractTemplateConfig.getPackageSimpleName())) {
+            packagePath += File.separator + abstractTemplateConfig.getPackageSimpleName().replace(".", File.separator) + File.separator;
         }
-        return codeGenerateContext.getAbsoluteDir() + packagePath + javaFileName;
+        //类名后缀
+        String filePathName = codeGenerateContext.getAbsoluteDir() + packagePath + javaFileName;
+        if (StringUtils.isNotBlank(abstractTemplateConfig.getFilePost())) {
+            filePathName = filePathName + abstractTemplateConfig.getFilePost();
+        }
+        //文件后缀
+        if (StringUtils.isNotBlank(getFileSuffix())) {
+            filePathName = filePathName + getFileSuffix();
+        }
+        return filePathName;
     }
 
     /**
      * 获取文件名生成到main/resources
      */
-    protected String getResourceFileName(CodeGenerateContext codeGenerateContext, String fileName, String simplePackageName) {
+    protected String getResourceFileName(CodeGenerateContext codeGenerateContext, String fileName) {
         String packagePath = SRC_MAIN_RESOURCES_PATH;
         if (codeGenerateContext.isGenToTestModule()) {
             packagePath = SRC_TEST_RESOURCES_PATH;
         }
-        if (StringUtils.isNotBlank(simplePackageName)) {
-            packagePath += File.separator + simplePackageName.replace(".", File.separator) + File.separator;
+        //实体包名
+        if (abstractTemplateConfig != null && StringUtils.isNotBlank(abstractTemplateConfig.getPackageSimpleName())) {
+            packagePath += File.separator + abstractTemplateConfig.getPackageSimpleName().replace(".", File.separator) + File.separator;
         }
-        return codeGenerateContext.getAbsoluteDir() + packagePath + fileName;
+        //类名后缀
+        String filePathName = codeGenerateContext.getAbsoluteDir() + packagePath + fileName;
+        if (StringUtils.isNotBlank(abstractTemplateConfig.getFilePost())) {
+            filePathName = filePathName + abstractTemplateConfig.getFilePost();
+        }
+        //文件后缀
+        if (StringUtils.isNotBlank(getFileSuffix())) {
+            filePathName = filePathName + getFileSuffix();
+        }
+        return filePathName;
     }
 
     @Override
@@ -90,7 +119,7 @@ public abstract class AbstractTemplate implements Template {
 
     @Override
     public boolean equals(Object template) {
-       Template templateTemp =(Template) template;
+        Template templateTemp = (Template) template;
         return this.getTemplateFilePathName().equals(templateTemp.getTemplateFilePathName());
     }
 }

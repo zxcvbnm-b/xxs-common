@@ -22,6 +22,6 @@ public class MapperXmlTemplateConfig extends AbstractTemplateConfig {
     private String resourcesPackageSimpleName = "mapper";
 
     public MapperXmlTemplateConfig() {
-        super(Constants.DEFAULT_MAPPER_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_MAPPER_FILE_POST);
+        super(Constants.DEFAULT_MAPPER_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_MAPPER_FILE_POST, "mapperXmlConfig");
     }
 }

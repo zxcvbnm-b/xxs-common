@@ -1,6 +1,7 @@
 package xxs.common.module.codegenerate.filter;
 
 import xxs.common.module.codegenerate.CodeGenerateContext;
+import xxs.common.module.codegenerate.config.AbstractTemplateConfig;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.template.AbstractTemplate;
 import xxs.common.module.codegenerate.template.ParamDTOTemplate;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class StoredProcedureGenerateFilter implements IGenerateFilter {
     @Override
     public void init(CodeGenerateContext generateContext) {
-        generateContext.addTemplate(new AbstractTemplate() {
+        generateContext.addTemplate(new AbstractTemplate(null) {
             @Override
             public String getTemplateFilePathName() {
                 return "templates/storedProcedure.sql.vm";
@@ -28,6 +29,11 @@ public class StoredProcedureGenerateFilter implements IGenerateFilter {
             public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
                 String filePathName = codeGenerateContext.getAbsoluteDir() + AbstractTemplate.SRC_TEST_RESOURCES_PATH + "sql" + File.separator + "batch_add_" + tableInfo.getName() + ".sql";
                 return filePathName;
+            }
+
+            @Override
+            public String getFileSuffix() {
+                return null;
             }
 
             @Override

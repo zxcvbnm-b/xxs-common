@@ -105,15 +105,6 @@ public class CodeGenerateContext {
      * 模板集合 通过 模板路径
      */
     protected Map<String, Object> otherGlobalConfigMap = new HashMap<>();
-    /**
-     * 如下的配置是提供默认提供的配置 TODO  尝试抽取配置到模板类中？
-     */
-    protected ControllerTemplateConfig controllerConfig;
-    protected EntityTemplateConfig entityConfig;
-    protected MapperInterfaceTemplateConfig mapperInterfaceConfig;
-    protected MapperXmlTemplateConfig mapperXmlConfig;
-    protected ServiceImplTemplateConfig serviceImplConfig;
-    protected ServiceInterfaceTemplateConfig serviceInterfaceConfig;
 
     public CodeGenerateContext() {
     }

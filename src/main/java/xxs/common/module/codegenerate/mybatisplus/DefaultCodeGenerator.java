@@ -36,25 +36,25 @@ public class DefaultCodeGenerator implements CodeGenerator {
     public static void main(String[] args) throws Exception {
         DefaultCodeGenerator defaultCodeGenerator = new DefaultCodeGenerator();
         //单表生成--当然也支持复杂的多表生成，需要实现 IGenerateFilter拦截器，拦截tableExePre实现功能扩展
-        defaultCodeGenerator.singleTableCodeGenerator("tag");
+//        defaultCodeGenerator.singleTableCodeGenerator("tag");
         //多表生成 -只支持两个表生成，如果需要复杂得表关系，那么需要自己实现拦截器，修改关联关系即可。
 //        defaultCodeGenerator.relationCodeGenerator("sys_user", "sys_user_role", "user_id", false);
         // 多表生成 关联关系应该换成对象来处理 一个表和多个表的关联关系
-//        List<RelationTableInfo> relationTableInfos = new ArrayList<>();
-//        RelationTableInfo relationTableInfo2 = new RelationTableInfo();
-//        relationTableInfo2.setRelationTableName("perm_user_group_admin_relation");
-//        relationTableInfo2.setOne2One(false);
-//        relationTableInfo2.setRelationColumnName("user_group_id");
-//        relationTableInfo2.setRelationUniqueColumnName("user_id");
-//        relationTableInfos.add(relationTableInfo2);
-//
-//        RelationTableInfo relationTableInfo3 = new RelationTableInfo();
-//        relationTableInfo3.setRelationTableName("perm_user_group_user_relation");
-//        relationTableInfo3.setOne2One(false);
-//        relationTableInfo3.setRelationUniqueColumnName("user_group_user_relation_id");
-//        relationTableInfo3.setRelationColumnName("user_group_id");
-//        relationTableInfos.add(relationTableInfo3);
-//        defaultCodeGenerator.relationCodeGenerator("perm_user_group", relationTableInfos);
+        List<RelationTableInfo> relationTableInfos = new ArrayList<>();
+        RelationTableInfo relationTableInfo2 = new RelationTableInfo();
+        relationTableInfo2.setRelationTableName("perm_user_group_admin_relation");
+        relationTableInfo2.setOne2One(false);
+        relationTableInfo2.setRelationColumnName("user_group_id");
+        relationTableInfo2.setRelationUniqueColumnName("user_id");
+        relationTableInfos.add(relationTableInfo2);
+
+        RelationTableInfo relationTableInfo3 = new RelationTableInfo();
+        relationTableInfo3.setRelationTableName("perm_user_group_user_relation");
+        relationTableInfo3.setOne2One(false);
+        relationTableInfo3.setRelationUniqueColumnName("user_group_user_relation_id");
+        relationTableInfo3.setRelationColumnName("user_group_id");
+        relationTableInfos.add(relationTableInfo3);
+        defaultCodeGenerator.relationCodeGenerator("perm_user_group", relationTableInfos);
     }
 
     /**

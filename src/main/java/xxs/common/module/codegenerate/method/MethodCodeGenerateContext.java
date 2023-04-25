@@ -30,23 +30,11 @@ public class MethodCodeGenerateContext extends CodeGenerateContext {
      * 初始化模板配置
      */
     private void initTemplateConfig() {
-        controllerConfig = new ControllerTemplateConfig();
-        entityConfig = new EntityTemplateConfig();
-        mapperInterfaceConfig = new MapperInterfaceTemplateConfig();
-        mapperXmlConfig = new MapperXmlTemplateConfig();
-        serviceImplConfig = new ServiceImplTemplateConfig();
-        serviceInterfaceConfig = new ServiceInterfaceTemplateConfig();
     }
 
     /**
      * 初始化默认模板
      */
     private void initTemplate() {
-        templates.add(new ServiceTemplate());
-        templates.add(new ControllerTemplate());
-        templates.add(new ServiceImplTemplate());
-        templates.add(new MapperTemplate());
-        templates.add(new MapperXmlTemplate());
-        templates.add(new EntityTemplate());
     }
 }

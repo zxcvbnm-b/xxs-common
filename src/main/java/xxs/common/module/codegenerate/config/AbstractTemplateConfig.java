@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.config;
 
+import lombok.Data;
 import xxs.common.module.codegenerate.CodeGenerateContext;
 
 /**
@@ -7,6 +8,7 @@ import xxs.common.module.codegenerate.CodeGenerateContext;
  *
  * @author xxs
  */
+@Data
 public abstract class AbstractTemplateConfig {
     /**
      * 基础包名(不是全包名)
@@ -17,27 +19,19 @@ public abstract class AbstractTemplateConfig {
      */
     protected String filePost = "";
 
-    public AbstractTemplateConfig() {
+    /**
+     * 文件后缀名
+     */
+    protected String configName = "";
+
+    public AbstractTemplateConfig(String configName) {
+        this.configName = configName;
     }
 
-    public AbstractTemplateConfig(String packageSimpleName, String filePost) {
+    public AbstractTemplateConfig(String packageSimpleName, String filePost, String configName) {
         this.packageSimpleName = packageSimpleName;
         this.filePost = filePost;
+        this.configName = configName;
     }
 
-    public String getPackageSimpleName() {
-        return packageSimpleName;
-    }
-
-    public void setPackageSimpleName(String packageSimpleName) {
-        this.packageSimpleName = packageSimpleName;
-    }
-
-    public String getFilePost() {
-        return filePost;
-    }
-
-    public void setFilePost(String filePost) {
-        this.filePost = filePost;
-    }
 }

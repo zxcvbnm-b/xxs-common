@@ -12,6 +12,6 @@ import xxs.common.module.codegenerate.Constants;
 @Data
 public class ServiceInterfaceTemplateConfig extends AbstractTemplateConfig {
     public ServiceInterfaceTemplateConfig() {
-        super(Constants.DEFAULT_SERVICE_INTERFACE_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_SERVICE_INTERFACE_FILE_POST);
+        super(Constants.DEFAULT_SERVICE_INTERFACE_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_SERVICE_INTERFACE_FILE_POST, "serviceInterfaceConfig");
     }
 }
