@@ -39,7 +39,7 @@ public final class TypeMapperRegistry {
         register(JDBCType.DECIMAL, BigDecimal.class);
         register(JDBCType.NUMERIC, BigDecimal.class);
 
-        register(JDBCType.LONGVARBINARY, byte[].class);
+        register(JDBCType.LONGVARBINARY, Byte[].class);
         register(JDBCType.BLOB, String.class);
         register(JDBCType.TIMESTAMP, Date.class);
         register(JDBCType.DATE, Date.class);

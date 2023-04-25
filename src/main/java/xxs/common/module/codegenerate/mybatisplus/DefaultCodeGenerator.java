@@ -11,10 +11,12 @@ import xxs.common.module.codegenerate.model.RelationTableInfo;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.model.TableRelationship;
 import xxs.common.module.codegenerate.template.*;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -24,16 +26,17 @@ import java.util.stream.Collectors;
  */
 //TODO 1 表前缀问题解决：需要隔离加载表和处理表的名字驼峰的操作
 //TODO 2 把公共代码抽象出来 作为抽象类吧
+//TODO 3 没有主键的情况下 没有主键不能生成
 public class DefaultCodeGenerator implements CodeGenerator {
     private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
     private LoadTableService loadTableService = new LoadTableService(new DataSourceConfig());
-    private CodeGenerateContext codeGenerateContext = new CodeGenerateContext();
+    private CodeGenerateContext codeGenerateContext = new ClassCodeGenerateContext().initClassCodeGenerateContext();
 
 
     public static void main(String[] args) throws Exception {
         DefaultCodeGenerator defaultCodeGenerator = new DefaultCodeGenerator();
         //单表生成--当然也支持复杂的多表生成，需要实现 IGenerateFilter拦截器，拦截tableExePre实现功能扩展
-        //defaultCodeGenerator.singleTableCodeGenerator("sys_user" );
+        defaultCodeGenerator.singleTableCodeGenerator("tag");
         //多表生成 -只支持两个表生成，如果需要复杂得表关系，那么需要自己实现拦截器，修改关联关系即可。
 //        defaultCodeGenerator.relationCodeGenerator("sys_user", "sys_user_role", "user_id", false);
         // 多表生成 关联关系应该换成对象来处理 一个表和多个表的关联关系
@@ -65,7 +68,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         //执行之前的拦截功能扩展
         GenerateFilterContext generateFilterContext = codeGenerateContext.getGenerateFilterContext();
         generateFilterContext.init(codeGenerateContext);
-        List<Template> genTemplate = codeGenerateContext.getTemplates();
+        Set<Template> genTemplate = codeGenerateContext.getTemplates();
         Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(tables);
         for (String tableInfoMapKey : tableInfosMap.keySet()) {
             TableInfo tableInfo = tableInfosMap.get(tableInfoMapKey);
@@ -88,7 +91,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         //执行之前的拦截功能扩展
         GenerateFilterContext generateFilterContext = codeGenerateContext.getGenerateFilterContext();
         generateFilterContext.init(codeGenerateContext);
-        List<Template> genTemplate = codeGenerateContext.getTemplates();
+        Set<Template> genTemplate = codeGenerateContext.getTemplates();
         Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(mainTableName);
         for (String tableInfoMapKey : tableInfosMap.keySet()) {
             TableInfo tableInfo = tableInfosMap.get(tableInfoMapKey);
@@ -154,7 +157,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         //执行之前的拦截功能扩展
         GenerateFilterContext generateFilterContext = codeGenerateContext.getGenerateFilterContext();
         generateFilterContext.init(codeGenerateContext);
-        List<Template> genTemplate = codeGenerateContext.getTemplates();
+        Set<Template> genTemplate = codeGenerateContext.getTemplates();
         Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(mainTableName);
         for (String tableInfoMapKey : tableInfosMap.keySet()) {
             TableInfo tableInfo = tableInfosMap.get(tableInfoMapKey);
@@ -177,7 +180,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         }
     }
 
-    private void generator(CodeGenerateContext codeGenerateContext, GenerateFilterContext generateFilterContext, List<Template> genTemplate, TableInfo tableInfo) throws Exception {
+    private void generator(CodeGenerateContext codeGenerateContext, GenerateFilterContext generateFilterContext, Set<Template> genTemplate, TableInfo tableInfo) throws Exception {
         List<TableRelationship> tableRelationships = tableInfo.getTableRelationships();
         if (CollectionUtil.isNotEmpty(tableRelationships)) {
             /*需要构造关系 递归生成关系--start*/
@@ -186,20 +189,21 @@ public class DefaultCodeGenerator implements CodeGenerator {
             }
             /*递归生成关系--end*/
         }
-        VelocityParamBuilder velocityParamBuilder = new VelocityParamBuilder(codeGenerateContext);
-        Map<String, Object> objectValueMap = velocityParamBuilder.put(Constants.TABLE_INFO_KEY_NAME, tableInfo).get();
+        VelocityParamBuilder velocityParamBuilder = codeGenerateContext.getVelocityParamBuilder();
+        velocityParamBuilder.put(Constants.TABLE_INFO_KEY_NAME, tableInfo);
         //初始化参数
         for (Template template : genTemplate) {
             //模板执行之前的扩展
             generateFilterContext.templateExePre(codeGenerateContext, tableInfo, template);
             Map<String, Object> params = template.getObjectValueMap();
-            objectValueMap.putAll(params);
+            velocityParamBuilder.putAll(params);
         }
+        Map<String, Object> velocityParam = velocityParamBuilder.get();
         //真正执行
         for (Template template : genTemplate) {
             String outFilePathName = template.getOutFilePathName(codeGenerateContext, tableInfo);
             String templateFilePathName = template.getTemplateFilePathName();
-            velocityTemplateEngine.generate(objectValueMap, templateFilePathName, outFilePathName, false, codeGenerateContext.isCoverExistFile());
+            velocityTemplateEngine.generate(velocityParam, templateFilePathName, outFilePathName, false, codeGenerateContext.isCoverExistFile());
         }
     }
 

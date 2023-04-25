@@ -16,9 +16,7 @@ public class GenerateFilterContext implements IGenerateFilter {
     private List<IGenerateFilter> generateFilters = new ArrayList<>();
 
     {
-        generateFilters.add(new ParamDTOGenerateFilter());
-        generateFilters.add(new ResultDTOGenerateFilter());
-        generateFilters.add(new StoredProcedureGenerateFilter());
+
     }
 
     @Override

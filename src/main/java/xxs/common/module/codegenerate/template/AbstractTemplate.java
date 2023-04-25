@@ -82,4 +82,15 @@ public abstract class AbstractTemplate implements Template {
         }
         return codeGenerateContext.getAbsoluteDir() + packagePath + fileName;
     }
+
+    @Override
+    public int hashCode() {
+        return this.getTemplateFilePathName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object template) {
+       Template templateTemp =(Template) template;
+        return this.getTemplateFilePathName().equals(templateTemp.getTemplateFilePathName());
+    }
 }

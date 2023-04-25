@@ -1,12 +1,14 @@
 package xxs.common.module.codegenerate;
 
 import cn.hutool.core.bean.BeanUtil;
+import xxs.common.module.codegenerate.config.AbstractTemplateConfig;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 模板引擎参数构建器--用于自定义模板引擎参数
+ *
  * @author xxs
  */
 public class VelocityParamBuilder {
@@ -15,21 +17,23 @@ public class VelocityParamBuilder {
 
     public VelocityParamBuilder(CodeGenerateContext codeGenerateContext) {
         this.codeGenerateContext = codeGenerateContext;
-        init();
     }
 
-    private VelocityParamBuilder init() {
-        Map<String, Object> stringObjectMap = BeanUtil.beanToMap(codeGenerateContext);
-        velocityParam.putAll(stringObjectMap);
-        return this;
-    }
-
-    public VelocityParamBuilder put(String key, Object value) {
+    public void put(String key, Object value) {
         velocityParam.put(key, value);
-        return this;
+        return;
+    }
+
+    public void putAll(Map<String, Object> stringObjectMap) {
+        velocityParam.putAll(stringObjectMap);
+        return;
     }
 
     public Map<String, Object> get() {
+        Map<String, Object> stringObjectMap = BeanUtil.beanToMap(codeGenerateContext);
+        Map<String, Object> otherGlobalConfigMap = codeGenerateContext.getOtherGlobalConfigMap();
+        velocityParam.putAll(otherGlobalConfigMap);
+        velocityParam.putAll(stringObjectMap);
         return velocityParam;
     }
 }
