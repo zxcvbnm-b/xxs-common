@@ -1,0 +1,6 @@
+
+<select id="load" resultMap="BaseResultMap">
+SELECT *
+FROM user_info
+WHERE id = #{id}
+</select>

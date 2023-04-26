@@ -1,0 +1,12 @@
+
+    /**
+     * 查询
+     */
+#if(${swagger})
+    @ApiOperation(value = "获取单个${tableInfo.capitalizeTableName}查询", response = ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}.class)
+#end
+    @GetMapping("/get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}")
+    public R get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
+        ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} ${tableInfo.tableName}${resultDTOConfig.filePost} = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
+        return R.ok().put("${tableInfo.tableName}${resultDTOConfig.filePost}", ${tableInfo.tableName}${resultDTOConfig.filePost});
+    }

@@ -1,11 +1,9 @@
 package xxs.common.module.codegenerate.method.template;
 
-import xxs.common.module.codegenerate.CodeGenerateContext;
-import xxs.common.module.codegenerate.config.ServiceInterfaceTemplateConfig;
 import xxs.common.module.codegenerate.method.config.MethodServiceInterfaceTemplateConfig;
-import xxs.common.module.codegenerate.model.TableInfo;
-import xxs.common.module.codegenerate.template.AbstractTemplate;
 import xxs.common.module.codegenerate.template.ServiceTemplate;
+
+import java.util.Map;
 
 
 /**
@@ -23,6 +21,11 @@ public class MethodServiceTemplate extends ServiceTemplate {
     @Override
     public String getTemplateFilePathName() {
         return TEMPLATE_NAME;
+    }
+
+    @Override
+    public Map<String, Object> customTemplateParamMap(Object param) {
+        return super.customTemplateParamMap(param);
     }
 
     @Override

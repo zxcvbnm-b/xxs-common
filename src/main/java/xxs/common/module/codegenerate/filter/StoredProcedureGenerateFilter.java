@@ -37,8 +37,8 @@ public class StoredProcedureGenerateFilter implements IGenerateFilter {
             }
 
             @Override
-            public Map<String, Object> getObjectValueMap() {
-                return super.getObjectValueMap();
+            public Map<String, Object> customTemplateParamMap(Object pram) {
+                return super.customTemplateParamMap(pram);
             }
         });
     }

@@ -1,6 +1,8 @@
 package xxs.common.module.codegenerate.method.model;
 
 import lombok.Data;
+import xxs.common.module.codegenerate.method.enums.WhereSearchParamType;
+import xxs.common.module.codegenerate.model.SearchColumnInfo;
 
 /**
  * @author xxs
@@ -12,7 +14,12 @@ public class WhereParam {
      */
     private String columnName;
     /**
-     * 是否是where参数
+     * where 查询参数类型
      */
-    private boolean forEachWhereParam;
+    private WhereSearchParamType whereSearchParamType;
+
+    /**
+     * 查询列信息
+     */
+    private SearchColumnInfo searchColumnInfo;
 }

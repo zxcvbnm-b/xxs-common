@@ -7,6 +7,8 @@ import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.template.AbstractTemplate;
 import xxs.common.module.codegenerate.template.ControllerTemplate;
 
+import java.util.Map;
+
 /**
  * 控制器模板
  *
@@ -25,7 +27,13 @@ public class MethodControllerTemplate extends ControllerTemplate {
     }
 
     @Override
+    public Map<String, Object> customTemplateParamMap(Object param) {
+        return super.customTemplateParamMap(param);
+    }
+
+    @Override
     public boolean append() {
         return true;
     }
+
 }

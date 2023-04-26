@@ -1,0 +1,5 @@
+
+        /**
+         * 查询
+         */
+        ${tableInfo.capitalizeTableName}${entityConfig.filePost} selectById(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});

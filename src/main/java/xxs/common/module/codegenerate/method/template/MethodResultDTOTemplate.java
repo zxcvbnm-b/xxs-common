@@ -1,10 +1,8 @@
 package xxs.common.module.codegenerate.method.template;
 
-import xxs.common.module.codegenerate.CodeGenerateContext;
-import xxs.common.module.codegenerate.config.AbstractTemplateConfig;
-import xxs.common.module.codegenerate.model.TableInfo;
-import xxs.common.module.codegenerate.template.AbstractTemplate;
 import xxs.common.module.codegenerate.template.ResultDTOTemplate;
+
+import java.util.Map;
 
 /**
  * paramDTO类模板
@@ -17,6 +15,11 @@ public class MethodResultDTOTemplate extends ResultDTOTemplate {
     @Override
     public String getTemplateFilePathName() {
         return TEMPLATE_NAME;
+    }
+
+    @Override
+    public Map<String, Object> customTemplateParamMap(Object param) {
+        return super.customTemplateParamMap(param);
     }
 
     @Override

@@ -195,7 +195,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         for (Template template : genTemplate) {
             //模板执行之前的扩展
             generateFilterContext.templateExePre(codeGenerateContext, tableInfo, template);
-            Map<String, Object> params = template.getObjectValueMap();
+            Map<String, Object> params = template.customTemplateParamMap(null);
             velocityParamBuilder.putAll(params);
         }
         Map<String, Object> velocityParam = velocityParamBuilder.get();

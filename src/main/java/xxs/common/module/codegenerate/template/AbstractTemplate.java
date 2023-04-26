@@ -48,7 +48,7 @@ public abstract class AbstractTemplate implements Template {
     public abstract String getFileSuffix();
 
     @Override
-    public Map<String, Object> getObjectValueMap() {
+    public Map<String, Object> customTemplateParamMap(Object param) {
         Map<String, Object> objectValueMap = new HashMap<>(8);
         if (abstractTemplateConfig != null) {
             objectValueMap.put(abstractTemplateConfig.getConfigName(), this.abstractTemplateConfig);

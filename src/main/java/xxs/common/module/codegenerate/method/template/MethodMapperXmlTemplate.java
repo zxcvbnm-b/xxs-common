@@ -1,11 +1,9 @@
 package xxs.common.module.codegenerate.method.template;
 
-import xxs.common.module.codegenerate.CodeGenerateContext;
-import xxs.common.module.codegenerate.config.MapperXmlTemplateConfig;
 import xxs.common.module.codegenerate.method.config.MethodMapperXmlTemplateConfig;
-import xxs.common.module.codegenerate.model.TableInfo;
-import xxs.common.module.codegenerate.template.AbstractTemplate;
 import xxs.common.module.codegenerate.template.MapperXmlTemplate;
+
+import java.util.Map;
 
 /**
  * Mapper.xml模板
@@ -22,6 +20,11 @@ public class MethodMapperXmlTemplate extends MapperXmlTemplate {
     @Override
     public String getTemplateFilePathName() {
         return TEMPLATE_NAME;
+    }
+
+    @Override
+    public Map<String, Object> customTemplateParamMap(Object param) {
+        return super.customTemplateParamMap(param);
     }
 
     @Override

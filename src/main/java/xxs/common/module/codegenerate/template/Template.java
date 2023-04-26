@@ -23,8 +23,10 @@ public interface Template {
 
     /**
      * 模板需要的额外参数
+     * @param param 用户入参 用于基于入参定制模板特定参数
+     * @return
      */
-    Map<String, Object> getObjectValueMap();
+    Map<String, Object> customTemplateParamMap(Object param);
 
     /**
      * 是否追加到bean
