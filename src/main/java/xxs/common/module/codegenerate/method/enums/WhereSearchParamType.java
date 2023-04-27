@@ -6,5 +6,5 @@ package xxs.common.module.codegenerate.method.enums;
  */
 
 public enum WhereSearchParamType {
-    INT,OTHER;
+    STRING,OTHER;
 }
