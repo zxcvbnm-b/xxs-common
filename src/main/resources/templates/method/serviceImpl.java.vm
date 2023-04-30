@@ -3,8 +3,7 @@
      * 查询
      */
     @Override
-    public ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
-        ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.baseMapper.selectById(${tableInfo.keyColumnInfo.propertyName});
-        ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} ${tableInfo.tableName}${resultDTOConfig.filePost} = this.entityTo${resultDTOConfig.filePost}(${tableInfo.tableName}${entityConfig.filePost});
-        return ${tableInfo.tableName}${resultDTOConfig.filePost};
+    public    ${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParams});
+        ${methodGenVelocityParam.returnTypeSimpleName} result = this.baseMapper.${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParamNames});
+        return result;
     }

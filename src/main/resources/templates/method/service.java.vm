@@ -1,5 +1,2 @@
 
-    /**
-     * 查询
-     */
-    ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParams});

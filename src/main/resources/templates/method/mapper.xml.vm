@@ -1,6 +1,4 @@
 
-<select id="load" resultMap="BaseResultMap">
-SELECT *
-FROM user_info
-WHERE id = #{id}
+<select id="${methodGenVelocityParam.searchMethodName}" resultType="${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${methodGenVelocityParam.returnTypeName}">
+    ${methodGenVelocityParam.xmlContent}
 </select>

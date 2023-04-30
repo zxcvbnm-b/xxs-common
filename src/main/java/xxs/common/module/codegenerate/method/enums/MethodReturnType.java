@@ -7,5 +7,5 @@ package xxs.common.module.codegenerate.method.enums;
  */
 
 public enum MethodReturnType {
-    INT, INTEGER, DTO,LIST_DTO;//...
+    CUSTOM,DTO,LIST_DTO;
 }

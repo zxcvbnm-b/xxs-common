@@ -67,7 +67,7 @@ public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} impleme
 #if(${tableInfo.tableRelationships})
     #foreach($relationTableInfo in ${tableInfo.tableRelationships})
         #if(${relationTableInfo.one2One})
-        #*一对一  先默认开启lombok TODO 不生成get set方法*#
+        #*一对一  先默认开启lombok  不生成get set方法*#
   private ${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost};
         #else
         #*一对多*#

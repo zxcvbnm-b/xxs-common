@@ -1,5 +1,3 @@
 
-        /**
-         * 查询
-         */
-        ${tableInfo.capitalizeTableName}${entityConfig.filePost} selectById(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
+
+        ${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}(#if(${methodGenVelocityParam.paramDTOType})@Param("condition")#end${methodGenVelocityParam.methodParams});

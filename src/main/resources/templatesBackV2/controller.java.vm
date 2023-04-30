@@ -29,7 +29,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.
 @RestController
 @RequestMapping("#if(${moduleName})/${moduleName}#end/#if(${tableInfo.tableName})${tableInfo.tableName}#end")
 public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
-#*TODO 如何处理调用的，需要先遍历一遍所有模板的getObjectValueMap方法，对参数进行初始化，然后再设置模板就能调用到其他的模板的参数了*#
+#* 如何处理调用的，需要先遍历一遍所有模板的getObjectValueMap方法，对参数进行初始化，然后再设置模板就能调用到其他的模板的参数了*#
     @Autowired
     private ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost} ${tableInfo.tableName}${serviceInterfaceConfig.filePost};
 

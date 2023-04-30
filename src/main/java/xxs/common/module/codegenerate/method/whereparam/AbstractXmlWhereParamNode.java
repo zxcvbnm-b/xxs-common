@@ -21,7 +21,7 @@ public abstract class AbstractXmlWhereParamNode implements XMLWhereParamNode {
         this.whereParam = whereParam;
         this.paramType = paramType;
         if (ParamType.DTO.equals(paramType)) {
-            wherePre = "condition";
+            wherePre = "condition.";
         } else if (ParamType.QUERY_PARAM.equals(paramType)) {
             wherePre = "";
         }

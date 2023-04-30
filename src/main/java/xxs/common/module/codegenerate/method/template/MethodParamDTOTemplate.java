@@ -10,7 +10,7 @@ import java.util.Map;
  * @author xxs
  */
 public class MethodParamDTOTemplate extends ParamDTOTemplate {
-    private final static String TEMPLATE_NAME = "templates/method/mapper.xml.vm";
+    private final static String TEMPLATE_NAME = "templates/method/paramDTO.java.vm";
 
     @Override
     public String getTemplateFilePathName() {

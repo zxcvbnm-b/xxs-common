@@ -15,7 +15,7 @@ import java.util.Map;
  * @author xxs
  */
 public class MethodControllerTemplate extends ControllerTemplate {
-    private final static String TEMPLATE_NAME = "templates/method/mapper.java.vm";
+    private final static String TEMPLATE_NAME = "templates/method/controller.java.vm";
 
     public MethodControllerTemplate(MethodControllerTemplateConfig controllerTemplateConfig) {
         super(controllerTemplateConfig);

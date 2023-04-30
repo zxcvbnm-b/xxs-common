@@ -48,7 +48,7 @@ public class VelocityTemplateEngine {
     public void generate(Map<String, Object> objectValueMap, String templatePath, String outputFile, boolean append, boolean coverExistFile) throws Exception {
         Template template = velocityEngine.getTemplate(templatePath, ConstVal.UTF8);
         try {
-            //TODO 这里的sw使用 OutputStreamWriter的时候生成的文件会错误 不知道为什么 换成StringWriter解决
+            // 这里的sw使用 OutputStreamWriter的时候生成的文件会错误 不知道为什么 换成StringWriter解决
             String realOutFilePathName = getRealOutFilePathName(outputFile, coverExistFile);
             StringWriter sw = new StringWriter();
             template.merge(new VelocityContext(objectValueMap), sw);
@@ -63,7 +63,7 @@ public class VelocityTemplateEngine {
      */
     private String getRealOutFilePathName(String outFilePathName, boolean coverExistFile) {
         String realOutFilePathName = outFilePathName;
-        if (coverExistFile) {
+        if (!coverExistFile) {
             return realOutFilePathName;
         }
         File outFile = new File(realOutFilePathName);
@@ -84,7 +84,7 @@ public class VelocityTemplateEngine {
         /*要有文件夹才能生成文件*/
         File file2 = new File(path);
         file2.mkdirs();
-        //TODO 如果文件不存在，那么追加的话会创建文件然后追加吗?
+        // 如果文件不存在，那么追加的话会创建文件然后追加
         FileOutputStream fos = new FileOutputStream(file, append);
         OutputStreamWriter osw;
         if (fileEncoding == null) {

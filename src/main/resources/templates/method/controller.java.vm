@@ -3,10 +3,10 @@
      * 查询
      */
 #if(${swagger})
-    @ApiOperation(value = "获取单个${tableInfo.capitalizeTableName}查询", response = ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}.class)
+    @ApiOperation(value = " ${methodGenVelocityParam.searchMethodName}查询", response =  ${methodGenVelocityParam.returnTypeName}.class)
 #end
-    @GetMapping("/get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}")
-    public R get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
-        ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} ${tableInfo.tableName}${resultDTOConfig.filePost} = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
-        return R.ok().put("${tableInfo.tableName}${resultDTOConfig.filePost}", ${tableInfo.tableName}${resultDTOConfig.filePost});
+    @GetMapping("/${methodGenVelocityParam.searchMethodName}")
+    public R ${methodGenVelocityParam.capitalizeSearchMethodName}(${methodGenVelocityParam.methodParams}); {
+        ${methodGenVelocityParam.returnTypeSimpleName} result = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParams});
+        return R.ok().put("result", ${tableInfo.tableName}${resultDTOConfig.filePost});
     }

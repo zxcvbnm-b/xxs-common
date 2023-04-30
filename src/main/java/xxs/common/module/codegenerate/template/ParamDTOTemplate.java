@@ -35,4 +35,5 @@ public class ParamDTOTemplate extends AbstractTemplate {
     public String getFileSuffix() {
         return JAVA_FILE_POST;
     }
+
 }
