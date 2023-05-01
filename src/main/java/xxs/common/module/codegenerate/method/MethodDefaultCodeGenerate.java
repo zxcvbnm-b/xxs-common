@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
  * 方法级别默认代码生成
  * TODO 1 对于一个表出现多次，xml列可能无法知道需要对哪个表进行where条件过滤
  * TODO 2 生成的sql是有缺陷的，比如where条件里面 没有带表别名，因为你的sql中可能会有多个相同的字段名，不好进行匹配 触发改输入
+ *
  * @author xxs
  */
 @Slf4j
@@ -50,7 +51,9 @@ public class MethodDefaultCodeGenerate {
         userInputWhereParam.setParamType(List.class);
         userInputWhereParam.setColumnName("ID");
         userInputWhereParam.setParamName("ids");
-        userInputWhereParam.setWhereParamNodeUseCompareType(WhereParamNodeUseCompareType.FOREACH);
+        userInputWhereParam.setBeginParamName("beginTime");
+        userInputWhereParam.setEndParamName("endTime");
+        userInputWhereParam.setWhereParamNodeUseCompareType(WhereParamNodeUseCompareType.BETWEEN);
         params.add(userInputWhereParam);
         methodDefaultCodeGenerate.singleTableCodeGenerator("city", "getCity", "select * from city a inner join city b on a.ID = b.ID", params);
     }
@@ -81,7 +84,7 @@ public class MethodDefaultCodeGenerate {
         //重新包装投影列,根据searchColumnInfoBySearchSql返回的值
         String realSql = this.wrapSqlProjection(sql, searchColumnInfoBySearchSql);
         methodGenParamContext.setRealSql(realSql);
-        List<WhereParam> whereParamList = this.getWhereParams(whereParamSet, searchColumnInfoBySearchSql);
+        List<WhereParam> whereParamList = this.getWhereParams(whereParamSet);
         methodGenParamContext.setWhereParamList(whereParamList);
         VelocityParamBuilder velocityParamBuilder = codeGenerateContext.getVelocityParamBuilder();
         velocityParamBuilder.put(Constants.TABLE_INFO_KEY_NAME, tableInfo);
@@ -225,24 +228,15 @@ public class MethodDefaultCodeGenerate {
         methodGenVelocityParam.setReturnTypeSimpleName(returnTypeSimpleName);
     }
 
-    private List<WhereParam> getWhereParams(Set<UserInputWhereParam> whereParamSet, List<SearchColumnInfo> searchColumnInfoBySearchSql) {
+    private List<WhereParam> getWhereParams(Set<UserInputWhereParam> whereParamSet) {
         List<WhereParam> whereParamList = new ArrayList<>();
         //where 条件列处理
-        Set<String> sqlSearchColumnNameSet = new HashSet<>();
-        Map<String, List<SearchColumnInfo>> stringSearchColumnInfoMap = new HashMap<>(20);
         if (!CollectionUtils.isEmpty(whereParamSet)) {
-            sqlSearchColumnNameSet = searchColumnInfoBySearchSql.stream().map(SearchColumnInfo::getRealColumnName).collect(Collectors.toSet());
-            stringSearchColumnInfoMap = searchColumnInfoBySearchSql.stream().collect(Collectors.groupingBy(SearchColumnInfo::getRealColumnName));
         }
         for (UserInputWhereParam userInputWhereParam : whereParamSet) {
             WhereParam whereParam = new WhereParam();
             BeanUtil.copyProperties(userInputWhereParam, whereParam);
-            if (sqlSearchColumnNameSet.contains(userInputWhereParam.getColumnName())) {
-                SearchColumnInfo searchColumnInfo = stringSearchColumnInfoMap.get(userInputWhereParam.getColumnName()).get(0);
-                whereParam.setSearchColumnInfo(searchColumnInfo);
-                //TODO 现在只能选到存在的字段
-                whereParamList.add(whereParam);
-            }
+            whereParamList.add(whereParam);
         }
         return whereParamList;
     }
@@ -272,6 +266,10 @@ public class MethodDefaultCodeGenerate {
                 Assert.isTrue(userInputWhereParam.getParamType() != null, "paramType Can't   null  !");
                 WhereParamNodeUseCompareType whereParamNodeUseCompareType = userInputWhereParam.getWhereParamNodeUseCompareType();
                 Assert.isTrue(whereParamNodeUseCompareType != null, "whereParamNodeUseCompareType Can't null  !");
+                if (whereParamNodeUseCompareType.equals(WhereParamNodeUseCompareType.BETWEEN)) {
+                    Assert.isTrue(StringUtils.isNotEmpty(userInputWhereParam.getBeginParamName()) && StringUtils.isNotEmpty(userInputWhereParam.getEndParamName()), "whereParamNodeUseCompareType is FOREACH  BETWEEN beginParamName/endParamName Can't null")
+                    ;
+                }
                 if (whereParamNodeUseCompareType.equals(WhereParamNodeUseCompareType.FOREACH) && !Collection.class.isAssignableFrom(paramType)) {
                     log.error("whereParamNodeUseCompareType is FOREACH ,paramType need Collection !");
                     new IllegalArgumentException("whereParamNodeUseCompareType is FOREACH ,paramType need Collection !");

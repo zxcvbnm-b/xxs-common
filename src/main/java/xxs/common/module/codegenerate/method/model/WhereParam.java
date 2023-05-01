@@ -8,8 +8,4 @@ import xxs.common.module.codegenerate.model.SearchColumnInfo;
  */
 @Data
 public class WhereParam extends UserInputWhereParam{
-    /**
-     * 查询列信息
-     */
-    private SearchColumnInfo searchColumnInfo;
 }

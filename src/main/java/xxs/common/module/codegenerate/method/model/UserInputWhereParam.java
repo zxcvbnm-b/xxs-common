@@ -33,7 +33,14 @@ public class UserInputWhereParam {
     private WhereParamNodeUseCompareType whereParamNodeUseCompareType = WhereParamNodeUseCompareType.EQ;
 
     /**
-     * 当前查询参数的其他属性 如果列类型是between类型，那么需要传入：
+     * 如果当前参数是一个between的范围查询，那么需要beginParamName
      */
-    private Map<String, Object> attribute = new HashMap<>();
+    private String beginParamName;
+
+    /**
+     * 如果当前参数是一个between的范围查询，那么需要ndParamName
+     */
+    private String endParamName;
+
+
 }

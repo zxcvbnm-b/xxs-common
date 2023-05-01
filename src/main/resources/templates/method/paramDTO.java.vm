@@ -32,7 +32,7 @@ public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implement
     @ApiModelProperty("")
   #end
 #end
-    private ${column.searchParamType.getSimpleName()} ${column.paramName};
+    private ${column.paramType.getSimpleName()} ${column.paramName};
 #end
 
 ## ----------  END 字段循环遍历  ----------
