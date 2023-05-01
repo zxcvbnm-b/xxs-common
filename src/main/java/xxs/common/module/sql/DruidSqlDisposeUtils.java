@@ -111,7 +111,7 @@ public class DruidSqlDisposeUtils {
         firstQueryBlock.getSelectList().clear();
         SQLSelectItem sqlSelectItem = new SQLSelectItem();
         SQLIdentifierExpr sqlIdentifierExpr = new SQLIdentifierExpr();
-        sqlIdentifierExpr.setName(projectionString);
+        sqlIdentifierExpr.setName(projectionString.toUpperCase(Locale.ROOT));
         //添加投影列信息
         sqlSelectItem.setExpr(sqlIdentifierExpr);
         firstQueryBlock.getSelectList().add(sqlSelectItem);
