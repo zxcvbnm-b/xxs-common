@@ -24,7 +24,7 @@ public class UserInputWhereParam {
     /**
      * where 查询参数类型
      */
-    private Class<?> searchParamType;
+    private Class<?> paramType;
 
 
     /**

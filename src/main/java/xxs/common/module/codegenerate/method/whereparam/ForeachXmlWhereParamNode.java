@@ -8,9 +8,9 @@ import xxs.common.module.codegenerate.method.model.WhereParam;
  */
 public class ForeachXmlWhereParamNode extends CompareXmlWhereParamNode {
     static final String FOREACH_TEMPLATE
-            = "<foreach item=\"item\" index=\"index\" collection=\"${paramName}\" open=\"(\" separator=\",\" close=\")\">\n" +
-            "        #{item}\n" +
-            "</foreach>";
+            = "\n"+"        <foreach item=\"item\" index=\"index\" collection=\"${paramName}\" open=\"(\" separator=\",\" close=\")\">\n" +
+            "            #{item}\n" +
+            "        </foreach>";
 
     public ForeachXmlWhereParamNode(WhereParam whereParam, ParamType paramType) {
         super(whereParam, paramType);

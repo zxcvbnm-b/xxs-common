@@ -1,6 +1,8 @@
 package xxs.common.module.codegenerate;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.druid.util.JdbcConstants;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -9,6 +11,7 @@ import xxs.common.module.codegenerate.config.DataSourceConfig;
 import xxs.common.module.codegenerate.model.ColumnInfo;
 import xxs.common.module.codegenerate.model.SearchColumnInfo;
 import xxs.common.module.codegenerate.model.TableInfo;
+import xxs.common.module.sql.DruidSqlDisposeUtils;
 
 import java.sql.*;
 import java.util.*;
@@ -133,48 +136,29 @@ public class LoadTableService {
 
     /**
      * 根据查询sql得到查询的sql的列的信息
+     *TODO 如果这个ssql有三个相同表名，那么字段名称会重复
      * @param sql
      * @return
      */
     public List<SearchColumnInfo> getSearchColumnInfoBySearchSql(String sql) {
+        String realString = DruidSqlDisposeUtils.setSelectLimit(sql);
         List<SearchColumnInfo> searchColumnInfoList = new ArrayList<>();
         try (Connection con = jdbcUtils.getConnection()) {
             ResultSet resultSet = null;
-            try (PreparedStatement statement = con.prepareStatement(sql)) {
+            try (PreparedStatement statement = con.prepareStatement(realString)) {
                 if (statement.execute()) {
                     resultSet = statement.getResultSet();
                     ResultSetMetaData metaData = resultSet.getMetaData();
                     int columnCount = metaData.getColumnCount();
                     Set<String> existColumnNames = new HashSet<>();
                     for (int columnIndex = 1; columnIndex < columnCount; columnIndex++) {
-                        SearchColumnInfo searchColumnInfo = new SearchColumnInfo();
-                        String columnName = metaData.getColumnName(columnIndex);
-                        int columnType = metaData.getColumnType(columnIndex);
-                        String columnClassName = metaData.getColumnClassName(columnIndex);
-                        String tableName = metaData.getTableName(columnIndex);
-                        boolean addExistColumn = existColumnNames.add(columnName);
-                        searchColumnInfo.setRealColumnName(columnName);
-                        if (addExistColumn == false) {
-                            //TODO 如果列名已经存在，那么需要重写列名，并且，需要重写SQL为结果集和为指定的列名
-                            columnName = tableName + "_" + columnName;
-                            searchColumnInfo.setColumnNameRewrite(true);
-                        }
-                        searchColumnInfo.setTableName(tableName);
-                        String camelCaseColumnName = StrUtil.toCamelCase(columnName);
-                        //首字母大写
-                        String capitalizeColumnName = StringUtils.capitalize(camelCaseColumnName);
-                        searchColumnInfo.setColumnName(columnName);
-                        searchColumnInfo.setJdbcTypeCode(columnType);
-                        searchColumnInfo.setJdbcTypeName(columnClassName);
-                        searchColumnInfo.setCapitalizeColumnName(capitalizeColumnName);
-                        searchColumnInfo.setCamelCaseColumnName(camelCaseColumnName);
-                        searchColumnInfoList.add(searchColumnInfo);
+                        buildSearchColumnInfoList(searchColumnInfoList, metaData, existColumnNames, columnIndex);
                     }
                     this.wrapSearchColumnInfo(searchColumnInfoList);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                String format = String.format("执行sql出错,sql: %s,msg: %s ", sql, e.getMessage());
+                String format = String.format("执行sql出错,sql: %s,msg: %s ", realString, e.getMessage());
                 throw new RuntimeException(format);
             } finally {
                 if (resultSet != null) {
@@ -186,6 +170,31 @@ public class LoadTableService {
             e.printStackTrace();
         }
         return searchColumnInfoList;
+    }
+
+    private void buildSearchColumnInfoList(List<SearchColumnInfo> searchColumnInfoList, ResultSetMetaData metaData, Set<String> existColumnNames, int columnIndex) throws SQLException {
+        SearchColumnInfo searchColumnInfo = new SearchColumnInfo();
+        String columnName = metaData.getColumnName(columnIndex);
+        int columnType = metaData.getColumnType(columnIndex);
+        String columnClassName = metaData.getColumnClassName(columnIndex);
+        String tableName = metaData.getTableName(columnIndex);
+        boolean addExistColumn = existColumnNames.add(columnName);
+        searchColumnInfo.setRealColumnName(columnName);
+        if (addExistColumn == false) {
+            //TODO 如果列名已经存在，那么需要重写列名，并且，需要重写SQL为结果集和为指定的列名
+            columnName = tableName +  "_" + columnName;
+            searchColumnInfo.setColumnNameRewrite(true);
+        }
+        searchColumnInfo.setTableName(tableName);
+        String camelCaseColumnName = StrUtil.toCamelCase(columnName);
+        //首字母大写
+        String capitalizeColumnName = StringUtils.capitalize(camelCaseColumnName);
+        searchColumnInfo.setColumnName(columnName);
+        searchColumnInfo.setJdbcTypeCode(columnType);
+        searchColumnInfo.setJdbcTypeName(columnClassName);
+        searchColumnInfo.setCapitalizeColumnName(capitalizeColumnName);
+        searchColumnInfo.setCamelCaseColumnName(camelCaseColumnName);
+        searchColumnInfoList.add(searchColumnInfo);
     }
 
     private void wrapSearchColumnInfo(List<SearchColumnInfo> searchColumnInfoList) throws SQLException {
@@ -203,8 +212,9 @@ public class LoadTableService {
                     log.warn("wrapSearchColumnInfo  table no exist {}", tableName);
                     continue;
                 }
-                inner:for (ColumnInfo columnInfo : columnInfos) {
-                    if(columnInfo.getColumnName().equals(searchColumnInfo.getColumnName())){
+                inner:
+                for (ColumnInfo columnInfo : columnInfos) {
+                    if (columnInfo.getColumnName().equals(searchColumnInfo.getColumnName())) {
                         searchColumnInfo.setComment(columnInfo.getComment());
                         break inner;
                     }

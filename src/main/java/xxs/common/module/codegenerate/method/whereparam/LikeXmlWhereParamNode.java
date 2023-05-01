@@ -19,7 +19,7 @@ public class LikeXmlWhereParamNode extends CompareXmlWhereParamNode {
 
     @Override
     protected String getCompareValueName() {
-        
-        return String.format("concat('%', %s, '%')", DEFAULT_COMPARE_PARAM_TEMPLATE_VALUE);
+
+        return "concat('%'," + DEFAULT_COMPARE_PARAM_TEMPLATE_VALUE + ", '%')";
     }
 }

@@ -1,6 +1,7 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
 import cn.hutool.core.util.StrUtil;
+import xxs.common.module.codegenerate.Constants;
 import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.model.WhereParam;
 import xxs.common.module.codegenerate.model.SearchColumnInfo;
@@ -13,12 +14,12 @@ import java.util.Properties;
 public abstract class CompareXmlWhereParamNode extends AbstractXmlWhereParamNode {
     static final String STRING_COMPARE_TEMPLATE =
             "    <if test=\"${paramName} != null and ${paramName} != ''\">\n" +
-             "      and ${columnName} ${compareSymbol} ${compareParamValue}\n" +
+             "       and ${columnName} ${compareSymbol} ${compareParamValue}\n" +
             "    </if>";
 
     static final String OTHER_COMPARE_TEMPLATE =
             "    <if test=\"${paramName} != null\">\n" +
-            "       and ${columnName} ${compareSymbol} ${compareParamValue}\n" +
+            "        and ${columnName} ${compareSymbol} ${compareParamValue}\n" +
             "    </if>";
     static final String COMPARE_PARAM_TEMPLATE_VALUE_NAME = "compareParamValue";
     static final String DEFAULT_COMPARE_PARAM_TEMPLATE_VALUE = "#{${paramName}}";
@@ -32,9 +33,9 @@ public abstract class CompareXmlWhereParamNode extends AbstractXmlWhereParamNode
         properties.put(PARAM_NAME_PLACEHOLDER_HELPER, "a");
         properties.put(COLUMN_NAME_PLACEHOLDER_HELPER, "b");
         properties.put(COMPARE_SYMBOL_PLACEHOLDER_HELPER, "=");
-        System.out.println(CompareXmlWhereParamNode.PLACEHOLDER_HELPER.replacePlaceholders(DEFAULT_COMPARE_PARAM_TEMPLATE_VALUE, properties));
-        properties.put(COMPARE_PARAM_TEMPLATE_VALUE_NAME, CompareXmlWhereParamNode.PLACEHOLDER_HELPER.replacePlaceholders(DEFAULT_COMPARE_PARAM_TEMPLATE_VALUE, properties));
-        String result = CompareXmlWhereParamNode.PLACEHOLDER_HELPER.replacePlaceholders(STRING_COMPARE_TEMPLATE, properties);
+        System.out.println(Constants.PLACEHOLDER_HELPER.replacePlaceholders(DEFAULT_COMPARE_PARAM_TEMPLATE_VALUE, properties));
+        properties.put(COMPARE_PARAM_TEMPLATE_VALUE_NAME, Constants.PLACEHOLDER_HELPER.replacePlaceholders(DEFAULT_COMPARE_PARAM_TEMPLATE_VALUE, properties));
+        String result = Constants.PLACEHOLDER_HELPER.replacePlaceholders(STRING_COMPARE_TEMPLATE, properties);
         System.out.println(result);
     }
 
@@ -51,16 +52,16 @@ public abstract class CompareXmlWhereParamNode extends AbstractXmlWhereParamNode
             columnName = columnName1;
         }
         String template = "";
-        if (String.class.isAssignableFrom(whereParam.getSearchParamType())) {
+        if (String.class.isAssignableFrom(whereParam.getParamType())) {
             template = STRING_COMPARE_TEMPLATE;
         } else {
             template = OTHER_COMPARE_TEMPLATE;
         }
         properties.put(PARAM_NAME_PLACEHOLDER_HELPER, wherePre + paramName);
         properties.put(COLUMN_NAME_PLACEHOLDER_HELPER, columnName);
-        properties.put(COMPARE_SYMBOL_PLACEHOLDER_HELPER, PLACEHOLDER_HELPER.replacePlaceholders(this.getCompareSymbol(), properties));
-        properties.put(COMPARE_PARAM_TEMPLATE_VALUE_NAME, PLACEHOLDER_HELPER.replacePlaceholders(this.getCompareValueName(), properties));
-        return PLACEHOLDER_HELPER.replacePlaceholders(template, properties);
+        properties.put(COMPARE_SYMBOL_PLACEHOLDER_HELPER, Constants.PLACEHOLDER_HELPER.replacePlaceholders(this.getCompareSymbol(), properties));
+        properties.put(COMPARE_PARAM_TEMPLATE_VALUE_NAME, Constants.PLACEHOLDER_HELPER.replacePlaceholders(this.getCompareValueName(), properties));
+        return Constants.PLACEHOLDER_HELPER.replacePlaceholders(template, properties);
     }
 
     protected String getCompareValueName() {

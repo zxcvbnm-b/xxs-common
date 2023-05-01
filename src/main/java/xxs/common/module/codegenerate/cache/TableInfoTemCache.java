@@ -9,7 +9,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-//表信息临时缓存
+/**
+ * 表信息临时缓存
+ * @author xs
+ */
 public class TableInfoTemCache {
     private Map<String, TableInfo> cacheMap = new HashMap<>();
     private LoadTableService loadTableService;

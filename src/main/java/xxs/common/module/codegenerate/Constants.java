@@ -1,5 +1,9 @@
 package xxs.common.module.codegenerate;
 
+import org.springframework.util.PropertyPlaceholderHelper;
+
+import java.util.regex.Pattern;
+
 /**
  * 常量类
  *
@@ -19,6 +23,14 @@ public interface Constants {
      * 实体类文件名后缀
      */
     String DEFAULT_ENTITY_FILE_POST = "Entity";
+    /**
+     * 实体类文件名后缀
+     */
+    String DEFAULT_PARAM_FILE_POST = "Param";
+    /**
+     * 实体类文件名后缀
+     */
+    String DEFAULT_RESULT_FILE_POST = "Result";
     /**
      * 实体类存放的基本包名
      */
@@ -72,5 +84,15 @@ public interface Constants {
     String VELOCITY_PARAM_MAPPER_XML_CONFIG_NAME = "mapperXmlConfig";
     String VELOCITY_PARAM_SERVICE_IMPL_CONFIG_NAME = "serviceImplConfig";
     String VELOCITY_PARAM_SERVICE_INTERFACE_CONFIG_NAME = "serviceInterfaceConfig";
+    /**
+     * 判断sql是否是一个查询语句
+     */
+    Pattern SELECT_SQL_PATTERN = Pattern.compile("(?<!\\w)(?i)(INSERT|DELETE|TRUNCATE|UPDATE|CREATE|ALTER|DROP)(?!\\w)");
+    String SQL_PARTITION = ";";
 
+    PropertyPlaceholderHelper PLACEHOLDER_HELPER = new PropertyPlaceholderHelper("${", "}");
+
+    String TABLE_ALIAS_PLACEHOLDER = "tableAlias";
+
+    String COMMA_SEPARATOR = ",";
 }
