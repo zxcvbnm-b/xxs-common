@@ -96,7 +96,7 @@ public class DruidSqlDisposeUtils {
             for (SQLSelectQuery sqlSelectQuery : sqlSelectQueries) {
                 if (sqlSelectQuery instanceof SQLSelectQueryBlock) {
                     SQLSelectQueryBlock queryBlock = (SQLSelectQueryBlock) sqlSelectQuery;
-                    setSelectList(projectionString, queryBlock);
+                     // 暂不支持union语法的 setSelectList(projectionString, queryBlock);
                 }
             }
         } else {

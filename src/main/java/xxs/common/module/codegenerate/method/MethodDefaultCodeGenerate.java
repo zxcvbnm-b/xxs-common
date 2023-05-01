@@ -34,8 +34,9 @@ import java.util.stream.Collectors;
 /**
  * 方法级别默认代码生成
  * TODO 1 对于一个表出现多次，xml列可能无法知道需要对哪个表进行where条件过滤
- * TODO 2 生成的sql是有缺陷的，比如where条件里面 没有带表别名，因为你的sql中可能会有多个相同的字段名，不好进行匹配 触发改输入
- *
+ * TODO 2 生成的sql是有缺陷的，比如where条件里面 没有带表别名，因为你的sql中可能会有多个相同的字段名，不好进行匹配 除非改输入
+ * TODO 3 对于一个自连接在重写sql后生成的xml sql 会出现别名不匹配的问题。
+ * TODO 4 不支持union 语法的xml 列名重复重写。（不过，如果投影列中不存在列名被重写（列名重复），那么不会触发sql投影重写）
  * @author xxs
  */
 @Slf4j
