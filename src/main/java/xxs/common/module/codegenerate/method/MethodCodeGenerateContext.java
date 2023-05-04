@@ -37,5 +37,6 @@ public class MethodCodeGenerateContext extends CodeGenerateContext {
         templates.add(new MethodResultDTOTemplate());
         templates.add(new MethodServiceImplTemplate(new MethodServiceImplTemplateConfig()));
         templates.add(new MethodServiceTemplate(new MethodServiceInterfaceTemplateConfig()));
+        templates.add(new MethodAllTemplate(null));
     }
 }

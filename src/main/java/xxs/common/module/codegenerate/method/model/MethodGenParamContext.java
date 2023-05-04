@@ -46,7 +46,7 @@ public class MethodGenParamContext {
     /**
      * where参数模式，是使用dto包装，还是使用那种简单不包装的方式
      */
-    private ParamType paramType = ParamType.DTO;
+    private ParamType paramType = ParamType.QUERY_PARAM;
 
     /**
      * 返回值类型，比如list，int Integer，dto等等等类型。
