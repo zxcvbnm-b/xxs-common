@@ -7,6 +7,6 @@
 #end
     @GetMapping("/${methodGenVelocityParam.searchMethodName}")
     public R ${methodGenVelocityParam.capitalizeSearchMethodName}(${methodGenVelocityParam.methodParams}); {
-        ${methodGenVelocityParam.returnTypeSimpleName} result = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParams});
+        ${methodGenVelocityParam.returnTypeSimpleName} result = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParamNames});
         return R.ok().put("result", ${tableInfo.tableName}${resultDTOConfig.filePost});
     }

@@ -51,13 +51,13 @@ public class MethodDefaultCodeGenerate {
         Set<UserInputWhereParam> params = new HashSet<>();
         UserInputWhereParam userInputWhereParam = new UserInputWhereParam();
         userInputWhereParam.setParamType(List.class);
-        userInputWhereParam.setColumnName("ID");
+        userInputWhereParam.setColumnName("bid");
         userInputWhereParam.setParamName("ids");
-        userInputWhereParam.setBeginParamName("beginTime");
-        userInputWhereParam.setEndParamName("endTime");
+        userInputWhereParam.setBeginParamName("beginId");
+        userInputWhereParam.setEndParamName("endId");
         userInputWhereParam.setWhereParamNodeUseCompareType(WhereParamNodeUseCompareType.BETWEEN);
         params.add(userInputWhereParam);
-        methodDefaultCodeGenerate.singleTableCodeGenerator("city", "getCity", "select * from city a inner join city b on a.ID = b.ID", params);
+        methodDefaultCodeGenerate.singleTableCodeGenerator("bus", "getBus", "select * from bus", params);
     }
 
     /**
@@ -184,26 +184,32 @@ public class MethodDefaultCodeGenerate {
     private void setMethodParamInfo(MethodGenParamContext methodGenParamContext, MethodGenVelocityParam methodGenVelocityParam) {
         String methodParams = "";
         String methodParamNames = "";
+        String mapperMethodParams = "";
         if (methodGenParamContext.getParamType().equals(ParamType.DTO)) {
             methodParamNames = methodGenParamContext.getSearchName() + "Param";
             methodParams = methodGenParamContext.getCapitalizeSearchName() + "Param " + methodParamNames;
             methodGenVelocityParam.setParamDTOType(true);
+            mapperMethodParams = String.format("@Param(\"condition\") %s", methodParamNames);
         } else if (methodGenParamContext.getParamType().equals(ParamType.QUERY_PARAM)) {
             List<WhereParam> whereParamList = methodGenParamContext.getWhereParamList();
             StringJoiner methodParamStringJoiner = new StringJoiner(",");
+            StringJoiner mapperMethodParamStringJoiner = new StringJoiner(",");
             StringJoiner methodParamNameStringJoiner = new StringJoiner(",");
             for (WhereParam whereParam : whereParamList) {
                 String paramName = whereParam.getParamName();
                 String camelCaseParamName = StrUtil.toCamelCase(paramName);
-                //首字母大写
-                String capitalizeParamName = StringUtils.capitalize(camelCaseParamName);
                 methodParamNameStringJoiner.add(camelCaseParamName);
-                methodParamStringJoiner.add(capitalizeParamName + " " + camelCaseParamName);
+                String methodParamString = whereParam.getParamType().getSimpleName() + " " + camelCaseParamName;
+                methodParamStringJoiner.add(methodParamString);
+                mapperMethodParamStringJoiner.add(String.format("@Param(\"%s\")", camelCaseParamName) + " " + methodParamString);
             }
             methodParamNames = methodParamNameStringJoiner.toString();
+            methodParams = methodParamStringJoiner.toString();
+            mapperMethodParams = mapperMethodParamStringJoiner.toString();
         }
         methodGenVelocityParam.setMethodParams(methodParams);
         methodGenVelocityParam.setMethodParamNames(methodParamNames);
+        methodGenVelocityParam.setMapperMethodParams(mapperMethodParams);
     }
 
     /**

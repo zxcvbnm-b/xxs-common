@@ -3,7 +3,7 @@
      * 查询
      */
     @Override
-    public    ${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParams});
+    public ${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParams});
         ${methodGenVelocityParam.returnTypeSimpleName} result = this.baseMapper.${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParamNames});
         return result;
     }

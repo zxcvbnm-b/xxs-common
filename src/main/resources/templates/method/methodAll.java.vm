@@ -1,0 +1,122 @@
+//controller
+
+/**
+ * 查询
+ */
+#if(${swagger})
+@ApiOperation(value = " ${methodGenVelocityParam.searchMethodName}查询", response =  ${methodGenVelocityParam.returnTypeName}.class)
+#end
+@GetMapping("/${methodGenVelocityParam.searchMethodName}")
+public R ${methodGenVelocityParam.capitalizeSearchMethodName}(${methodGenVelocityParam.methodParams}); {
+    ${methodGenVelocityParam.returnTypeSimpleName} result = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParamNames});
+        return R.ok().put("result", ${tableInfo.tableName}${resultDTOConfig.filePost});
+      }
+
+// service interface
+
+    ${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParams});
+
+//service impl
+
+/**
+ * 查询
+ */
+@Override
+public ${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParams});
+    ${methodGenVelocityParam.returnTypeSimpleName} result = this.baseMapper.${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParamNames});
+        return result;
+     }
+
+//mapper interface
+
+    ${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.mapperMethodParams});
+
+//mapper xml
+
+<select id="${methodGenVelocityParam.searchMethodName}" resultType="${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${methodGenVelocityParam.returnTypeName}">
+${methodGenVelocityParam.xmlContent}
+</select>
+
+//paramDTO
+/**
+ * ${methodGenVelocityParam.searchMethodName}Param
+ *
+ * @author ${author}
+ * @since ${generateTime}
+ */
+    #if(${lombok})
+    @Getter
+    @Setter
+    #end
+    #if(${swagger})
+    @ApiModel(value = "${methodGenVelocityParam.capitalizeSearchMethodName}Param")
+    #end
+public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implements Serializable {
+## ----------  BEGIN 字段循环遍历  ----------
+    #foreach($column in ${methodGenVelocityParam.whereParamList})
+        #if("$!comment" != "")
+            #if(${swagger})
+            @ApiModelProperty("")
+            #end
+        #end
+    private ${column.paramType.getSimpleName()} ${column.paramName};
+    #end
+
+## ----------  END 字段循环遍历  ----------
+    @Override
+    public String toString() {
+        return "${methodGenVelocityParam.searchMethodName}Param{" +
+            #foreach($columnn in ${methodGenVelocityParam.whereParamList})
+                #if($!{foreach.index}==0)
+                        "${columnn.paramName}=" + ${columnn.paramName} +
+                #else
+                        ", ${columnn.paramName}=" + ${columnn.paramName} +
+                #end
+            #end
+                "}";
+    }
+}
+
+//resultDTO
+/**
+ * ${methodGenVelocityParam.searchMethodName}Result
+ *
+ * @author ${author}
+ * @since ${generateTime}
+ */
+    #if(${lombok})
+    @Getter
+    @Setter
+    #end
+    #if(${swagger})
+    @ApiModel(value = "${methodGenVelocityParam.searchMethodName}Result")
+    #end
+public class ${methodGenVelocityParam.capitalizeSearchMethodName}Result implements Serializable {
+## ----------  BEGIN 字段循环遍历  ----------
+    #foreach($column in ${methodGenVelocityParam.returnSelectList})
+        #if("$!column.comment" != "")
+            #if(${swagger})
+            @ApiModelProperty("${column.comment}")
+            #else
+            /**
+             * ${column.comment}
+             */
+            #end
+        #end
+    private ${column.javaType.getSimpleName()} ${column.camelCaseColumnName};
+    #end
+
+## ----------  END 字段循环遍历  ----------
+    @Override
+    public String toString() {
+        return "${methodGenVelocityParam.capitalizeSearchMethodName}Result{" +
+            #foreach($columnn in ${methodGenVelocityParam.returnSelectList})
+                #if($!{foreach.index}==0)
+                        "${columnn.camelCaseColumnName}=" + ${columnn.camelCaseColumnName} +
+                #else
+                        ", ${columnn.camelCaseColumnName}=" + ${columnn.camelCaseColumnName} +
+                #end
+            #end
+                "}";
+    }
+}

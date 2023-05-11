@@ -35,6 +35,11 @@ public class MethodGenVelocityParam {
     private String methodParamNames;
 
     /**
+     * 方法参数列表，比如 @Param("a")int a,@Param("a")int b
+     */
+    private String mapperMethodParams;
+
+    /**
      * 方法返回参数全类名
      */
     private String returnTypeName;

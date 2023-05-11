@@ -78,7 +78,7 @@ public abstract class AbstractTemplate implements Template {
         }
         //类名后缀
         String filePathName = codeGenerateContext.getAbsoluteDir() + packagePath + javaFileName;
-        if (StringUtils.isNotBlank(abstractTemplateConfig.getFilePost())) {
+        if (abstractTemplateConfig != null && StringUtils.isNotBlank(abstractTemplateConfig.getFilePost())) {
             filePathName = filePathName + abstractTemplateConfig.getFilePost();
         }
         //文件后缀
@@ -102,7 +102,7 @@ public abstract class AbstractTemplate implements Template {
         }
         //类名后缀
         String filePathName = codeGenerateContext.getAbsoluteDir() + packagePath + fileName;
-        if (StringUtils.isNotBlank(abstractTemplateConfig.getFilePost())) {
+        if (abstractTemplateConfig != null &&StringUtils.isNotBlank(abstractTemplateConfig.getFilePost())) {
             filePathName = filePathName + abstractTemplateConfig.getFilePost();
         }
         //文件后缀
