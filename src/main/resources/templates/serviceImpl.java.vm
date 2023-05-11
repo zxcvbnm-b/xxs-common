@@ -256,11 +256,13 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
      * 根据${mainTableInfo.keyColumnInfo.propertyName}获取${tableInfo.capitalizeTableName}${methodTablePostkey}
      */
     #if(${tableInfo.tableRelationshipMainTableInfo.one2One})
+    @Override
     public ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName}) {
         ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.getOne(Wrappers.<${tableInfo.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${tableInfo.capitalizeTableName}${entityConfig.filePost}::get${tableInfo.tableRelationshipMainTableInfo.relationColumnInfo.capitalizePropertyName}, relation${mainTableInfo.keyColumnInfo.capitalizePropertyName}));
         return  CommonBeanUtils.copyProperties(${tableInfo.tableName}${entityConfig.filePost}, ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}::new);
     }
     #else
+    @Override
     public List<${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}> get${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName}) {
         List<${tableInfo.capitalizeTableName}${entityConfig.filePost}> ${tableInfo.tableName}${entityConfig.filePost}List = this.list(Wrappers.<${tableInfo.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${tableInfo.capitalizeTableName}${entityConfig.filePost}::get${tableInfo.tableRelationshipMainTableInfo.relationColumnInfo.capitalizePropertyName}, relation${mainTableInfo.keyColumnInfo.capitalizePropertyName}));
         return CommonBeanUtils.copyListProperties(${tableInfo.tableName}${entityConfig.filePost}List, ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}::new);
@@ -269,6 +271,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     /**
      * 保存${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
      */
+    @Override
     public int add${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName}) {
     #if(${tableInfo.tableRelationshipMainTableInfo.one2One})        #*一对一 *#
             this.save(CommonBeanUtils.copyProperties(${mainTableInfo.tableName}${paramDTOConfig.filePost}.get${tableInfo.capitalizeTableName}${paramDTOConfig.filePost}(), ${tableInfo.capitalizeTableName}${entityConfig.filePost}::new, (s, t)->{
@@ -287,6 +290,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     /**
      * 修改${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
      */
+    @Override
     public int update${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName}) {
       #if(${tableInfo.tableRelationshipMainTableInfo.one2One})        #*一对一 *#
           ${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost} = this.getOne(Wrappers.<${tableInfo.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${tableInfo.capitalizeTableName}${entityConfig.filePost}::get${tableInfo.tableRelationshipMainTableInfo.relationColumnInfo.capitalizePropertyName}, relation${mainTableInfo.keyColumnInfo.capitalizePropertyName}));
@@ -339,6 +343,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     /**
      * 根据${tableInfo.tableRelationshipMainTableInfo.relationTable.keyColumnInfo.propertyName}删除${tableInfo.capitalizeTableName}
      */
+    @Override
     public int delete${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName}) {
         this.remove(Wrappers.<${tableInfo.capitalizeTableName}${entityConfig.filePost}>lambdaQuery().eq(${tableInfo.capitalizeTableName}${entityConfig.filePost}::get${tableInfo.tableRelationshipMainTableInfo.relationColumnInfo.capitalizePropertyName}, relation${mainTableInfo.keyColumnInfo.capitalizePropertyName}));
         return 0;

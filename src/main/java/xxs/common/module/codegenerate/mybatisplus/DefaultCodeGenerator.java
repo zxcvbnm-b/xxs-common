@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class DefaultCodeGenerator implements CodeGenerator {
     private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
     private LoadTableService loadTableService = new LoadTableService(new DataSourceConfig());
-    private CodeGenerateContext codeGenerateContext = new ClassCodeGenerateContext().initClassCodeGenerateContext();
+    private static CodeGenerateContext codeGenerateContext = new ClassCodeGenerateContext().initClassCodeGenerateContext();
 
 
     public static void main(String[] args) throws Exception {

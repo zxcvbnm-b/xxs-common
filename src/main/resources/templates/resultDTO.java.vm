@@ -20,7 +20,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.
 #end
 
 /**
- * $!{tableInfo.comment}${resultDTOConfig.filePost}实体类
+ * $!{tableInfo.comment}${resultDTOConfig.filePost}类
  *
  * @author ${author}
  * @since ${generateTime}
@@ -30,7 +30,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.
 @Setter
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}参数dto", description = "$!{tableInfo.comment}")
+@ApiModel(value = "${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}类", description = "$!{tableInfo.comment}")
 #end
 public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
