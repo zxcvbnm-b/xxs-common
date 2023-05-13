@@ -19,7 +19,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- *  JDBC相关api https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html
+ * JDBC相关api https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html
  *
  * @author
  */
@@ -68,7 +68,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         GenerateFilterContext generateFilterContext = codeGenerateContext.getGenerateFilterContext();
         generateFilterContext.init(codeGenerateContext);
         Set<Template> genTemplate = codeGenerateContext.getTemplates();
-        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(tables);
+        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(tables, codeGenerateContext.getTablePre());
         for (String tableInfoMapKey : tableInfosMap.keySet()) {
             TableInfo tableInfo = tableInfosMap.get(tableInfoMapKey);
             //遍历表在执行之前时 可以扩展表对表的关联关系维护实现一对多/一对一的复杂代码生成
@@ -91,7 +91,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         GenerateFilterContext generateFilterContext = codeGenerateContext.getGenerateFilterContext();
         generateFilterContext.init(codeGenerateContext);
         Set<Template> genTemplate = codeGenerateContext.getTemplates();
-        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(mainTableName);
+        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(mainTableName, codeGenerateContext.getTablePre());
         for (String tableInfoMapKey : tableInfosMap.keySet()) {
             TableInfo tableInfo = tableInfosMap.get(tableInfoMapKey);
             //遍历表在执行之前时 可以扩展表对表的关联关系维护实现一对多/一对一的复杂代码生成
@@ -105,7 +105,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
 
     //TODO 一对多 一对一关系测试
     private void buildRelation(TableInfo mainTable, String relationTableName, String relationColumn, String relationUniqueColumn, boolean one2One) throws SQLException {
-        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(relationTableName);
+        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(relationTableName, codeGenerateContext.getTablePre());
         TableInfo relationTable = tableInfosMap.get(relationTableName);
         if (relationTableName == null || relationColumn == null) {
             throw new RuntimeException("关联表需要在tables中出现并且数据库中存在！");
@@ -157,7 +157,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         GenerateFilterContext generateFilterContext = codeGenerateContext.getGenerateFilterContext();
         generateFilterContext.init(codeGenerateContext);
         Set<Template> genTemplate = codeGenerateContext.getTemplates();
-        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(mainTableName);
+        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(mainTableName, codeGenerateContext.getTablePre());
         for (String tableInfoMapKey : tableInfosMap.keySet()) {
             TableInfo tableInfo = tableInfosMap.get(tableInfoMapKey);
             //遍历表在执行之前时 可以扩展表对表的关联关系维护实现一对多/一对一的复杂代码生成
@@ -204,29 +204,5 @@ public class DefaultCodeGenerator implements CodeGenerator {
             String templateFilePathName = template.getTemplateFilePathName();
             velocityTemplateEngine.generate(velocityParam, templateFilePathName, outFilePathName, false, codeGenerateContext.isCoverExistFile());
         }
-    }
-
-    public VelocityTemplateEngine getVelocityTemplateEngine() {
-        return velocityTemplateEngine;
-    }
-
-    public void setVelocityTemplateEngine(VelocityTemplateEngine velocityTemplateEngine) {
-        this.velocityTemplateEngine = velocityTemplateEngine;
-    }
-
-    public LoadTableService getLoadTableService() {
-        return loadTableService;
-    }
-
-    public void setLoadTableService(LoadTableService loadTableService) {
-        this.loadTableService = loadTableService;
-    }
-
-    public CodeGenerateContext getCodeGenerateContext() {
-        return codeGenerateContext;
-    }
-
-    public void setCodeGenerateContext(CodeGenerateContext codeGenerateContext) {
-        this.codeGenerateContext = codeGenerateContext;
     }
 }

@@ -28,7 +28,19 @@ public class LoadTableService {
     }
 
     public Map<String, TableInfo> loadTables(String tableNames) throws SQLException {
-        Map<String, TableInfo> tableInfoHashMap = new HashMap<>();
+        return this.loadTables(tableNames, null);
+    }
+
+    /**
+     * 加载表信息
+     *
+     * @param tableNames
+     * @param replaceTablePre 移除生成的驼峰表名前缀
+     * @return
+     * @throws SQLException
+     */
+    public Map<String, TableInfo> loadTables(String tableNames, String replaceTablePre) throws SQLException {
+        Map<String, TableInfo> tableInfoHashMap = new HashMap<>(8);
         Connection connection = jdbcUtils.getConnection();
         connection.setAutoCommit(false);
         try {
@@ -48,9 +60,14 @@ public class LoadTableService {
                     //表备注
                     String comment = tableResultSet.getString("REMARKS");
                     tableInfo.setName(name);
-                    tableInfo.setComment(comment);
+                    tableInfo.setComment(StringUtils.isNotEmpty(comment) ? comment : name);
                     tableInfo.setTableType(tableType);
-                    String camelCaseTableName = StrUtil.toCamelCase(name);
+                    String replaceTablePreName = name;
+                    if (StringUtils.isNotEmpty(replaceTablePre)) {
+                        replaceTablePreName = StrUtil.removePrefix(name.toUpperCase(), replaceTablePre.toUpperCase());
+                    }
+
+                    String camelCaseTableName = StrUtil.toCamelCase(replaceTablePreName);
                     tableInfo.setTableName(camelCaseTableName);
                     //首字母大写
                     tableInfo.setCapitalizeTableName(StringUtils.capitalize(camelCaseTableName));
@@ -58,10 +75,10 @@ public class LoadTableService {
                             "%");
                     //找出列信息
                     while (columnResultSet.next()) {
-                        buildColumn(columnInfoList, columnResultSet);
+                        this.buildColumn(columnInfoList, columnResultSet);
                     }
                     //找出主键列
-                    buildKeyColumn(metaData, tableName, tableInfo, columnInfoList);
+                    this.buildKeyColumn(metaData, tableName, tableInfo, columnInfoList);
                     tableInfo.setColumnInfos(columnInfoList);
                 }
                 tableInfoHashMap.put(tableName, tableInfo);
@@ -127,14 +144,15 @@ public class LoadTableService {
         columnInfo.setNullAble(nullAble == 1);
         //列描述
         String remarks = columnResultSet.getString("REMARKS");
-        columnInfo.setComment(remarks);
+        columnInfo.setComment(StringUtils.isNotEmpty(remarks) ? remarks : columnName);
         /*   String columnDef = columnResultSet.getString("COLUMN_DEF");  //默认值*/
         columnInfoList.add(columnInfo);
     }
 
     /**
      * 根据查询sql得到查询的sql的列的信息
-     *TODO 如果这个ssql有三个相同表名，那么字段名称会重复
+     * TODO 如果这个ssql有三个相同表名，那么字段名称会重复
+     *
      * @param sql
      * @return
      */
@@ -180,7 +198,7 @@ public class LoadTableService {
         searchColumnInfo.setRealColumnName(columnName);
         if (addExistColumn == false) {
             //TODO 如果列名已经存在，那么需要重写列名，并且，需要重写SQL为结果集和为指定的列名
-            columnName = tableName +  "_" + columnName;
+            columnName = tableName + "_" + columnName;
             searchColumnInfo.setColumnNameRewrite(true);
         }
         searchColumnInfo.setTableName(tableName);

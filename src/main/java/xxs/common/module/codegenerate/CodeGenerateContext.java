@@ -32,7 +32,7 @@ public class CodeGenerateContext {
      */
     protected String basePackageName = "xxs.common";
     /**
-     * TODO 去除表前缀问题未修复
+     * 去除表前缀 -- 区分大小写
      */
     protected String tablePre = "";
     /**

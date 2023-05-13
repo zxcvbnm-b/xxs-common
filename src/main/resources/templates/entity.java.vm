@@ -41,7 +41,7 @@ import lombok.Setter;
 @TableName("${tableInfo.name}")
 #end
 #if(${swagger})
-@ApiModel(value = "${tableInfo.capitalizeTableName}实体", description = "$!{tableInfo.comment}")
+@ApiModel(value = "${tableInfo.capitalizeTableName}实体类", description = "$!{tableInfo.comment}")
 #end
 public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------

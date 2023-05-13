@@ -45,6 +45,7 @@ public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} impleme
     #end
   #end
     private ${column.javaType.getSimpleName()} ${column.propertyName};
+
 #end
 ## ----------  END 字段循环遍历  ----------
 

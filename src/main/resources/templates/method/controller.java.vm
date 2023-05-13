@@ -3,7 +3,7 @@
      * 查询
      */
 #if(${swagger})
-    @ApiOperation(value = " ${methodGenVelocityParam.searchMethodName}查询", response =  ${methodGenVelocityParam.returnTypeName}.class)
+    @ApiOperation(value = "${methodGenVelocityParam.searchMethodName}", notes = "${methodGenVelocityParam.searchMethodName}查询", response =  ${methodGenVelocityParam.returnTypeName}.class)
 #end
     @GetMapping("/${methodGenVelocityParam.searchMethodName}")
     public R ${methodGenVelocityParam.capitalizeSearchMethodName}(${methodGenVelocityParam.methodParams}); {
