@@ -1,7 +1,6 @@
 package xxs.common.module.codegenerate.mybatisplus;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.json.JSONUtil;
 import org.springframework.util.CollectionUtils;
 import xxs.common.module.codegenerate.*;
 import xxs.common.module.codegenerate.config.DataSourceConfig;

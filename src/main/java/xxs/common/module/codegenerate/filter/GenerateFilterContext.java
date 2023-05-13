@@ -11,7 +11,7 @@ import java.util.List;
  * 拦截器--用于扩展功能，比如paramDTO
  *
  * @author xxs
- */ /**/
+ */
 public class GenerateFilterContext implements IGenerateFilter {
     private List<IGenerateFilter> generateFilters = new ArrayList<>();
 

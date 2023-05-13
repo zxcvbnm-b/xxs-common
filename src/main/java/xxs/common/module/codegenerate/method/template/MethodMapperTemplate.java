@@ -1,6 +1,6 @@
 package xxs.common.module.codegenerate.method.template;
 
-import xxs.common.module.codegenerate.method.config.MethodMapperInterfaceTemplateConfig;
+import xxs.common.module.codegenerate.config.MapperInterfaceTemplateConfig;
 import xxs.common.module.codegenerate.template.MapperTemplate;
 
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
 public class MethodMapperTemplate extends MapperTemplate {
     private final static String TEMPLATE_NAME = "templates/method/mapper.java.vm";
 
-    public MethodMapperTemplate(MethodMapperInterfaceTemplateConfig mapperInterfaceTemplateConfig) {
+    public MethodMapperTemplate(MapperInterfaceTemplateConfig mapperInterfaceTemplateConfig) {
         super(mapperInterfaceTemplateConfig);
     }
 

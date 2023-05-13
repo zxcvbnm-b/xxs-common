@@ -1,11 +1,8 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
-import cn.hutool.core.util.StrUtil;
-import com.sun.org.apache.regexp.internal.RE;
 import xxs.common.module.codegenerate.Constants;
 import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.model.WhereParam;
-import xxs.common.module.codegenerate.model.SearchColumnInfo;
 
 import java.util.Properties;
 

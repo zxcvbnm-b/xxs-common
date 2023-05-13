@@ -1,7 +1,6 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.PropertyPlaceholderHelper;
 import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.model.WhereParam;
 

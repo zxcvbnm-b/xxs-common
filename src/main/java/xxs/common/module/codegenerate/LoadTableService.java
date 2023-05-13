@@ -1,8 +1,6 @@
 package xxs.common.module.codegenerate;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.druid.util.JdbcConstants;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;

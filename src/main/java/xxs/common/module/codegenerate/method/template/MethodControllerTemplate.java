@@ -1,10 +1,6 @@
 package xxs.common.module.codegenerate.method.template;
 
-import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.config.ControllerTemplateConfig;
-import xxs.common.module.codegenerate.method.config.MethodControllerTemplateConfig;
-import xxs.common.module.codegenerate.model.TableInfo;
-import xxs.common.module.codegenerate.template.AbstractTemplate;
 import xxs.common.module.codegenerate.template.ControllerTemplate;
 
 import java.util.Map;
@@ -17,7 +13,7 @@ import java.util.Map;
 public class MethodControllerTemplate extends ControllerTemplate {
     private final static String TEMPLATE_NAME = "templates/method/controller.java.vm";
 
-    public MethodControllerTemplate(MethodControllerTemplateConfig controllerTemplateConfig) {
+    public MethodControllerTemplate(ControllerTemplateConfig controllerTemplateConfig) {
         super(controllerTemplateConfig);
     }
 

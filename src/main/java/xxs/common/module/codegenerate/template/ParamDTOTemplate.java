@@ -4,8 +4,6 @@ import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.config.AbstractTemplateConfig;
 import xxs.common.module.codegenerate.model.TableInfo;
 
-import java.util.Map;
-
 /**
  * paramDTO类模板
  *

@@ -1,6 +1,5 @@
 package xxs.common.module.codegenerate;
 
-import lombok.Builder;
 import lombok.Data;
 import xxs.common.module.codegenerate.config.*;
 import xxs.common.module.codegenerate.filter.*;
@@ -102,9 +101,34 @@ public class CodeGenerateContext {
      */
     protected VelocityParamBuilder velocityParamBuilder = new VelocityParamBuilder(this);
     /**
-     * 模板集合 通过 模板路径
+     * 其他的全局配置
      */
     protected Map<String, Object> otherGlobalConfigMap = new HashMap<>();
+
+    /**
+     * 服务接口配置
+     */
+    protected ServiceInterfaceTemplateConfig serviceInterfaceTemplateConfig = new ServiceInterfaceTemplateConfig();
+    /**
+     * 控制器配置
+     */
+    protected ControllerTemplateConfig controllerTemplateConfig = new ControllerTemplateConfig();
+    /**
+     * 服务实现类配置
+     */
+    protected ServiceImplTemplateConfig serviceImplTemplateConfig = new ServiceImplTemplateConfig();
+    /**
+     * mapper接口配置
+     */
+    protected MapperInterfaceTemplateConfig mapperInterfaceTemplateConfig = new MapperInterfaceTemplateConfig();
+    /**
+     * mapperxml配置
+     */
+    protected MapperXmlTemplateConfig mapperXmlTemplateConfig = new MapperXmlTemplateConfig();
+    /**
+     * 实体类模板配置
+     */
+    protected EntityTemplateConfig entityTemplateConfig = new EntityTemplateConfig();
 
     public CodeGenerateContext() {
     }

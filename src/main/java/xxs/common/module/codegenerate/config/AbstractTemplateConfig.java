@@ -1,8 +1,6 @@
 package xxs.common.module.codegenerate.config;
 
 import lombok.Data;
-import xxs.common.module.codegenerate.CodeGenerateContext;
-
 /**
  * 抽象的模板配置
  *
@@ -20,7 +18,7 @@ public abstract class AbstractTemplateConfig {
     protected String filePost = "";
 
     /**
-     * 文件后缀名
+     * 配置名称
      */
     protected String configName = "";
 

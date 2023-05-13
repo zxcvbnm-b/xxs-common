@@ -9,13 +9,9 @@ import com.alibaba.druid.sql.ast.expr.SQLQueryExpr;
 import com.alibaba.druid.sql.ast.statement.*;
 import com.alibaba.druid.sql.parser.SQLExprParser;
 import com.alibaba.druid.sql.parser.Token;
-import com.alibaba.druid.sql.visitor.SQLASTVisitor;
 import com.alibaba.druid.sql.visitor.SQLASTVisitorAdapter;
 import com.alibaba.druid.util.JdbcConstants;
 import com.alibaba.druid.util.StringUtils;
-import org.checkerframework.checker.units.qual.A;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.PropertyPlaceholderHelper;
 import xxs.common.module.codegenerate.Constants;
 
 import java.util.*;

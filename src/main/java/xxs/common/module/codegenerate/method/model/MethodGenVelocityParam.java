@@ -1,8 +1,6 @@
 package xxs.common.module.codegenerate.method.model;
 
 import lombok.Data;
-import xxs.common.module.codegenerate.method.enums.MethodReturnType;
-import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.model.SearchColumnInfo;
 
 import java.util.List;

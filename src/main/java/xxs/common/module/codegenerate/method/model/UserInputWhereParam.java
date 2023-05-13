@@ -1,11 +1,7 @@
 package xxs.common.module.codegenerate.method.model;
 
 import lombok.Data;
-import xxs.common.module.codegenerate.method.enums.WhereParamNodeUseCompareType;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import xxs.common.module.codegenerate.method.enums.WhereParamNodeUseCompareType;;
 /**
  * @author xxs
  */

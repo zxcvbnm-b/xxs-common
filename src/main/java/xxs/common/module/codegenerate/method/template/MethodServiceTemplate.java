@@ -1,6 +1,6 @@
 package xxs.common.module.codegenerate.method.template;
 
-import xxs.common.module.codegenerate.method.config.MethodServiceInterfaceTemplateConfig;
+import xxs.common.module.codegenerate.config.ServiceInterfaceTemplateConfig;
 import xxs.common.module.codegenerate.template.ServiceTemplate;
 
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
 public class MethodServiceTemplate extends ServiceTemplate {
     private final static String TEMPLATE_NAME = "templates/method/service.java.vm";
 
-    public MethodServiceTemplate(MethodServiceInterfaceTemplateConfig serviceInterfaceTemplateConfig) {
+    public MethodServiceTemplate(ServiceInterfaceTemplateConfig serviceInterfaceTemplateConfig) {
         super(serviceInterfaceTemplateConfig);
     }
 

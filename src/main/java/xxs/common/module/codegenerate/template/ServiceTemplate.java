@@ -4,7 +4,6 @@ import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.config.ServiceInterfaceTemplateConfig;
 import xxs.common.module.codegenerate.model.TableInfo;
 
-
 /**
  * 服务接口模板
  *

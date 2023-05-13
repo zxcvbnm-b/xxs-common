@@ -1,6 +1,5 @@
 package xxs.common.module.codegenerate.model;
 
-import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import lombok.Data;
 import xxs.common.module.codegenerate.TypeMapperRegistry;
 

@@ -1,8 +1,6 @@
 package xxs.common.module.codegenerate.config;
 
 import lombok.Data;
-
-import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.Constants;
 
 /**

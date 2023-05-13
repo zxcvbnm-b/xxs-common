@@ -4,8 +4,6 @@ import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.config.ControllerTemplateConfig;
 import xxs.common.module.codegenerate.model.TableInfo;
 
-import java.util.Map;
-
 /**
  * 控制器模板
  *

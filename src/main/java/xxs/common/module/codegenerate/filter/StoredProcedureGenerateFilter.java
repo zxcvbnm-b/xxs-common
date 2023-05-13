@@ -1,14 +1,9 @@
 package xxs.common.module.codegenerate.filter;
 
 import xxs.common.module.codegenerate.CodeGenerateContext;
-import xxs.common.module.codegenerate.config.AbstractTemplateConfig;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.template.AbstractTemplate;
-import xxs.common.module.codegenerate.template.ParamDTOTemplate;
-import xxs.common.module.codegenerate.template.Template;
-
 import java.io.File;
-import java.util.Collections;
 import java.util.Map;
 
 /**

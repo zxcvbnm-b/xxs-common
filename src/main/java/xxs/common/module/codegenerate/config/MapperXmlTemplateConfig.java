@@ -1,7 +1,6 @@
 package xxs.common.module.codegenerate.config;
 
 import lombok.Data;
-import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.Constants;
 
 /**
@@ -10,9 +9,7 @@ import xxs.common.module.codegenerate.Constants;
  * @author xxs
  */
 @Data
-public class MapperXmlTemplateConfig extends AbstractTemplateConfig {
-    private CodeGenerateContext codeGenerateContext;
-    /**
+public class MapperXmlTemplateConfig extends AbstractTemplateConfig { /**
      * 是否放到resources文件下，如果是，那么路径为/resources/packageSimpleName/tableName/xxxMapper.xml
      */
     private boolean resources = true;
