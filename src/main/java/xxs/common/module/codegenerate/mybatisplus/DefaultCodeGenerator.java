@@ -171,7 +171,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         }
     }
 
-    //TODO 一对多 一对一关系  多个从表
+    // 一对多 一对一关系  多个从表
     private void buildRelation(TableInfo mainTable, List<RelationTableInfo> relationTableInfos) throws Exception {
         if (CollectionUtils.isEmpty(relationTableInfos)) {
             return;

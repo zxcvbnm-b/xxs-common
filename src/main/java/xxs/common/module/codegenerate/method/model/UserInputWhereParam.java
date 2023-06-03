@@ -8,7 +8,7 @@ import xxs.common.module.codegenerate.method.enums.WhereParamNodeUseCompareType;
 @Data
 public class UserInputWhereParam {
     /**
-     * 列名（对应数据库列）
+     * 列名（对应数据库列） 必填
      */
     private String columnName;
 
@@ -18,13 +18,13 @@ public class UserInputWhereParam {
     private String paramName;
 
     /**
-     * where 查询参数类型
+     * where 查询参数类型 必填
      */
     private Class<?> paramType;
 
 
     /**
-     * where 查询参数类型
+     * where 查询参数类型 必填
      */
     private WhereParamNodeUseCompareType whereParamNodeUseCompareType = WhereParamNodeUseCompareType.EQ;
 

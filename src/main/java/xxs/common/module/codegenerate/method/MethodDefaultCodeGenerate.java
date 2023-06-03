@@ -17,6 +17,7 @@ import xxs.common.module.codegenerate.method.model.MethodGenParamContext;
 import xxs.common.module.codegenerate.method.model.MethodGenVelocityParam;
 import xxs.common.module.codegenerate.method.model.UserInputWhereParam;
 import xxs.common.module.codegenerate.method.model.WhereParam;
+import xxs.common.module.codegenerate.method.template.MethodAllTemplate;
 import xxs.common.module.codegenerate.method.template.MethodParamDTOTemplate;
 import xxs.common.module.codegenerate.method.template.MethodResultDTOTemplate;
 import xxs.common.module.codegenerate.method.whereparam.XMLWhereParamNode;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
  * TODO 2 生成的sql是有缺陷的，比如where条件里面 没有带表别名，因为你的sql中可能会有多个相同的字段名，不好进行匹配 除非改输入
  * TODO 3 对于一个自连接在重写sql后生成的xml sql 会出现别名不匹配的问题。
  * TODO 4 不支持union 语法的xml 列名重复重写。（不过，如果投影列中不存在列名被重写（列名重复），那么不会触发sql投影重写）
+ * TODO 5 不能处理在子查询里面的那种where参数，只能处理像inner join left join right join等连接查询，单表查询的where条件处理
  *
  * @author xxs
  */
@@ -44,20 +46,20 @@ import java.util.stream.Collectors;
 public class MethodDefaultCodeGenerate {
     private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
     private LoadTableService loadTableService = new LoadTableService(new DataSourceConfig());
-    private CodeGenerateContext codeGenerateContext = new MethodCodeGenerateContext().initMethodCodeGenerateContext();
+    private MethodCodeGenerateContext codeGenerateContext = new MethodCodeGenerateContext().initMethodCodeGenerateContext();
 
     public static void main(String[] args) throws Exception {
         MethodDefaultCodeGenerate methodDefaultCodeGenerate = new MethodDefaultCodeGenerate();
         Set<UserInputWhereParam> params = new HashSet<>();
         UserInputWhereParam userInputWhereParam = new UserInputWhereParam();
-        userInputWhereParam.setParamType(List.class);
-        userInputWhereParam.setColumnName("bid");
-        userInputWhereParam.setParamName("ids");
-        userInputWhereParam.setBeginParamName("beginId");
-        userInputWhereParam.setEndParamName("endId");
+        userInputWhereParam.setParamType(String.class);
+        userInputWhereParam.setColumnName("actor_id");
+//        userInputWhereParam.setParamName("ids");
+//        userInputWhereParam.setBeginParamName("beginId");
+//        userInputWhereParam.setEndParamName("endId");
         userInputWhereParam.setWhereParamNodeUseCompareType(WhereParamNodeUseCompareType.BETWEEN);
         params.add(userInputWhereParam);
-        methodDefaultCodeGenerate.singleTableCodeGenerator("bus", "getBus", "select * from bus", params);
+        methodDefaultCodeGenerate.singleTableCodeGenerator("actor", "getCctor", "select * from actor where actor_id =1", params);
     }
 
     /**
@@ -101,7 +103,13 @@ public class MethodDefaultCodeGenerate {
         Map<String, Object> stringObjectMap = velocityParamBuilder.get();
         //渲染模板生成代码
         for (Template template : genTemplate) {
-            velocityTemplateEngine.generate(stringObjectMap, template.getTemplateFilePathName(), this.wrapFileName(template.getOutFilePathName(codeGenerateContext, tableInfo), template, methodGenParamContext.getCapitalizeSearchName()), template.append(), false);
+            if (codeGenerateContext.isOnlyGenerateMethodAllTemplate()) {
+                if (template instanceof MethodAllTemplate) {
+                    velocityTemplateEngine.generate(stringObjectMap, template.getTemplateFilePathName(), this.wrapFileName(template.getOutFilePathName(codeGenerateContext, tableInfo), template, methodGenParamContext.getCapitalizeSearchName()), template.append(), false);
+                }
+            } else {
+                velocityTemplateEngine.generate(stringObjectMap, template.getTemplateFilePathName(), this.wrapFileName(template.getOutFilePathName(codeGenerateContext, tableInfo), template, methodGenParamContext.getCapitalizeSearchName()), template.append(), false);
+            }
         }
     }
 
@@ -150,7 +158,9 @@ public class MethodDefaultCodeGenerate {
         methodGenVelocityParam.setCapitalizeSearchMethodName(methodGenParamContext.getCapitalizeSearchName());
         //设置返回值信息
         this.setReturnTypeInfo(methodGenParamContext, methodGenVelocityParam);
+        //设置方法参数 TODO 参数不对 如果是范围查询 有bug
         this.setMethodParamInfo(methodGenParamContext, methodGenVelocityParam);
+        //设置xml的内容
         this.setXmlContent(methodGenParamContext, methodGenVelocityParam);
         methodGenVelocityParam.setWhereParamList(methodGenParamContext.getWhereParamList());
         methodGenVelocityParam.setReturnSelectList(methodGenParamContext.getAllReturnSelectList());
@@ -164,8 +174,11 @@ public class MethodDefaultCodeGenerate {
      */
     private void setXmlContent(MethodGenParamContext methodGenParamContext, MethodGenVelocityParam methodGenVelocityParam) {
         String realSql = methodGenParamContext.getRealSql();
-        methodGenVelocityParam.setXmlContent(realSql);
-        String xmlSqlContent = realSql + " where 1=1";
+        String xmlSqlContent = realSql;
+        //如果已经有了where条件了，那么不再田间where
+        if (!DruidSqlDisposeUtils.hasFirstQueryBlockWhere(realSql, JdbcConstants.MYSQL.name())) {
+            xmlSqlContent = realSql + " where 1=1";
+        }
         List<WhereParam> whereParamList = methodGenParamContext.getWhereParamList();
         for (WhereParam whereParam : whereParamList) {
             XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(whereParam, methodGenParamContext.getParamType());
@@ -192,16 +205,34 @@ public class MethodDefaultCodeGenerate {
             mapperMethodParams = String.format("@Param(\"condition\") %s", methodParamNames);
         } else if (methodGenParamContext.getParamType().equals(ParamType.QUERY_PARAM)) {
             List<WhereParam> whereParamList = methodGenParamContext.getWhereParamList();
-            StringJoiner methodParamStringJoiner = new StringJoiner(",");
-            StringJoiner mapperMethodParamStringJoiner = new StringJoiner(",");
-            StringJoiner methodParamNameStringJoiner = new StringJoiner(",");
+            StringJoiner methodParamStringJoiner = new StringJoiner(", ");
+            StringJoiner mapperMethodParamStringJoiner = new StringJoiner(", ");
+            StringJoiner methodParamNameStringJoiner = new StringJoiner(", ");
             for (WhereParam whereParam : whereParamList) {
-                String paramName = whereParam.getParamName();
-                String camelCaseParamName = StrUtil.toCamelCase(paramName);
-                methodParamNameStringJoiner.add(camelCaseParamName);
-                String methodParamString = whereParam.getParamType().getSimpleName() + " " + camelCaseParamName;
-                methodParamStringJoiner.add(methodParamString);
-                mapperMethodParamStringJoiner.add(String.format("@Param(\"%s\")", camelCaseParamName) + " " + methodParamString);
+                if (!WhereParamNodeUseCompareType.BETWEEN.equals(whereParam.getWhereParamNodeUseCompareType())) {
+                    String paramName = whereParam.getParamName();
+                    String camelCaseParamName = StrUtil.toCamelCase(paramName);
+                    methodParamNameStringJoiner.add(camelCaseParamName);
+                    String methodParamString = whereParam.getParamType().getSimpleName() + " " + camelCaseParamName;
+                    methodParamStringJoiner.add(methodParamString);
+                    mapperMethodParamStringJoiner.add(String.format("@Param(\"%s\")", camelCaseParamName) + " " + methodParamString);
+                } else {
+                    //添加开始参数
+                    String beginParamName = whereParam.getBeginParamName();
+                    String camelCaseBeginParamName = StrUtil.toCamelCase(beginParamName);
+                    methodParamNameStringJoiner.add(camelCaseBeginParamName);
+                    String beginParamNameMethodParamString = whereParam.getParamType().getSimpleName() + " " + camelCaseBeginParamName;
+                    methodParamStringJoiner.add(beginParamNameMethodParamString);
+                    mapperMethodParamStringJoiner.add(String.format("@Param(\"%s\")", camelCaseBeginParamName) + " " + beginParamNameMethodParamString);
+
+                    //添加结束参数
+                    String endParamName = whereParam.getEndParamName();
+                    String camelCaseEndParamName = StrUtil.toCamelCase(endParamName);
+                    methodParamNameStringJoiner.add(camelCaseEndParamName);
+                    String endParamNameMethodParamString = whereParam.getParamType().getSimpleName() + " " + camelCaseEndParamName;
+                    methodParamStringJoiner.add(endParamNameMethodParamString);
+                    mapperMethodParamStringJoiner.add(String.format("@Param(\"%s\")", camelCaseEndParamName) + " " + endParamNameMethodParamString);
+                }
             }
             methodParamNames = methodParamNameStringJoiner.toString();
             methodParams = methodParamStringJoiner.toString();
@@ -240,11 +271,24 @@ public class MethodDefaultCodeGenerate {
         List<WhereParam> whereParamList = new ArrayList<>();
         //where 条件列处理
         if (!CollectionUtils.isEmpty(whereParamSet)) {
-        }
-        for (UserInputWhereParam userInputWhereParam : whereParamSet) {
-            WhereParam whereParam = new WhereParam();
-            BeanUtil.copyProperties(userInputWhereParam, whereParam);
-            whereParamList.add(whereParam);
+            for (UserInputWhereParam userInputWhereParam : whereParamSet) {
+                WhereParam whereParam = new WhereParam();
+                BeanUtil.copyProperties(userInputWhereParam, whereParam);
+                if (StringUtils.isEmpty(whereParam.getParamName())) {
+                    whereParam.setParamName(StrUtil.toCamelCase(whereParam.getColumnName()));
+                }
+                if (WhereParamNodeUseCompareType.BETWEEN.equals(whereParam.getWhereParamNodeUseCompareType())) {
+                    String camelCaseParamName = StrUtil.toCamelCase(whereParam.getParamName());
+                    String capitalizeParamName = StringUtils.capitalize(camelCaseParamName);
+                    if (StringUtils.isEmpty(whereParam.getBeginParamName())) {
+                        whereParam.setBeginParamName(WhereParam.DEFAULT_BEGIN_PARAM_NAME_PRE + capitalizeParamName);
+                    }
+                    if (StringUtils.isEmpty(whereParam.getEndParamName())) {
+                        whereParam.setEndParamName(WhereParam.DEFAULT_END_PARAM_NAME_PRE + capitalizeParamName);
+                    }
+                }
+                whereParamList.add(whereParam);
+            }
         }
         return whereParamList;
     }
@@ -269,15 +313,15 @@ public class MethodDefaultCodeGenerate {
         Assert.isTrue(StringUtils.isNotEmpty(tableName), "tableName Can't null  !");
         if (CollectionUtil.isNotEmpty(whereParamSet)) {
             for (UserInputWhereParam userInputWhereParam : whereParamSet) {
-                Assert.isTrue(StringUtils.isNotEmpty(userInputWhereParam.getParamName()), "paramName Can't null  !");
+//                Assert.isTrue(StringUtils.isNotEmpty(userInputWhereParam.getParamName()), "paramName Can't null  !");
                 Class<?> paramType = userInputWhereParam.getParamType();
                 Assert.isTrue(userInputWhereParam.getParamType() != null, "paramType Can't   null  !");
                 WhereParamNodeUseCompareType whereParamNodeUseCompareType = userInputWhereParam.getWhereParamNodeUseCompareType();
                 Assert.isTrue(whereParamNodeUseCompareType != null, "whereParamNodeUseCompareType Can't null  !");
-                if (whereParamNodeUseCompareType.equals(WhereParamNodeUseCompareType.BETWEEN)) {
-                    Assert.isTrue(StringUtils.isNotEmpty(userInputWhereParam.getBeginParamName()) && StringUtils.isNotEmpty(userInputWhereParam.getEndParamName()), "whereParamNodeUseCompareType is FOREACH  BETWEEN beginParamName/endParamName Can't null")
-                    ;
-                }
+//                if (whereParamNodeUseCompareType.equals(WhereParamNodeUseCompareType.BETWEEN)) {
+//                    Assert.isTrue(StringUtils.isNotEmpty(userInputWhereParam.getBeginParamName()) && StringUtils.isNotEmpty(userInputWhereParam.getEndParamName()), "whereParamNodeUseCompareType is FOREACH  BETWEEN beginParamName/endParamName Can't null")
+//                    ;
+//                }
                 if (whereParamNodeUseCompareType.equals(WhereParamNodeUseCompareType.FOREACH) && !Collection.class.isAssignableFrom(paramType)) {
                     log.error("whereParamNodeUseCompareType is FOREACH ,paramType need Collection !");
                     new IllegalArgumentException("whereParamNodeUseCompareType is FOREACH ,paramType need Collection !");

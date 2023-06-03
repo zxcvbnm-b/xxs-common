@@ -40,6 +40,7 @@ public class DruidSqlDisposeUtils {
         map.put("student2", " ${tableAlias}.columnName,${tableAlias}.columnName");
         String s = replaceSqlProjectionByTableAlias(sql3, JdbcConstants.MYSQL.name(), map);
         System.out.println(s);
+        System.out.println(hasFirstQueryBlockWhere("select * from user where id=1 ",JdbcConstants.MYSQL.name()));
     }
 
     /**
@@ -92,7 +93,7 @@ public class DruidSqlDisposeUtils {
             for (SQLSelectQuery sqlSelectQuery : sqlSelectQueries) {
                 if (sqlSelectQuery instanceof SQLSelectQueryBlock) {
                     SQLSelectQueryBlock queryBlock = (SQLSelectQueryBlock) sqlSelectQuery;
-                     // 暂不支持union语法的 setSelectList(projectionString, queryBlock);
+                    // 暂不支持union语法的 setSelectList(projectionString, queryBlock);
                 }
             }
         } else {
@@ -120,6 +121,16 @@ public class DruidSqlDisposeUtils {
      * @param dbType
      */
     public static String setSelectLimit(String sql, String dbType) {
+        return setSelectLimit(sql, dbType, 0, 1);
+    }
+
+    /**
+     * 给查询sql添加limit
+     *
+     * @param sql
+     * @param dbType
+     */
+    public static String setSelectLimit(String sql, String dbType, Integer rowCount, Integer offset) {
         SQLStatement sqlStatement = SQLUtils.parseSingleStatement(sql, dbType);
         SQLSelectStatement sqlSelectStatement = (SQLSelectStatement) sqlStatement;
         SQLSelect select = sqlSelectStatement.getSelect();
@@ -127,11 +138,39 @@ public class DruidSqlDisposeUtils {
         SQLLimit limit1 = firstQueryBlock.getLimit();
         if (limit1 == null) {
             SQLLimit limit = new SQLLimit();
-            limit.setRowCount(1);
-            limit.setOffset(0);
+            limit.setRowCount(rowCount);
+            limit.setOffset(offset);
             firstQueryBlock.setLimit(limit);
         }
         return SQLUtils.toSQLString(select, dbType);
+    }
+
+    /**
+     * 判断这个sql最外层是否有where条件
+     *
+     * @param sql
+     * @param dbType
+     * @return
+     */
+    public static boolean hasFirstQueryBlockWhere(String sql, String dbType) {
+        SQLSelectQueryBlock firstQueryBlock = getSqlFirstSelectQueryBlock(sql, dbType);
+        SQLExpr where = firstQueryBlock.getWhere();
+        return where != null;
+    }
+
+    /**
+     * get firstQueryBlock
+     *
+     * @param sql
+     * @param dbType
+     * @return
+     */
+    private static SQLSelectQueryBlock getSqlFirstSelectQueryBlock(String sql, String dbType) {
+        SQLStatement sqlStatement = SQLUtils.parseSingleStatement(sql, dbType);
+        SQLSelectStatement sqlSelectStatement = (SQLSelectStatement) sqlStatement;
+        SQLSelect select = sqlSelectStatement.getSelect();
+        SQLSelectQueryBlock firstQueryBlock = select.getFirstQueryBlock();
+        return firstQueryBlock;
     }
 
     /**

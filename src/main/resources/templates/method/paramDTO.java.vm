@@ -27,12 +27,22 @@ import lombok.Setter;
 public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($column in ${methodGenVelocityParam.whereParamList})
-#if("$!comment" != "")
-  #if(${swagger})
+#if(${column.whereParamNodeUseCompareType.toString()}=="BETWEEN")
+
+    #if(${swagger})
     @ApiModelProperty("")
-  #end
-#end
+    #end
+    private ${column.paramType.getSimpleName()} ${column.beginParamName};
+    #if(${swagger})
+    @ApiModelProperty("")
+    #end
+    private ${column.paramType.getSimpleName()} ${column.endParamName};
+#else
+     #if(${swagger})
+    @ApiModelProperty("")
+     #end
     private ${column.paramType.getSimpleName()} ${column.paramName};
+#end
 #end
 
 ## ----------  END 字段循环遍历  ----------
@@ -41,11 +51,21 @@ public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implement
         return "${methodGenVelocityParam.searchMethodName}Param{" +
           #foreach($columnn in ${methodGenVelocityParam.whereParamList})
             #if($!{foreach.index}==0)
+                #if(${column.whereParamNodeUseCompareType.toString()}=="BETWEEN")
+                "${columnn.beginParamName}=" + ${columnn.beginParamName} +
+                ", ${columnn.endParamName}=" + ${columnn.endParamName} +
+                #else
                 "${columnn.paramName}=" + ${columnn.paramName} +
+                #end
             #else
-                ", ${columnn.paramName}=" + ${columnn.paramName} +
+                #if(${column.whereParamNodeUseCompareType.toString()}=="BETWEEN")
+                "${columnn.beginParamName}=" + ${columnn.beginParamName} +
+                ", ${columnn.endParamName}=" + ${columnn.endParamName} +
+                #else
+                "${columnn.paramName}=" + ${columnn.paramName} +
+                #end
             #end
           #end
-                "}";
+        "}";
     }
 }

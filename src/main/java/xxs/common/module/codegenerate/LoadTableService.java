@@ -151,7 +151,7 @@ public class LoadTableService {
 
     /**
      * 根据查询sql得到查询的sql的列的信息
-     * TODO 如果这个ssql有三个相同表名，那么字段名称会重复
+     * TODO 如果这个sql有三个相同表名，那么字段名称会重复比如内连接
      *
      * @param sql
      * @return
@@ -197,7 +197,7 @@ public class LoadTableService {
         boolean addExistColumn = existColumnNames.add(columnName);
         searchColumnInfo.setRealColumnName(columnName);
         if (addExistColumn == false) {
-            //TODO 如果列名已经存在，那么需要重写列名，并且，需要重写SQL为结果集和为指定的列名
+            // 如果列名已经存在，那么需要重写列名，并且，需要重写SQL为结果集和为指定的列名
             columnName = tableName + "_" + columnName;
             searchColumnInfo.setColumnNameRewrite(true);
         }
