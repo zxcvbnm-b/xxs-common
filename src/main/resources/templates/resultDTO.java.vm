@@ -57,22 +57,38 @@ public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} impleme
       #set($getprefix="get")
     #end
   public ${column.javaType.getSimpleName()} ${getprefix}${column.capitalizePropertyName}() {
-          return ${column.propertyName};
-          }
+      return ${column.propertyName};
+  }
 
   public void set${column.capitalizePropertyName}(${column.javaType.getSimpleName()} ${column.propertyName}) {
-          this.${column.propertyName} = ${column.propertyName};
-          }
+      this.${column.propertyName} = ${column.propertyName};
+  }
   #end
 #end
 #if(${tableInfo.tableRelationships})
     #foreach($relationTableInfo in ${tableInfo.tableRelationships})
         #if(${relationTableInfo.one2One})
-        #*一对一  先默认开启lombok TODO 不生成get set方法*#
+        #*一对一  先默认开启lombok*#
   private ${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost};
+
+  public void get${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}() {
+      return ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost};
+  }
+
+  public void set${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}(${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}) {
+      this.${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}} = ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost};
+ }
         #else
         #*一对多*#
   private List<${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}List;
+
+  public List<${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}> get${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}List() {
+      return ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}List;
+  }
+
+  public void set${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}List(List<${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}List) {
+      this.${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}List = ${relationTableInfo.relationTable.tableName}${resultDTOConfig.filePost}List;
+  }
         #end
     #end
 #end

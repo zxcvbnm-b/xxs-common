@@ -86,11 +86,27 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
 #if(${tableInfo.tableRelationships})
     #foreach($relationTableInfo in ${tableInfo.tableRelationships})
     #if(${relationTableInfo.one2One})
-           #*一对一  先默认开启lombok TODO 不生成get set方法*#
+           #*一对一  先默认开启lombok*#
     private ${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
+
+    public void get${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}() {
+        return ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
+    }
+
+    public void set${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}(${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}) {
+        this.${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}} = ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
+    }
     #else
      #*一对多*#
     private List<${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}List;
+
+    public List<${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}> get${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}List() {
+        return ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}List;
+    }
+
+    public void set${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}List(List<${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}> ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}List) {
+        this.${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}List = ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}List;
+    }
     #end
     #end
 #end
