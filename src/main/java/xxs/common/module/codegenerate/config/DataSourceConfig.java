@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 public class DataSourceConfig {
-    private String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/sakila?serverTimezone=PRC&nullCatalogMeansCurrent=true";
+    private String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/world?serverTimezone=PRC&nullCatalogMeansCurrent=true";
     private String jdbcUsername = "root";
     private String jdbcPassword = "051515";
     private String driverClassName = "com.mysql.cj.jdbc.Driver";
