@@ -1,8 +1,10 @@
 package xxs.common.module.codegenerate.method.model;
 
 import cn.hutool.core.util.ReUtil;
+import com.google.common.base.Strings;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
+import xxs.common.module.codegenerate.TypeMapperRegistry;
 import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
 
 import java.util.regex.Pattern;
@@ -13,7 +15,7 @@ import java.util.regex.Pattern;
  * @author xxs
  */
 @Data
-public class SqlWhereOperateParam {
+public class SqlWhereExpressionOperateParam {
     /**
      * 表名
      */
@@ -27,17 +29,17 @@ public class SqlWhereOperateParam {
      */
     private String columnName;
     /**
-     * jdbc类型名称--根据表名查询数据库得出
+     * jdbc类型名称--根据表名查询数据库得出--默认String
      */
-    private String columnJdbcTypeName;
+    private String columnJdbcTypeName = "VARCHAR";
     /**
-     * java类型--根据表名查询数据库得出
+     * java类型--根据表名查询数据库得出--默认String
      */
-    private Class columnJavaType;
+    private Class columnJavaType = TypeMapperRegistry.getJavaType(12);
     /**
-     * jdbc类型code--根据表名查询数据库得出
+     * jdbc类型code--根据表名查询数据库得出--默认String
      */
-    private int columnJdbcTypeCode;
+    private int columnJdbcTypeCode = 12;
     /**
      * 参数名（'#{name}'）得到这个名称
      */
@@ -56,6 +58,7 @@ public class SqlWhereOperateParam {
      */
     private String endParamName;
 
+    private String logicOperator;
     /**
      * 表达式 比如 id = 1 （但是需要注意得是这个表达式会被格式化的）
      */
@@ -85,6 +88,11 @@ public class SqlWhereOperateParam {
      */
     public Pattern getFindPattern() {
         StringBuilder patternStringBuilder = new StringBuilder();
+        if (!Strings.isNullOrEmpty(logicOperator)) {
+            patternStringBuilder.append("\\s+");
+            patternStringBuilder.append(logicOperator);
+            patternStringBuilder.append("\\s+");
+        }
         patternStringBuilder.append(leftExpression);
         patternStringBuilder.append("\\s*");
         patternStringBuilder.append(sqlWhereParamType.getName());
