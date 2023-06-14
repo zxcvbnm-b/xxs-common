@@ -12,7 +12,7 @@ import xxs.common.module.codegenerate.*;
 import xxs.common.module.codegenerate.config.DataSourceConfig;
 import xxs.common.module.codegenerate.method.enums.MethodReturnType;
 import xxs.common.module.codegenerate.method.enums.ParamType;
-import xxs.common.module.codegenerate.method.enums.WhereParamNodeUseCompareType;
+import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
 import xxs.common.module.codegenerate.method.model.MethodGenParamContext;
 import xxs.common.module.codegenerate.method.model.MethodGenVelocityParam;
 import xxs.common.module.codegenerate.method.model.UserInputWhereParam;
@@ -57,7 +57,7 @@ public class MethodDefaultCodeGenerate {
 //        userInputWhereParam.setParamName("ids");
 //        userInputWhereParam.setBeginParamName("beginId");
 //        userInputWhereParam.setEndParamName("endId");
-        userInputWhereParam.setWhereParamNodeUseCompareType(WhereParamNodeUseCompareType.BETWEEN);
+        userInputWhereParam.setWhereParamOperationType(WhereParamOperationType.BETWEEN);
         params.add(userInputWhereParam);
         methodDefaultCodeGenerate.singleTableCodeGenerator("actor", "getCctor", "select * from actor where actor_id =1", params);
     }
@@ -209,7 +209,7 @@ public class MethodDefaultCodeGenerate {
             StringJoiner mapperMethodParamStringJoiner = new StringJoiner(", ");
             StringJoiner methodParamNameStringJoiner = new StringJoiner(", ");
             for (WhereParam whereParam : whereParamList) {
-                if (!WhereParamNodeUseCompareType.BETWEEN.equals(whereParam.getWhereParamNodeUseCompareType())) {
+                if (!WhereParamOperationType.BETWEEN.equals(whereParam.getWhereParamOperationType())) {
                     String paramName = whereParam.getParamName();
                     String camelCaseParamName = StrUtil.toCamelCase(paramName);
                     methodParamNameStringJoiner.add(camelCaseParamName);
@@ -277,7 +277,7 @@ public class MethodDefaultCodeGenerate {
                 if (StringUtils.isEmpty(whereParam.getParamName())) {
                     whereParam.setParamName(StrUtil.toCamelCase(whereParam.getColumnName()));
                 }
-                if (WhereParamNodeUseCompareType.BETWEEN.equals(whereParam.getWhereParamNodeUseCompareType())) {
+                if (WhereParamOperationType.BETWEEN.equals(whereParam.getWhereParamOperationType())) {
                     String camelCaseParamName = StrUtil.toCamelCase(whereParam.getParamName());
                     String capitalizeParamName = StringUtils.capitalize(camelCaseParamName);
                     if (StringUtils.isEmpty(whereParam.getBeginParamName())) {
@@ -316,15 +316,15 @@ public class MethodDefaultCodeGenerate {
 //                Assert.isTrue(StringUtils.isNotEmpty(userInputWhereParam.getParamName()), "paramName Can't null  !");
                 Class<?> paramType = userInputWhereParam.getParamType();
                 Assert.isTrue(userInputWhereParam.getParamType() != null, "paramType Can't   null  !");
-                WhereParamNodeUseCompareType whereParamNodeUseCompareType = userInputWhereParam.getWhereParamNodeUseCompareType();
-                Assert.isTrue(whereParamNodeUseCompareType != null, "whereParamNodeUseCompareType Can't null  !");
+                WhereParamOperationType whereParamOperationType = userInputWhereParam.getWhereParamOperationType();
+                Assert.isTrue(whereParamOperationType != null, "whereParamNodeUseCompareType Can't null  !");
 //                if (whereParamNodeUseCompareType.equals(WhereParamNodeUseCompareType.BETWEEN)) {
 //                    Assert.isTrue(StringUtils.isNotEmpty(userInputWhereParam.getBeginParamName()) && StringUtils.isNotEmpty(userInputWhereParam.getEndParamName()), "whereParamNodeUseCompareType is FOREACH  BETWEEN beginParamName/endParamName Can't null")
 //                    ;
 //                }
-                if (whereParamNodeUseCompareType.equals(WhereParamNodeUseCompareType.FOREACH) && !Collection.class.isAssignableFrom(paramType)) {
-                    log.error("whereParamNodeUseCompareType is FOREACH ,paramType need Collection !");
-                    new IllegalArgumentException("whereParamNodeUseCompareType is FOREACH ,paramType need Collection !");
+                if (whereParamOperationType.equals(WhereParamOperationType.IN) && !Collection.class.isAssignableFrom(paramType)) {
+                    log.error("whereParamOperationType is FOREACH ,paramType need Collection !");
+                    new IllegalArgumentException("whereParamOperationType is FOREACH ,paramType need Collection !");
                 }
             }
         }

@@ -11,14 +11,14 @@ import xxs.common.module.codegenerate.method.model.WhereParam;
 public class XmlWhereParamNodeFactory {
     public static XMLWhereParamNode create(WhereParam whereParam, ParamType paramType) {
         XMLWhereParamNode xmlWhereParamNode = null;
-        switch (whereParam.getWhereParamNodeUseCompareType()) {
+        switch (whereParam.getWhereParamOperationType()) {
             case BETWEEN:
                 xmlWhereParamNode = new BetweenXmlWhereParamNode(whereParam, paramType);
                 break;
             case EQ:
                 xmlWhereParamNode = new EqXmlWhereParamNode(whereParam, paramType);
                 break;
-            case FOREACH:
+            case IN:
                 xmlWhereParamNode = new ForeachXmlWhereParamNode(whereParam, paramType);
                 break;
             case GE:
@@ -37,7 +37,7 @@ public class XmlWhereParamNodeFactory {
                 xmlWhereParamNode = new LtXmlWhereParamNode(whereParam, paramType);
                 break;
             default:
-                throw new IllegalArgumentException("XMLWhereParamNode不支持" + whereParam.getWhereParamNodeUseCompareType().name());
+                throw new IllegalArgumentException("XMLWhereParamNode不支持" + whereParam.getWhereParamOperationType().name());
         }
 
         return xmlWhereParamNode;

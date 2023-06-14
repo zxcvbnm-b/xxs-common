@@ -1,7 +1,8 @@
 package xxs.common.module.codegenerate.method.model;
 
 import lombok.Data;
-import xxs.common.module.codegenerate.method.enums.WhereParamNodeUseCompareType;;
+import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
+;
 /**
  * @author xxs
  */
@@ -26,7 +27,7 @@ public class UserInputWhereParam {
     /**
      * where 查询参数类型 必填
      */
-    private WhereParamNodeUseCompareType whereParamNodeUseCompareType = WhereParamNodeUseCompareType.EQ;
+    private WhereParamOperationType whereParamOperationType = WhereParamOperationType.EQ;
 
     /**
      * 如果当前参数是一个between的范围查询，那么需要beginParamName
