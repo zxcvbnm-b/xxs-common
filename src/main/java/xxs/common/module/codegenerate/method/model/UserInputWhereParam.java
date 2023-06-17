@@ -1,6 +1,7 @@
 package xxs.common.module.codegenerate.method.model;
 
 import lombok.Data;
+import xxs.common.module.codegenerate.method.enums.LogicOperator;
 import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
 ;
 /**
@@ -35,9 +36,14 @@ public class UserInputWhereParam {
     private String beginParamName;
 
     /**
-     * 如果当前参数是一个between的范围查询，那么需要ndParamName
+     * 如果当前参数是一个between的范围查询，那么需要endParamName
      */
     private String endParamName;
+
+    /**
+     * and or or
+     */
+    private LogicOperator logicOperator;
 
 
 }

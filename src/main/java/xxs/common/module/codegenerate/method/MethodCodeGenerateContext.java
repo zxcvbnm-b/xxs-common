@@ -11,7 +11,9 @@ import xxs.common.module.codegenerate.method.template.*;
  */
 @Data
 public class MethodCodeGenerateContext extends CodeGenerateContext {
-    //是否只生成MethodAllTemplate模板（包含所有方法信息）
+    /**
+     * 是否只生成MethodAllTemplate模板（包含所有方法信息）
+     */
     private boolean onlyGenerateMethodAllTemplate = true;
 
     public MethodCodeGenerateContext() {

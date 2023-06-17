@@ -9,12 +9,12 @@ import xxs.common.module.codegenerate.method.model.WhereParam;
 public class BetweenXmlWhereParamNode extends CompareXmlWhereParamNode {
     static final String STRING_COMPARE_TEMPLATE_BETWEEN =
             "    <if test=\"${beginParamName} != null and ${beginParamName} != '' and ${endParamName} != null and ${endParamName} != ''\">\n" +
-                    "       and ${columnName} ${compareSymbol} ${compareParamValue}\n" +
+                    "       ${logicOperator} ${columnName} ${compareSymbol} ${compareParamValue}\n" +
                     "    </if>";
 
     static final String OTHER_COMPARE_TEMPLATE_BETWEEN =
             "    <if test=\"${beginParamName} != null and ${endParamName} != null\">\n" +
-                    "        and ${columnName} ${compareSymbol} ${compareParamValue}\n" +
+                    "        ${logicOperator} ${columnName} ${compareSymbol} ${compareParamValue}\n" +
                     "    </if>";
 
     public BetweenXmlWhereParamNode(WhereParam whereParam, ParamType paramType) {

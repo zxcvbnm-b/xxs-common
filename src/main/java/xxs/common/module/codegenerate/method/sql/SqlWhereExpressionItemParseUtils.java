@@ -7,6 +7,7 @@ import net.sf.jsqlparser.expression.operators.relational.Between;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import org.apache.commons.lang3.StringUtils;
 import xxs.common.module.codegenerate.cache.TableInfoTemCache;
+import xxs.common.module.codegenerate.method.enums.LogicOperator;
 import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
 import xxs.common.module.codegenerate.method.model.SqlWhereExpressionOperateParam;
 import xxs.common.module.codegenerate.model.ColumnInfo;
@@ -62,7 +63,7 @@ public class SqlWhereExpressionItemParseUtils {
      * @param rightExpression
      * @param whereParamOperationType
      */
-    public static SqlWhereExpressionOperateParam parseInCompareType(String expression, Expression leftExpression, ExpressionList rightExpression, WhereParamOperationType whereParamOperationType, String tableName, String tableAlias, String currentLogicOp) {
+    public static SqlWhereExpressionOperateParam parseInCompareType(String expression, Expression leftExpression, ExpressionList rightExpression, WhereParamOperationType whereParamOperationType, String tableName, String tableAlias, LogicOperator currentLogicOperator) {
         if (leftExpression == null || rightExpression == null || CollectionUtil.isEmpty(rightExpression.getExpressions())) {
             return null;
         }
@@ -78,9 +79,10 @@ public class SqlWhereExpressionItemParseUtils {
             sqlWhereExpressionOperateParam.setTableName(tableName);
             sqlWhereExpressionOperateParam.setTableAlias(tableAlias);
             sqlWhereExpressionOperateParam.setExpression(expression);
-            sqlWhereExpressionOperateParam.setLogicOperator(currentLogicOp);
+            sqlWhereExpressionOperateParam.setLogicOperator(currentLogicOperator);
             sqlWhereExpressionOperateParam.setLeftExpression(leftExpression.toString());
             sqlWhereExpressionOperateParam.setRightExpression(rightExpression.toString());
+            sqlWhereExpressionOperateParam.setColumnName(leftExpression.toString());
             return sqlWhereExpressionOperateParam;
         }
         return null;
@@ -93,7 +95,7 @@ public class SqlWhereExpressionItemParseUtils {
      * @param rightExpression
      * @param whereParamOperationType
      */
-    public static SqlWhereExpressionOperateParam parseCommonCompareType(String expression, Expression leftExpression, Expression rightExpression, WhereParamOperationType whereParamOperationType, String tableName, String tableAlias, String currentLogicOp) {
+    public static SqlWhereExpressionOperateParam parseCommonCompareType(String expression, Expression leftExpression, Expression rightExpression, WhereParamOperationType whereParamOperationType, String tableName, String tableAlias, LogicOperator currentLogicOperator) {
         if (leftExpression == null || rightExpression == null) {
             return null;
         }
@@ -108,9 +110,10 @@ public class SqlWhereExpressionItemParseUtils {
             sqlWhereExpressionOperateParam.setTableName(tableName);
             sqlWhereExpressionOperateParam.setTableAlias(tableAlias);
             sqlWhereExpressionOperateParam.setExpression(expression);
-            sqlWhereExpressionOperateParam.setLogicOperator(currentLogicOp);
+            sqlWhereExpressionOperateParam.setLogicOperator(currentLogicOperator);
             sqlWhereExpressionOperateParam.setLeftExpression(leftExpression.toString());
             sqlWhereExpressionOperateParam.setRightExpression(rightExpression.toString());
+            sqlWhereExpressionOperateParam.setColumnName(leftExpression.toString());
             return sqlWhereExpressionOperateParam;
         }
         return null;
@@ -119,7 +122,7 @@ public class SqlWhereExpressionItemParseUtils {
     /**
      * 解析betwwen比较类型
      */
-    public static SqlWhereExpressionOperateParam parseBetweenCompareType(Between between, String tableName, String tableAlias, String currentLogicOp) {
+    public static SqlWhereExpressionOperateParam parseBetweenCompareType(Between between, String tableName, String tableAlias, LogicOperator currentLogicOperator) {
         if (between == null) {
             return null;
         }
@@ -130,7 +133,8 @@ public class SqlWhereExpressionItemParseUtils {
             sqlWhereExpressionOperateParam.setTableName(tableName);
             sqlWhereExpressionOperateParam.setTableAlias(tableAlias);
             sqlWhereExpressionOperateParam.setExpression(expression);
-            sqlWhereExpressionOperateParam.setLogicOperator(currentLogicOp);
+            sqlWhereExpressionOperateParam.setLogicOperator(currentLogicOperator);
+            sqlWhereExpressionOperateParam.setColumnName(between.getLeftExpression().toString());
             Expression betweenExpressionStart = between.getBetweenExpressionStart();
             sqlWhereExpressionOperateParam.setLeftExpression(between.getLeftExpression().toString());
             if (betweenExpressionStart != null) {

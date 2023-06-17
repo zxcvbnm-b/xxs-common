@@ -1,10 +1,10 @@
 package xxs.common.module.codegenerate.method.model;
 
 import cn.hutool.core.util.ReUtil;
-import com.google.common.base.Strings;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import xxs.common.module.codegenerate.TypeMapperRegistry;
+import xxs.common.module.codegenerate.method.enums.LogicOperator;
 import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
 
 import java.util.regex.Pattern;
@@ -58,7 +58,11 @@ public class SqlWhereExpressionOperateParam {
      */
     private String endParamName;
 
-    private String logicOperator;
+    /**
+     * and or or
+     */
+    private LogicOperator logicOperator;
+
     /**
      * 表达式 比如 id = 1 （但是需要注意得是这个表达式会被格式化的）
      */
@@ -88,9 +92,9 @@ public class SqlWhereExpressionOperateParam {
      */
     public Pattern getFindPattern() {
         StringBuilder patternStringBuilder = new StringBuilder();
-        if (!Strings.isNullOrEmpty(logicOperator)) {
+        if (logicOperator != null) {
             patternStringBuilder.append("\\s+");
-            patternStringBuilder.append(logicOperator);
+            patternStringBuilder.append(logicOperator.getName());
             patternStringBuilder.append("\\s+");
         }
         patternStringBuilder.append(leftExpression);

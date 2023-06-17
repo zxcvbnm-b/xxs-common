@@ -9,4 +9,5 @@ import lombok.Data;
 public class WhereParam extends UserInputWhereParam {
     public final static String DEFAULT_BEGIN_PARAM_NAME_PRE = "begin";
     public final static String DEFAULT_END_PARAM_NAME_PRE = "end";
+
 }

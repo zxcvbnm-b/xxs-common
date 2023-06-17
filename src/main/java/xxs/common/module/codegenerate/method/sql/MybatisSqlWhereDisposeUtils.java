@@ -21,21 +21,25 @@ import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.*;
 import org.springframework.util.CollectionUtils;
+import xxs.common.module.codegenerate.method.enums.LogicOperator;
+import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
 import xxs.common.module.codegenerate.method.model.SqlWhereExpressionOperateParam;
+import xxs.common.module.codegenerate.method.model.WhereParam;
+import xxs.common.module.codegenerate.method.whereparam.XMLWhereParamNode;
+import xxs.common.module.codegenerate.method.whereparam.XmlWhereParamNodeFactory;
 
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO 根据sql生成 dto，result，sql 思路：遍历所有的where 得到Expression expression 然后 expression.accept那些and  or 什么的语句。
- * 不支持 （column regexp xxx）=false语法
+ * 根据sql生成 dto，result，sql 思路：遍历所有的where 得到Expression expression 然后 expression.accept那些and  or 什么的语句。
  *
- * @author issuser
+ * @author xxs
  */
-public class SqlDisposeUtilsV1 {
-    private String currentLogicOp;
+public class MybatisSqlWhereDisposeUtils {
+    private LogicOperator currentLogicOperator;
     private List<SqlWhereExpressionOperateParam> sqlWhereExpressionOperateParams = new ArrayList<>();
     private ItemsListVisitorAdapter itemsListVisitorAdapter = new ItemsListVisitorAdapter() {
         @Override
@@ -46,17 +50,22 @@ public class SqlDisposeUtilsV1 {
 
 
     public static void main(String[] args) throws JSQLParserException {
-        String customSql = "WITH\n" +
-                "  cte1 AS (select 1),\n" +
-                "  cte2 AS (SELECT c, d FROM table2 where id=3 group by a)\n" +
-                "SELECT b, d FROM cte1 JOIN cte2\n" +
-                "WHERE cte1.a = cte2.c and id = (select * from user u inner join user u2 on u.id=u.u2 where id=444 group by 1);\n";
-        SqlDisposeUtilsV1 sqlDisposeUtilsV1 = new SqlDisposeUtilsV1();
-        List<SqlWhereExpressionOperateParam> sqlWhereExpressionOperateParams = sqlDisposeUtilsV1.processSelectBody("select * from user join role on id = role.rid where createTime between '#{beginTime}' and '#{endTime}' and id ='#{id}' and name like '%#{name}%' and id in ('#{id2}') and name in (select 1) and id = (select * from city where cityid='#{cityid}' and a>'#{abc}' )");
-        String s = null;
+        MybatisSqlWhereDisposeUtils mybatisSqlWhereDisposeUtils = new MybatisSqlWhereDisposeUtils();
+        String s = "select * from user join role on id = role.rid where h=2 and  createTime between '#{beginTime}' and '#{endTime}' and id ='#{id}' and name like '%#{name}%' and id in ('#{id2}') and name in (select 1) and f=2 and c='#{c}' and id = (select * from city where cityid='#{cityid}' and a>'#{abc}' ) OR g='#{g}'";
+
+        List<SqlWhereExpressionOperateParam> sqlWhereExpressionOperateParams = mybatisSqlWhereDisposeUtils.processSelectBody(s);
         for (SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam : sqlWhereExpressionOperateParams) {
             System.out.println(sqlWhereExpressionOperateParam.getFindPattern().toString());
-            s = ReUtil.replaceAll(s, sqlWhereExpressionOperateParam.getFindPattern(), "aaaaa");
+            WhereParam whereParam = new WhereParam();
+            whereParam.setBeginParamName(sqlWhereExpressionOperateParam.getBeginParamName());
+            whereParam.setEndParamName(sqlWhereExpressionOperateParam.getEndParamName());
+            whereParam.setParamType(sqlWhereExpressionOperateParam.getColumnJavaType());
+            whereParam.setWhereParamOperationType(sqlWhereExpressionOperateParam.getSqlWhereParamType());
+            whereParam.setColumnName(sqlWhereExpressionOperateParam.getColumnName());
+            whereParam.setParamName(sqlWhereExpressionOperateParam.getWhereParamName());
+            whereParam.setLogicOperator(sqlWhereExpressionOperateParam.getLogicOperator());
+            XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(whereParam, ParamType.DTO);
+            s = ReUtil.replaceAll(s, sqlWhereExpressionOperateParam.getFindPattern(), "\n" + xmlWhereParamNode.getWhereParamNode());
         }
         System.out.println(s);
     }
@@ -122,7 +131,7 @@ public class SqlDisposeUtilsV1 {
     }
 
     /**
-     * 获取表的别名信息 ，是否匹配输入的表名
+     * 获取表的别名信息 ，是否匹配输入的表名（并且如果当前form是一个子查询，那么递归处理子查询里面的sql）
      */
     private TableInfo getTableInfo(FromItem fromItem) throws JSQLParserException {
         TableInfo tableInfo = new TableInfo();
@@ -154,9 +163,9 @@ public class SqlDisposeUtilsV1 {
         } else {
             Expression where = plain.getWhere();
             where.accept(new ExpressionVisitorAdapter() {
-                private void parseLogicOperator(BinaryExpression binaryExpression, String operator) {
+                private void parseLogicOperator(BinaryExpression binaryExpression, LogicOperator operator) {
                     binaryExpression.getLeftExpression().accept(this);
-                    currentLogicOp = operator;
+                    currentLogicOperator = operator;
                     binaryExpression.getRightExpression().accept(this);
                 }
 
@@ -170,10 +179,10 @@ public class SqlDisposeUtilsV1 {
                     if (rightExpression != null) {
                         rightExpression.accept(this);
                     }
-                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.EQ, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOp);
+                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.EQ, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOperator);
                     if (sqlWhereExpressionOperateParam != null) {
                         sqlWhereExpressionOperateParams.add(sqlWhereExpressionOperateParam);
-                        currentLogicOp = "";
+                        currentLogicOperator = null;
                     }
                 }
 
@@ -184,10 +193,10 @@ public class SqlDisposeUtilsV1 {
                     if (expr.getRightItemsList() != null) {
                         if (rightItemsList instanceof ExpressionList) {
                             ExpressionList expressionList = (ExpressionList) rightItemsList;
-                            SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseInCompareType(expr.toString(), expr.getLeftExpression(), expressionList, WhereParamOperationType.IN, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOp);
+                            SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseInCompareType(expr.toString(), expr.getLeftExpression(), expressionList, WhereParamOperationType.IN, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOperator);
                             if (sqlWhereExpressionOperateParam != null) {
                                 sqlWhereExpressionOperateParams.add(sqlWhereExpressionOperateParam);
-                                currentLogicOp = "";
+                                currentLogicOperator = null;
                             }
                         }
                         expr.getRightItemsList().accept(itemsListVisitorAdapter);
@@ -196,29 +205,12 @@ public class SqlDisposeUtilsV1 {
 
                 @Override
                 public void visit(AndExpression expr) {
-                    Expression rightExpression = expr.getRightExpression();
-                    Expression leftExpression = expr.getLeftExpression();
-                    if (leftExpression != null) {
-                        leftExpression.accept(this);
-                    }
-                    if (rightExpression != null) {
-                        rightExpression.accept(this);
-                    }
-                    parseLogicOperator(expr, WhereParamOperationType.AND.getName());
+                    parseLogicOperator(expr, LogicOperator.AND);
                 }
 
                 @Override
                 public void visit(OrExpression expr) {
-                    Expression rightExpression = expr.getRightExpression();
-                    Expression leftExpression = expr.getLeftExpression();
-                    if (leftExpression != null) {
-                        leftExpression.accept(this);
-                    }
-                    if (rightExpression != null) {
-                        rightExpression.accept(this);
-                    }
-                    parseLogicOperator(expr, WhereParamOperationType.OR.getName());
-
+                    parseLogicOperator(expr, LogicOperator.OR);
                 }
 
                 @Override
@@ -232,10 +224,10 @@ public class SqlDisposeUtilsV1 {
                     if (expr.getBetweenExpressionStart() != null) {
                         expr.getBetweenExpressionStart().accept(this);
                     }
-                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseBetweenCompareType(expr, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOp);
+                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseBetweenCompareType(expr, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOperator);
                     if (sqlWhereExpressionOperateParam != null) {
                         sqlWhereExpressionOperateParams.add(sqlWhereExpressionOperateParam);
-                        currentLogicOp = "";
+                        currentLogicOperator = null;
                     }
 
                 }
@@ -250,10 +242,10 @@ public class SqlDisposeUtilsV1 {
                     if (rightExpression != null) {
                         rightExpression.accept(this);
                     }
-                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.GT, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOp);
+                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.GT, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOperator);
                     if (sqlWhereExpressionOperateParam != null) {
                         sqlWhereExpressionOperateParams.add(sqlWhereExpressionOperateParam);
-                        currentLogicOp = "";
+                        currentLogicOperator = null;
                     }
 
                 }
@@ -268,10 +260,10 @@ public class SqlDisposeUtilsV1 {
                     if (rightExpression != null) {
                         rightExpression.accept(this);
                     }
-                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.GE, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOp);
+                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.GE, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOperator);
                     if (sqlWhereExpressionOperateParam != null) {
                         sqlWhereExpressionOperateParams.add(sqlWhereExpressionOperateParam);
-                        currentLogicOp = "";
+                        currentLogicOperator = null;
                     }
 
                 }
@@ -286,10 +278,10 @@ public class SqlDisposeUtilsV1 {
                     if (rightExpression != null) {
                         rightExpression.accept(this);
                     }
-                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.LIKE, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOp);
+                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.LIKE, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOperator);
                     if (sqlWhereExpressionOperateParam != null) {
                         sqlWhereExpressionOperateParams.add(sqlWhereExpressionOperateParam);
-                        currentLogicOp = "";
+                        currentLogicOperator = null;
                     }
                 }
 
@@ -303,10 +295,10 @@ public class SqlDisposeUtilsV1 {
                     if (rightExpression != null) {
                         rightExpression.accept(this);
                     }
-                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.NEQ, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOp);
+                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.NEQ, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOperator);
                     if (sqlWhereExpressionOperateParam != null) {
                         sqlWhereExpressionOperateParams.add(sqlWhereExpressionOperateParam);
-                        currentLogicOp = "";
+                        currentLogicOperator = null;
                     }
 
                 }
@@ -321,16 +313,17 @@ public class SqlDisposeUtilsV1 {
                     if (rightExpression != null) {
                         rightExpression.accept(this);
                     }
-                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.LIKE, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOp);
+                    SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = SqlWhereExpressionItemParseUtils.parseCommonCompareType(expr.toString(), leftExpression, rightExpression, WhereParamOperationType.LIKE, tableInfoMap.getTableName(), tableInfoMap.getTableAlias(), currentLogicOperator);
                     if (sqlWhereExpressionOperateParam != null) {
                         sqlWhereExpressionOperateParams.add(sqlWhereExpressionOperateParam);
-                        currentLogicOp = "";
+                        currentLogicOperator = null;
                     }
 
                 }
 
                 @Override
                 public void visit(SubSelect subSelect) {
+                    currentLogicOperator = null;
                     processWhereSubSelectBody(subSelect);
                 }
             });

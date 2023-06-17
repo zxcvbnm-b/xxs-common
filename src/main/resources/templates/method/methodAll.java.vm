@@ -1,14 +1,20 @@
 //controller
 #parse("templates/method/controller.java.vm")
+
 // service interface
 #parse("templates/method/service.java.vm")
+
 //service impl
 #parse("templates/method/serviceImpl.java.vm")
+
 //mapper interface
 #parse("templates/method/mapper.java.vm")
+
 //mapper xml
 #parse("templates/method/mapper.xml.vm")
+
 //paramDTO
 #parse("templates/method/paramDTO.java.vm")
+
 //resultDTO
 #parse("templates/method/resultDTO.java.vm")

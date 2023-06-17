@@ -27,7 +27,7 @@ import lombok.Setter;
 public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($column in ${methodGenVelocityParam.whereParamList})
-#if(${column.whereParamNodeUseCompareType.toString()}=="BETWEEN")
+#if(${column.whereParamOperationType.toString()}=="BETWEEN")
 
     #if(${swagger})
     @ApiModelProperty("")
@@ -37,6 +37,11 @@ public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implement
     @ApiModelProperty("")
     #end
     private ${column.paramType.getSimpleName()} ${column.endParamName};
+#elseif(${column.whereParamOperationType.toString()}=="IN")
+    #if(${swagger})
+    @ApiModelProperty("")
+    #end
+    private List<${column.paramType.getSimpleName()}> ${column.paramName};
 #else
      #if(${swagger})
     @ApiModelProperty("")
@@ -51,14 +56,14 @@ public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implement
         return "${methodGenVelocityParam.searchMethodName}Param{" +
           #foreach($columnn in ${methodGenVelocityParam.whereParamList})
             #if($!{foreach.index}==0)
-                #if(${column.whereParamNodeUseCompareType.toString()}=="BETWEEN")
+                #if(${column.whereParamOperationType.toString()}=="BETWEEN")
                 "${columnn.beginParamName}=" + ${columnn.beginParamName} +
                 ", ${columnn.endParamName}=" + ${columnn.endParamName} +
                 #else
                 "${columnn.paramName}=" + ${columnn.paramName} +
                 #end
             #else
-                #if(${column.whereParamNodeUseCompareType.toString()}=="BETWEEN")
+                #if(${column.whereParamOperationType.toString()}=="BETWEEN")
                 "${columnn.beginParamName}=" + ${columnn.beginParamName} +
                 ", ${columnn.endParamName}=" + ${columnn.endParamName} +
                 #else
