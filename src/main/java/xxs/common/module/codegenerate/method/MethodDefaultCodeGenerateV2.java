@@ -1,7 +1,5 @@
 package xxs.common.module.codegenerate.method;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.util.JdbcConstants;
@@ -40,6 +38,7 @@ import java.util.stream.Collectors;
 
 /**
  * 方法级别代码生成
+ * 用法：sql:select * from actor where actor_id in ('#{actorId}') 注意 ('#{actorId}')应该是贴紧的 ，否则会替换失败，因为sql在AST时会被格式化处理
  *
  * @author xxs
  */
@@ -129,7 +128,15 @@ public class MethodDefaultCodeGenerateV2 {
             whereParam.setLogicOperator(sqlWhereExpressionOperateParam.getLogicOperator());
             XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(whereParam, paramType);
             whereParamList.add(whereParam);
-            sql = ReUtil.replaceAll(sql, sqlWhereExpressionOperateParam.getFindPattern(), "\n" + xmlWhereParamNode.getWhereParamNode());
+            System.out.println(sqlWhereExpressionOperateParam.getFindPattern());
+            System.out.println(xmlWhereParamNode.getWhereParamNode());
+            String replacementTemplate = null;
+            String replacementTemplatePre = "\n";
+            if (sqlWhereExpressionOperateParam.getLogicOperator() == null) {
+                replacementTemplatePre = "1=1 \n";
+            }
+            replacementTemplate = replacementTemplatePre + xmlWhereParamNode.getWhereParamNode();
+            sql = ReUtil.replaceAll(sql, sqlWhereExpressionOperateParam.getFindPattern(), replacementTemplate);
         }
         methodGenParamContext.setWhereParamList(whereParamList);
         return sql;
