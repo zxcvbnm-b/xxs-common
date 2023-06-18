@@ -52,8 +52,7 @@ public class MethodDefaultCodeGenerateV2 {
 
     public static void main(String[] args) throws Exception {
         MethodDefaultCodeGenerateV2 methodDefaultCodeGenerate = new MethodDefaultCodeGenerateV2();
-        methodDefaultCodeGenerate.singleTableCodeGenerator("actor", "getCctor", "select * from actor where actor_id in ('#{actorId}')", ParamType.QUERY_PARAM);
-
+        methodDefaultCodeGenerate.singleTableCodeGenerator("actor", "getCctor", "select * from film a inner join film_actor b on a.film_id = b.film_id inner join film_category c on a.film_id = c.film_id where a.film_id in ('#{filmIds}') and a.film_id = ('#{filmId}') and a.description like '#{description}' and a.last_update between '#{beginLastUpdate}' and '#{endLastUpdate}'", ParamType.QUERY_PARAM);
     }
 
     /**

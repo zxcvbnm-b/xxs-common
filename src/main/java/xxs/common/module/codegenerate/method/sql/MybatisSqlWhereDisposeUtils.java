@@ -1,6 +1,6 @@
 package xxs.common.module.codegenerate.method.sql;
 
-import cn.hutool.core.util.ReUtil;
+import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
@@ -17,18 +17,12 @@ import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.*;
 import net.sf.jsqlparser.parser.CCJSqlParserManager;
-import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.*;
 import org.springframework.util.CollectionUtils;
 import xxs.common.module.codegenerate.method.enums.LogicOperator;
-import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
 import xxs.common.module.codegenerate.method.model.SqlWhereExpressionOperateParam;
-import xxs.common.module.codegenerate.method.model.WhereParam;
-import xxs.common.module.codegenerate.method.whereparam.XMLWhereParamNode;
-import xxs.common.module.codegenerate.method.whereparam.XmlWhereParamNodeFactory;
-
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,48 +42,11 @@ public class MybatisSqlWhereDisposeUtils {
         }
     };
 
-
-    public static void main(String[] args) throws JSQLParserException {
-        MybatisSqlWhereDisposeUtils mybatisSqlWhereDisposeUtils = new MybatisSqlWhereDisposeUtils();
-        String s = "select * from user join role on id = role.rid where h=2 and  createTime between '#{beginTime}' and '#{endTime}' and id ='#{id}' and name like '%#{name}%' and id in ('#{id2}') and name in (select 1) and f=2 and c='#{c}' and id = (select * from city where cityid='#{cityid}' and a>'#{abc}' ) OR g='#{g}'";
-
-        List<SqlWhereExpressionOperateParam> sqlWhereExpressionOperateParams = mybatisSqlWhereDisposeUtils.processSelectBody(s);
-        for (SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam : sqlWhereExpressionOperateParams) {
-            System.out.println(sqlWhereExpressionOperateParam.getFindPattern().toString());
-            WhereParam whereParam = new WhereParam();
-            whereParam.setBeginParamName(sqlWhereExpressionOperateParam.getBeginParamName());
-            whereParam.setEndParamName(sqlWhereExpressionOperateParam.getEndParamName());
-            whereParam.setParamType(sqlWhereExpressionOperateParam.getColumnJavaType());
-            whereParam.setWhereParamOperationType(sqlWhereExpressionOperateParam.getSqlWhereParamType());
-            whereParam.setColumnName(sqlWhereExpressionOperateParam.getColumnName());
-            whereParam.setParamName(sqlWhereExpressionOperateParam.getWhereParamName());
-            whereParam.setLogicOperator(sqlWhereExpressionOperateParam.getLogicOperator());
-            XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(whereParam, ParamType.DTO);
-            s = ReUtil.replaceAll(s, sqlWhereExpressionOperateParam.getFindPattern(), "\n" + xmlWhereParamNode.getWhereParamNode());
-        }
-        System.out.println(s);
-    }
-
-    /**
-     * 简单验证SQL
-     */
-    public static boolean validSql(String checkSql, boolean isWrapTableName) {
-        try {
-            if (isWrapTableName) {
-                checkSql = wrapTableName(checkSql, null);
-            }
-            CCJSqlParserUtil.parse(checkSql);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
     /**
      * 解析处理SQL
      */
     public List<SqlWhereExpressionOperateParam> processSelectBody(String selectSql) throws JSQLParserException {
+        selectSql = wrapTableName(selectSql,JdbcConstants.MYSQL);
         CCJSqlParserManager parserManager = new CCJSqlParserManager();
         StringReader stringReader = new StringReader(selectSql);
         Select select = (Select) parserManager.parse(stringReader);
@@ -186,7 +143,7 @@ public class MybatisSqlWhereDisposeUtils {
                     }
                 }
 
-                //TODO  其他也要如此处理子查询 不然遍历不到子查询中得{111}占位符
+                //  其他也要如此处理子查询 不然遍历不到子查询中得{111}占位符
                 @Override
                 public void visit(InExpression expr) {
                     ItemsList rightItemsList = expr.getRightItemsList();
@@ -340,10 +297,9 @@ public class MybatisSqlWhereDisposeUtils {
             }
         });
     }
-
     /*替换表名: user => `user`(jsql不支持数字开头的表名)*/
-    public static String wrapTableName(String sql, String dbType) {
-        List<SQLStatement> statements = SQLUtils.parseStatements(sql, JdbcConstants.MYSQL);
+    public static String wrapTableName(String sql, DbType dbType) {
+        List<SQLStatement> statements = SQLUtils.parseStatements(sql, dbType);
         for (SQLStatement stmt : statements) {
             stmt.accept(new SQLASTVisitorAdapter() {
                 @Override
@@ -361,7 +317,6 @@ public class MybatisSqlWhereDisposeUtils {
         }
         return SQLUtils.toSQLString(statements, JdbcConstants.HIVE);
     }
-
     @Data
     static class TableInfo {
         private String tableName;
