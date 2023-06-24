@@ -1,4 +1,4 @@
-package xxs.common.module.datagenerate.db.jdbc;
+package xxs.common.module.sql;
 
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.sql.SQLUtils;
@@ -36,7 +36,12 @@ public final class CreateTableSQLParseUtils {
             SQLCreateTableStatement createTableStatement = null;
             if (sqlStatement instanceof SQLCreateTableStatement) {
                 createTableStatement = (SQLCreateTableStatement) sqlStatement;
+
                 String simpleName = createTableStatement.getName().getSimpleName();
+                SQLExpr comment = createTableStatement.getComment();
+                if (comment != null) {
+                    tableInfo.setComment(comment.toString());
+                }
                 tableInfo.setTableName(simpleName);
                 List<SQLTableElement> tableElementList = createTableStatement.getTableElementList();
                 for (SQLTableElement sqlTableElement : tableElementList) {
@@ -48,6 +53,10 @@ public final class CreateTableSQLParseUtils {
                         tableColumnInfo.setColumnInfo(sqlColumnDefinition.toString());
                         tableColumnInfo.setColumnName(sqlColumnDefinition.getColumnName());
                         tableColumnInfo.setAutoincrement(sqlColumnDefinition.isAutoIncrement());
+                        SQLExpr columnComment = sqlColumnDefinition.getComment();
+                        if(columnComment!=null){
+                            tableColumnInfo.setComment(columnComment.toString());
+                        }
                         List<SQLColumnConstraint> constraints = sqlColumnDefinition.getConstraints();
                         List<ColumnConstraint> columnConstraints = new ArrayList<>();
                         //处理约束 比如唯一约束什么的

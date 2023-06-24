@@ -37,7 +37,7 @@ public class SqlWhereExpressionItemParseUtils {
      * @return
      * @throws SQLException
      */
-    public void initSqlWhereExpressionOperateParamColumnInfo(List<SqlWhereExpressionOperateParam> sqlWhereExpressionOperateParams) throws SQLException {
+    public void initSqlWhereExpressionOperateParamColumnInfo(List<SqlWhereExpressionOperateParam> sqlWhereExpressionOperateParams) throws Exception {
         if (CollectionUtil.isNotEmpty(sqlWhereExpressionOperateParams)) {
             for (SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam : sqlWhereExpressionOperateParams) {
                 String tableName = sqlWhereExpressionOperateParam.getTableName();

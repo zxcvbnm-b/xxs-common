@@ -8,10 +8,7 @@ import net.sf.jsqlparser.JSQLParserException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import xxs.common.module.codegenerate.Constants;
-import xxs.common.module.codegenerate.LoadTableService;
-import xxs.common.module.codegenerate.VelocityParamBuilder;
-import xxs.common.module.codegenerate.VelocityTemplateEngine;
+import xxs.common.module.codegenerate.*;
 import xxs.common.module.codegenerate.cache.TableInfoTemCache;
 import xxs.common.module.codegenerate.config.DataSourceConfig;
 import xxs.common.module.codegenerate.method.enums.MethodReturnType;
@@ -31,7 +28,6 @@ import xxs.common.module.codegenerate.template.Template;
 import xxs.common.module.sql.DruidSqlDisposeUtils;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
@@ -45,10 +41,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MethodDefaultCodeGenerateV2 {
     private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-    private LoadTableService loadTableService = new LoadTableService(new DataSourceConfig());
+    private TableService tableService = new DBTableServiceImpl(new DataSourceConfig());
     private MethodCodeGenerateContext codeGenerateContext = new MethodCodeGenerateContext().initMethodCodeGenerateContext();
     private MybatisSqlWhereDisposeUtils mybatisSqlWhereDisposeUtils = new MybatisSqlWhereDisposeUtils();
-    private SqlWhereExpressionItemParseUtils sqlWhereExpressionItemParseUtils = new SqlWhereExpressionItemParseUtils(new TableInfoTemCache(loadTableService));
+    private SqlWhereExpressionItemParseUtils sqlWhereExpressionItemParseUtils = new SqlWhereExpressionItemParseUtils(new TableInfoTemCache(tableService));
 
     public static void main(String[] args) throws Exception {
         MethodDefaultCodeGenerateV2 methodDefaultCodeGenerate = new MethodDefaultCodeGenerateV2();
@@ -72,7 +68,7 @@ public class MethodDefaultCodeGenerateV2 {
         //获取虚拟table， 用于匹配到当前代码生成环境的文件的名称（比如用于追加方法到类中 如果存在的话）
         TableInfo tableInfo = this.getVirtualTableInfo(tableName);
         //根据sql获取sql的列（只是返回投影的列，可能在数据库中，这个列根本就不存在）的信息，ResultDTO的生成需要用到投影列，但是参数的生成需要用到表的列的
-        List<SearchColumnInfo> searchColumnInfoBySearchSql = loadTableService.getSearchColumnInfoBySearchSql(sql);
+        List<SearchColumnInfo> searchColumnInfoBySearchSql = tableService.getSearchColumnInfoBySearchSql(sql);
         if (CollectionUtils.isEmpty(searchColumnInfoBySearchSql)) {
             log.warn("singleTableCodeGenerator not return any column info !");
             return;
@@ -112,7 +108,7 @@ public class MethodDefaultCodeGenerateV2 {
      * @param methodGenParamContext
      * @return
      */
-    private String handleSql(String sql, MethodGenParamContext methodGenParamContext, ParamType paramType) throws JSQLParserException, SQLException {
+    private String handleSql(String sql, MethodGenParamContext methodGenParamContext, ParamType paramType) throws Exception {
         List<SqlWhereExpressionOperateParam> sqlWhereExpressionOperateParams = mybatisSqlWhereDisposeUtils.processSelectBody(sql);
         sqlWhereExpressionItemParseUtils.initSqlWhereExpressionOperateParamColumnInfo(sqlWhereExpressionOperateParams);
         List<WhereParam> whereParamList = new ArrayList<>();

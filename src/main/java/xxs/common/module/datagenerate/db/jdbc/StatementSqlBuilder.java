@@ -6,6 +6,7 @@ import xxs.common.module.datagenerate.db.dto.StatementSqlBuilderResult;
 import xxs.common.module.datagenerate.db.dto.TableColumnInfo;
 import xxs.common.module.datagenerate.db.dto.TableInfo;
 import xxs.common.module.datagenerate.db.jdbc.callback.DefaultFunctionCallBack;
+import xxs.common.module.sql.CreateTableSQLParseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,19 +61,5 @@ public class StatementSqlBuilder {
     }
     public StatementSqlBuilderResult builder() {
         return this.builder(new DefaultFunctionCallBack());
-    }
-    public static void main(String[] args) {
-        TableInfo tableInfo = CreateTableSQLParseUtils.getTableInfo(DbType.mysql,
-                "CREATE TABLE  'student'(\n" +
-                        " \t`id` int(4) zerofill unsigned NOT NULL AUTO_INCREMENT COMMENT '学号',\n" +
-                        " \t`name` decimal(5,2) NOT NULL DEFAULT '匿名' COMMENT '姓名',\n" +
-                        " \t`pwd` VARCHAR(20) NOT NULL DEFAULT '123456' COMMENT '密码',\n" +
-                        " \t`sex` VARCHAR(2) NOT NULL DEFAULT '女' COMMENT '性别',\n" +
-                        " \t`birthday` DATETIME DEFAULT NULL COMMENT '出生日期',\n" +
-                        " \t`address` VARCHAR (100) DEFAULT NULL COMMENT '家庭地址',\n" +
-                        " \t`email` VARCHAR(50) DEFAULT NULL COMMENT '电子邮箱',\n" +
-                        " \tPRIMARY KEY(`id`)  " +
-                        ")ENGINE=INNODB DEFAULT CHARSET=utf8 ");
-
     }
 }

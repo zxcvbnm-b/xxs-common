@@ -4,6 +4,7 @@ package xxs.common.module.datagenerate.db.jdbc;
 import com.alibaba.druid.DbType;
 import xxs.common.module.datagenerate.db.dto.StatementSqlBuilderResult;
 import xxs.common.module.datagenerate.db.dto.TableInfo;
+import xxs.common.module.sql.CreateTableSQLParseUtils;
 
 import java.sql.Connection;
 //jdbc简单执行器,正在的执行的

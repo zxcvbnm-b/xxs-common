@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MethodDefaultCodeGenerate {
     private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-    private LoadTableService loadTableService = new LoadTableService(new DataSourceConfig());
+    private TableService tableService = new DBTableServiceImpl(new DataSourceConfig());
     private MethodCodeGenerateContext codeGenerateContext = new MethodCodeGenerateContext().initMethodCodeGenerateContext();
 
     public static void main(String[] args) throws Exception {
@@ -80,7 +80,7 @@ public class MethodDefaultCodeGenerate {
         //获取虚拟table， 用于匹配到当前代码生成环境的文件的名称（比如用于追加方法到类中 如果存在的话）
         TableInfo tableInfo = this.getVirtualTableInfo(tableName);
         //根据sql获取sql的列（只是返回投影的列，可能在数据库中，这个列根本就不存在）的信息，ResultDTO的生成需要用到投影列，但是参数的生成需要用到表的列的
-        List<SearchColumnInfo> searchColumnInfoBySearchSql = loadTableService.getSearchColumnInfoBySearchSql(sql);
+        List<SearchColumnInfo> searchColumnInfoBySearchSql = tableService.getSearchColumnInfoBySearchSql(sql);
         if (CollectionUtils.isEmpty(searchColumnInfoBySearchSql)) {
             log.warn("singleTableCodeGenerator not return any column info !");
             return;

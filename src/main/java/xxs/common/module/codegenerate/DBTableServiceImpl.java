@@ -16,17 +16,19 @@ import java.util.*;
 
 /**
  * https://www.runoob.com/manual/jdk11api/java.sql/java/sql/DatabaseMetaData.html 看元数据（在ResultSet对象下的metadata是这个查询返回的列有那些 名字是什么等。，rows时具体的数据）
+ * 基于数据库的表处理服务
  *
  * @author xxs
  */
 @Slf4j
-public class LoadTableService {
+public class DBTableServiceImpl implements TableService {
     private JdbcUtils jdbcUtils;
 
-    public LoadTableService(DataSourceConfig dataSourceConfig) {
+    public DBTableServiceImpl(DataSourceConfig dataSourceConfig) {
         jdbcUtils = new JdbcUtils(dataSourceConfig.getDriverClassName(), dataSourceConfig.getJdbcUrl(), dataSourceConfig.getJdbcUsername(), dataSourceConfig.getJdbcPassword());
     }
 
+    @Override
     public Map<String, TableInfo> loadTables(String tableNames) throws SQLException {
         return this.loadTables(tableNames, null);
     }
@@ -39,6 +41,7 @@ public class LoadTableService {
      * @return
      * @throws SQLException
      */
+    @Override
     public Map<String, TableInfo> loadTables(String tableNames, String replaceTablePre) throws SQLException {
         Map<String, TableInfo> tableInfoHashMap = new HashMap<>(8);
         Connection connection = jdbcUtils.getConnection();
@@ -156,6 +159,7 @@ public class LoadTableService {
      * @param sql
      * @return
      */
+    @Override
     public List<SearchColumnInfo> getSearchColumnInfoBySearchSql(String sql) {
         String realString = DruidSqlDisposeUtils.setSelectLimit(sql);
         List<SearchColumnInfo> searchColumnInfoList = new ArrayList<>();
@@ -213,7 +217,7 @@ public class LoadTableService {
         searchColumnInfoList.add(searchColumnInfo);
     }
 
-    private void wrapSearchColumnInfo(List<SearchColumnInfo> searchColumnInfoList) throws SQLException {
+    private void wrapSearchColumnInfo(List<SearchColumnInfo> searchColumnInfoList) throws Exception {
         if (!CollectionUtils.isEmpty(searchColumnInfoList)) {
             TableInfoTemCache tableInfoTemCache = new TableInfoTemCache(this);
             for (SearchColumnInfo searchColumnInfo : searchColumnInfoList) {
@@ -241,8 +245,8 @@ public class LoadTableService {
     }
 
     public static void main(String[] args) {
-        LoadTableService loadTableService = new LoadTableService(new DataSourceConfig());
-        List<SearchColumnInfo> searchColumnInfoBySearchSql = loadTableService.getSearchColumnInfoBySearchSql("select *,1 from perm_user_group a inner join perm_user_group_admin_relation b on a.user_group_id = b.user_group_id");
+        TableService dbTableService = new DBTableServiceImpl(new DataSourceConfig());
+        List<SearchColumnInfo> searchColumnInfoBySearchSql = dbTableService.getSearchColumnInfoBySearchSql("select *,1 from perm_user_group a inner join perm_user_group_admin_relation b on a.user_group_id = b.user_group_id");
         System.out.println(searchColumnInfoBySearchSql);
     }
 }

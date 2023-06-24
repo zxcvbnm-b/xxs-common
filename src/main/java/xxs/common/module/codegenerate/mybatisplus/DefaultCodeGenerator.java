@@ -11,7 +11,6 @@ import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.model.TableRelationship;
 import xxs.common.module.codegenerate.template.*;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 //TODO 3 没有主键的情况下 没有主键不能生成
 public class DefaultCodeGenerator implements CodeGenerator {
     private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-    private LoadTableService loadTableService = new LoadTableService(new DataSourceConfig());
+    private TableService tableService = new DBTableServiceImpl(new DataSourceConfig());
     private static CodeGenerateContext codeGenerateContext = new ClassCodeGenerateContext().initClassCodeGenerateContext();
 
 
@@ -70,7 +69,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         GenerateFilterContext generateFilterContext = codeGenerateContext.getGenerateFilterContext();
         generateFilterContext.init(codeGenerateContext);
         Set<Template> genTemplate = codeGenerateContext.getTemplates();
-        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(tables, codeGenerateContext.getTablePre());
+        Map<String, TableInfo> tableInfosMap = tableService.loadTables(tables, codeGenerateContext.getTablePre());
         for (String tableInfoMapKey : tableInfosMap.keySet()) {
             TableInfo tableInfo = tableInfosMap.get(tableInfoMapKey);
             //遍历表在执行之前时 可以扩展表对表的关联关系维护实现一对多/一对一的复杂代码生成
@@ -93,7 +92,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         GenerateFilterContext generateFilterContext = codeGenerateContext.getGenerateFilterContext();
         generateFilterContext.init(codeGenerateContext);
         Set<Template> genTemplate = codeGenerateContext.getTemplates();
-        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(mainTableName, codeGenerateContext.getTablePre());
+        Map<String, TableInfo> tableInfosMap = tableService.loadTables(mainTableName, codeGenerateContext.getTablePre());
         for (String tableInfoMapKey : tableInfosMap.keySet()) {
             TableInfo tableInfo = tableInfosMap.get(tableInfoMapKey);
             //遍历表在执行之前时 可以扩展表对表的关联关系维护实现一对多/一对一的复杂代码生成
@@ -106,8 +105,8 @@ public class DefaultCodeGenerator implements CodeGenerator {
     }
 
     //TODO 一对多 一对一关系测试
-    private void buildRelation(TableInfo mainTable, String relationTableName, String relationColumn, String relationUniqueColumn, boolean one2One) throws SQLException {
-        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(relationTableName, codeGenerateContext.getTablePre());
+    private void buildRelation(TableInfo mainTable, String relationTableName, String relationColumn, String relationUniqueColumn, boolean one2One) throws Exception {
+        Map<String, TableInfo> tableInfosMap = tableService.loadTables(relationTableName, codeGenerateContext.getTablePre());
         TableInfo relationTable = tableInfosMap.get(relationTableName);
         if (relationTableName == null || relationColumn == null) {
             throw new RuntimeException("关联表需要在tables中出现并且数据库中存在！");
@@ -159,7 +158,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         GenerateFilterContext generateFilterContext = codeGenerateContext.getGenerateFilterContext();
         generateFilterContext.init(codeGenerateContext);
         Set<Template> genTemplate = codeGenerateContext.getTemplates();
-        Map<String, TableInfo> tableInfosMap = loadTableService.loadTables(mainTableName, codeGenerateContext.getTablePre());
+        Map<String, TableInfo> tableInfosMap = tableService.loadTables(mainTableName, codeGenerateContext.getTablePre());
         for (String tableInfoMapKey : tableInfosMap.keySet()) {
             TableInfo tableInfo = tableInfosMap.get(tableInfoMapKey);
             //遍历表在执行之前时 可以扩展表对表的关联关系维护实现一对多/一对一的复杂代码生成

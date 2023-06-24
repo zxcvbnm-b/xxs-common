@@ -1,5 +1,7 @@
 package xxs.common.module.datagenerate.db.dto;
 
+import lombok.Data;
+
 import java.util.List;
 import java.util.Set;
 
@@ -8,6 +10,7 @@ import java.util.Set;
  *
  * @author xxs
  */
+@Data
 public class TableInfo {
     /**
      * 所有列信息
@@ -18,31 +21,11 @@ public class TableInfo {
      */
     private String tableName;
     /**
+     * 表的备注
+     */
+    private String comment;
+    /**
      * 主键列
      */
     private Set<String> primaryKeyColumns;
-
-    public List<TableColumnInfo> getTableColumnInfos() {
-        return tableColumnInfos;
-    }
-
-    public void setTableColumnInfos(List<TableColumnInfo> tableColumnInfos) {
-        this.tableColumnInfos = tableColumnInfos;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    public Set<String> getPrimaryKeyColumns() {
-        return primaryKeyColumns;
-    }
-
-    public void setPrimaryKeyColumns(Set<String> primaryKeyColumns) {
-        this.primaryKeyColumns = primaryKeyColumns;
-    }
 }

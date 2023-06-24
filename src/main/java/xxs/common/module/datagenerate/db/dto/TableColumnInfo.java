@@ -1,5 +1,6 @@
 package xxs.common.module.datagenerate.db.dto;
 
+import lombok.Data;
 import xxs.common.module.datagenerate.db.jdbc.type.JdbcType;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  *
  * @author issuser
  */
+@Data
 public class TableColumnInfo {
     /**
      * 列的名称
@@ -34,52 +36,8 @@ public class TableColumnInfo {
      * 类型信息
      */
     private JdbcTypeInfo jdbcTypeInfo;
-
-    public String getColumnName() {
-        return columnName;
-    }
-
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
-    }
-
-    public boolean isPrimaryKey() {
-        return isPrimaryKey;
-    }
-
-    public void setPrimaryKey(boolean primaryKey) {
-        isPrimaryKey = primaryKey;
-    }
-
-    public String getColumnInfo() {
-        return columnInfo;
-    }
-
-    public void setColumnInfo(String columnInfo) {
-        this.columnInfo = columnInfo;
-    }
-
-    public boolean isAutoincrement() {
-        return isAutoincrement;
-    }
-
-    public void setAutoincrement(boolean autoincrement) {
-        isAutoincrement = autoincrement;
-    }
-
-    public List<ColumnConstraint> getColumnConstraints() {
-        return columnConstraints;
-    }
-
-    public void setColumnConstraints(List<ColumnConstraint> columnConstraints) {
-        this.columnConstraints = columnConstraints;
-    }
-
-    public JdbcTypeInfo getJdbcTypeInfo() {
-        return jdbcTypeInfo;
-    }
-
-    public void setJdbcTypeInfo(JdbcTypeInfo jdbcTypeInfo) {
-        this.jdbcTypeInfo = jdbcTypeInfo;
-    }
+    /**
+     * 备注
+     */
+    private String comment;
 }
