@@ -4,13 +4,11 @@ import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.util.JdbcConstants;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.JSQLParserException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import xxs.common.module.codegenerate.*;
 import xxs.common.module.codegenerate.cache.TableInfoTemCache;
-import xxs.common.module.codegenerate.config.DataSourceConfig;
 import xxs.common.module.codegenerate.method.enums.MethodReturnType;
 import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
@@ -41,7 +39,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MethodDefaultCodeGenerateV2 {
     private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-    private TableService tableService = new DBTableServiceImpl(new DataSourceConfig());
+    private TableService tableService = new DBTableServiceImpl();
     private MethodCodeGenerateContext codeGenerateContext = new MethodCodeGenerateContext().initMethodCodeGenerateContext();
     private MybatisSqlWhereDisposeUtils mybatisSqlWhereDisposeUtils = new MybatisSqlWhereDisposeUtils();
     private SqlWhereExpressionItemParseUtils sqlWhereExpressionItemParseUtils = new SqlWhereExpressionItemParseUtils(new TableInfoTemCache(tableService));

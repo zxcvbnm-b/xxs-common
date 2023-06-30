@@ -3,7 +3,6 @@ package xxs.common.module.codegenerate.mybatisplus;
 import cn.hutool.core.collection.CollectionUtil;
 import org.springframework.util.CollectionUtils;
 import xxs.common.module.codegenerate.*;
-import xxs.common.module.codegenerate.config.DataSourceConfig;
 import xxs.common.module.codegenerate.filter.GenerateFilterContext;
 import xxs.common.module.codegenerate.model.ColumnInfo;
 import xxs.common.module.codegenerate.model.RelationTableInfo;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 //TODO 3 没有主键的情况下 没有主键不能生成
 public class DefaultCodeGenerator implements CodeGenerator {
     private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-    private TableService tableService = new DBTableServiceImpl(new DataSourceConfig());
+    private TableService tableService = new DBTableServiceImpl();
     private static CodeGenerateContext codeGenerateContext = new ClassCodeGenerateContext().initClassCodeGenerateContext();
 
 

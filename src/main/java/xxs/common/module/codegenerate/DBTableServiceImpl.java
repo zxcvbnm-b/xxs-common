@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 import xxs.common.module.codegenerate.cache.TableInfoTemCache;
-import xxs.common.module.codegenerate.config.DataSourceConfig;
 import xxs.common.module.codegenerate.model.ColumnInfo;
 import xxs.common.module.codegenerate.model.SearchColumnInfo;
 import xxs.common.module.codegenerate.model.TableInfo;
@@ -22,12 +21,6 @@ import java.util.*;
  */
 @Slf4j
 public class DBTableServiceImpl implements TableService {
-    private JdbcUtils jdbcUtils;
-
-    public DBTableServiceImpl(DataSourceConfig dataSourceConfig) {
-        jdbcUtils = new JdbcUtils(dataSourceConfig.getDriverClassName(), dataSourceConfig.getJdbcUrl(), dataSourceConfig.getJdbcUsername(), dataSourceConfig.getJdbcPassword());
-    }
-
     @Override
     public Map<String, TableInfo> loadTables(String tableNames) throws SQLException {
         return this.loadTables(tableNames, null);
@@ -44,7 +37,7 @@ public class DBTableServiceImpl implements TableService {
     @Override
     public Map<String, TableInfo> loadTables(String tableNames, String replaceTablePre) throws SQLException {
         Map<String, TableInfo> tableInfoHashMap = new HashMap<>(8);
-        Connection connection = jdbcUtils.getConnection();
+        Connection connection = DruidConnectionPoolUtils.getConnection();
         connection.setAutoCommit(false);
         try {
             DatabaseMetaData metaData = connection.getMetaData();
@@ -91,7 +84,7 @@ public class DBTableServiceImpl implements TableService {
             e.printStackTrace();
             connection.rollback();
         } finally {
-            jdbcUtils.closeConnection(connection);
+            DruidConnectionPoolUtils.closeConnection(connection);
         }
         return tableInfoHashMap;
     }
@@ -163,7 +156,7 @@ public class DBTableServiceImpl implements TableService {
     public List<SearchColumnInfo> getSearchColumnInfoBySearchSql(String sql) {
         String realString = DruidSqlDisposeUtils.setSelectLimit(sql);
         List<SearchColumnInfo> searchColumnInfoList = new ArrayList<>();
-        try (Connection con = jdbcUtils.getConnection()) {
+        try (Connection con = DruidConnectionPoolUtils.getConnection()) {
             ResultSet resultSet = null;
             try (PreparedStatement statement = con.prepareStatement(realString)) {
                 if (statement.execute()) {
@@ -245,7 +238,7 @@ public class DBTableServiceImpl implements TableService {
     }
 
     public static void main(String[] args) {
-        TableService dbTableService = new DBTableServiceImpl(new DataSourceConfig());
+        TableService dbTableService = new DBTableServiceImpl();
         List<SearchColumnInfo> searchColumnInfoBySearchSql = dbTableService.getSearchColumnInfoBySearchSql("select *,1 from perm_user_group a inner join perm_user_group_admin_relation b on a.user_group_id = b.user_group_id");
         System.out.println(searchColumnInfoBySearchSql);
     }
