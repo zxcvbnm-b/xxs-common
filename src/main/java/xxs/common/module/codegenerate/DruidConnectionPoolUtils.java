@@ -1,6 +1,7 @@
 package xxs.common.module.codegenerate;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +22,7 @@ public class DruidConnectionPoolUtils {
             Properties props = new Properties();
             props.load(is);
             // 使用 DruidDataSourceFactory 创建数据源对象
-            DruidDataSourceFactory.createDataSource(props);
+            dataSource = DruidDataSourceFactory.createDataSource(props);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
