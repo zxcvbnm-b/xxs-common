@@ -66,7 +66,7 @@ public class CreateSQLTableServiceImpl implements TableService{
                 createTableStatement = (SQLCreateTableStatement) sqlStatement;
                 //初始化表基本信息
                 this.initTableBaseInfo(tableInfo, createTableStatement);
-
+                this.addTableInHsql(tableInfo.getName(), createTableSql);
                 List<SQLTableElement> tableElementList = createTableStatement.getTableElementList();
                 initTableColumnInfo(tableColumnInfos, primaryKeyColumnNames, tableElementList);
                 //同步表级和列级的主键关系处理主键问题
@@ -84,22 +84,21 @@ public class CreateSQLTableServiceImpl implements TableService{
         tableInfoMap.put(tableInfo.getName().toUpperCase(Locale.ROOT), tableInfo);
         createTableSqlMap.put(tableInfo.getName().toUpperCase(Locale.ROOT), createTableSql);
         //将表加入到内存中。会先删除之前相同名称的表 TODO 看看后续有没有可能 分shame
-        this.addTableInHsql(tableInfo.getName(), createTableSql);
     }
 
     private void addTableInHsql(String tableName, String createTableSql) {
         Connection connection = null;
-        PreparedStatement preparedStatement = null;
+        Statement statement = null;
         try {
             connection = InMemoryDataSource.getConnection();
-            preparedStatement = connection.prepareStatement(String.format("DROP TABLE %s;", tableName));
-            preparedStatement.execute();
-            preparedStatement.execute(createTableSql);
+            statement = connection.createStatement();
+            statement.execute(String.format("DROP TABLE IF EXISTS %s;", tableName));
+            statement.execute(createTableSql);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                preparedStatement.close();
+                statement.close();
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -229,7 +228,6 @@ public class CreateSQLTableServiceImpl implements TableService{
      */
     @Override
     public Map<String, TableInfo> loadTables(String tableNames, String replaceTablePre) throws Exception {
-        tableNames = tableNames.toUpperCase(Locale.ROOT);
         Map<String, TableInfo> tableInfoHashMap = new HashMap<>(8);
         String[] tableNameArr = tableNames.split(",");
         for (String tableName : tableNameArr) {
@@ -350,7 +348,7 @@ public class CreateSQLTableServiceImpl implements TableService{
         }
     }
     public static void main(String[] args) throws Exception {
-        CreateSQLTableServiceImpl createSQLTableService = new CreateSQLTableServiceImpl(DbType.mysql, Arrays.asList("CREATE TABLE student (\n" +
+        CreateSQLTableServiceImpl createSQLTableService = new CreateSQLTableServiceImpl(DbType.mysql, Arrays.asList("CREATE TABLE STUDENT (\n" +
                 "  id INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '学生ID',\n" +
                 "  name VARCHAR(50) NOT NULL COMMENT '学生姓名',\n" +
                 "  age TINYINT UNSIGNED NOT NULL COMMENT '学生年龄',\n" +
@@ -363,7 +361,8 @@ public class CreateSQLTableServiceImpl implements TableService{
                 "  created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
                 "  updated_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',\n" +
                 "  PRIMARY KEY (id)\n" +
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='学生表';\n"));
-        Map<String, TableInfo> tableInfoMap = createSQLTableService.loadTables("student");
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='学生表1';\n"));
+        Map<String, TableInfo> tableInfoMap = createSQLTableService.loadTables("STUDENT");
+        System.out.println(tableInfoMap);
     }
 }
