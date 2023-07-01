@@ -1,6 +1,7 @@
 package xxs.common.module.codegenerate.config;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import xxs.common.module.codegenerate.Constants;
 
 /**
@@ -8,7 +9,8 @@ import xxs.common.module.codegenerate.Constants;
  *
  * @author xxs
  */
-@Data
+@Setter
+@Getter
 public class MapperXmlTemplateConfig extends AbstractTemplateConfig { /**
      * 是否放到resources文件下，如果是，那么路径为/resources/packageSimpleName/tableName/xxxMapper.xml
      */
@@ -19,6 +21,6 @@ public class MapperXmlTemplateConfig extends AbstractTemplateConfig { /**
     private String resourcesPackageSimpleName = "mapper";
 
     public MapperXmlTemplateConfig() {
-        super(Constants.DEFAULT_MAPPER_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_MAPPER_FILE_POST, "mapperXmlConfig");
+        super(Constants.DEFAULT_MAPPER_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_MAPPER_FILE_POST, Constants.VELOCITY_PARAM_MAPPER_XML_CONFIG_NAME);
     }
 }

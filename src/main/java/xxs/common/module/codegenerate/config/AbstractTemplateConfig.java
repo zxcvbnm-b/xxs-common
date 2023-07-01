@@ -1,12 +1,15 @@
 package xxs.common.module.codegenerate.config;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 抽象的模板配置
  *
  * @author xxs
  */
-@Data
+@Setter
+@Getter
 public abstract class AbstractTemplateConfig {
     /**
      * 基础包名(不是全包名)

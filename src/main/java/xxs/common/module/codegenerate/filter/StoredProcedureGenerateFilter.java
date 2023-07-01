@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.filter;
 
+import com.google.auto.service.AutoService;
 import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.template.AbstractTemplate;
@@ -11,6 +12,7 @@ import java.util.Map;
  *
  * @author xxs
  */
+@AutoService(IGenerateFilter.class)
 public class StoredProcedureGenerateFilter implements IGenerateFilter {
     @Override
     public void init(CodeGenerateContext generateContext) {

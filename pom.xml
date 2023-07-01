@@ -15,6 +15,27 @@
     <description>xxs common</description>
     <properties>
         <java.version>8</java.version>
+        <hsqldb.version>2.5.2</hsqldb.version>
+        <fastjson2.version>2.0.2</fastjson2.version>
+        <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
+        <swagger.bootstrap-ui.version>1.9.6</swagger.bootstrap-ui.version>
+        <springfox.swagger-ui.version>2.9.2</springfox.swagger-ui.version>
+        <mysql.connector.version>8.0.26</mysql.connector.version>
+        <druid.version>1.2.3</druid.version>
+        <database.he.version>1.4.200</database.he.version>
+        <datafaker.version>1.6.0</datafaker.version>
+        <swagger.annotations.version>1.5.21</swagger.annotations.version>
+        <validation.api-version>1.1.0.Final</validation.api-version>
+        <hibernate.validator.version>5.2.0.Final</hibernate.validator.version>
+        <commons.lang3.version>3.3.2</commons.lang3.version>
+        <guava.version>28.0-jre</guava.version>
+        <auto-service.version>1.0.1</auto-service.version>
+        <swagger.models.version>1.5.21</swagger.models.version>
+        <jsqlparser.version>4.0</jsqlparser.version>
+        <mybatis-plus.generator>3.5.1</mybatis-plus.generator>
+        <velocity.engine.core>2.1</velocity.engine.core>
+        <hutool.all.version>5.5.9</hutool.all.version>
+        <jsoup.version>1.11.3</jsoup.version>
     </properties>
     <dependencies>
         <dependency>
@@ -25,7 +46,7 @@
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>2.5.2</version>
+            <version>${hsqldb.version}</version>
         </dependency>
 
         <dependency>
@@ -53,19 +74,8 @@
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
-            <version>2.0.2</version>
+            <version>${fastjson2.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl -->
-<!--        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>2.3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.3.2</version>
-        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -73,39 +83,39 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox.swagger2.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>1.9.6</version>
+            <version>${swagger.bootstrap-ui.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.26</version>
+            <version>${mysql.connector.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.2.3</version>
+            <version>${druid.version}</version>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.200</version>
+            <version>${database.he.version}</version>
         </dependency>
         <dependency>
             <groupId>net.datafaker</groupId>
             <artifactId>datafaker</artifactId>
-            <version>1.6.0</version>
+            <version>${datafaker.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${springfox.swagger-ui.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>io.swagger</groupId>
@@ -121,62 +131,69 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.5.21</version>
+            <version>${swagger.annotations.version}</version>
         </dependency>
         <!--jsr 303-->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
+            <version>${validation.api-version}</version>
         </dependency>
         <!-- hibernate validator-->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.2.0.Final</version>
+            <version>${hibernate.validator.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.3.2</version>
+            <version>${commons.lang3.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.0-jre</version>
+            <version>${guava.version}</version>
+        </dependency>
+        <!--    实现spi    -->
+        <dependency>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
+            <version>${auto-service.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
-            <version>1.5.21</version>
+            <version>${swagger.models.version}</version>
         </dependency>
         <!--sql解析-->
         <dependency>
             <groupId>com.github.jsqlparser</groupId>
             <artifactId>jsqlparser</artifactId>
-            <version>4.0</version>
+            <version>${jsqlparser.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.5.1</version>
+            <version>${mybatis-plus.generator}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
-            <version>2.1</version>
+            <version>${velocity.engine.core}</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.5.9</version>
+            <version>${hutool.all.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.11.3</version>
+            <version>${jsoup.version}</version>
         </dependency>
     </dependencies>
 

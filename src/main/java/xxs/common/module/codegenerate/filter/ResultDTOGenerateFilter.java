@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.filter;
 
+import com.google.auto.service.AutoService;
 import xxs.common.module.codegenerate.CodeGenerateContext;
 import xxs.common.module.codegenerate.template.ResultDTOTemplate;
 /**
@@ -7,6 +8,7 @@ import xxs.common.module.codegenerate.template.ResultDTOTemplate;
  *
  * @author xxs
  */
+@AutoService(IGenerateFilter.class)
 public class ResultDTOGenerateFilter implements IGenerateFilter {
     @Override
     public void init(CodeGenerateContext generateContext) {

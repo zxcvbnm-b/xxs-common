@@ -6,6 +6,7 @@ import xxs.common.module.codegenerate.template.Template;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
 
 /**
  * 拦截器--用于扩展功能，比如paramDTO
@@ -16,6 +17,9 @@ public class GenerateFilterContext implements IGenerateFilter {
     private List<IGenerateFilter> generateFilters = new ArrayList<>();
 
     {
+        ServiceLoader.load(IGenerateFilter.class).forEach(iGenerateFilter -> {
+            generateFilters.add(iGenerateFilter);
+        });
 
     }
 
@@ -43,4 +47,5 @@ public class GenerateFilterContext implements IGenerateFilter {
     public void addGenerateFilter(IGenerateFilter iGenerateFilter) {
         generateFilters.add(iGenerateFilter);
     }
+
 }

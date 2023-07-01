@@ -1,12 +1,14 @@
 package xxs.common.module.codegenerate.config;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import xxs.common.module.codegenerate.Constants;
 
 /**
  * @author xxs
  */
-@Data
+@Setter
+@Getter
 public class ControllerTemplateConfig extends AbstractTemplateConfig {
     /**
      * 控制器文件名称
@@ -18,7 +20,7 @@ public class ControllerTemplateConfig extends AbstractTemplateConfig {
     private String controllerPathName;
 
     public ControllerTemplateConfig() {
-        super(Constants.DEFAULT_CONTROLLER_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_CONTROLLER_FILE_POST, "controllerConfig");
+        super(Constants.DEFAULT_CONTROLLER_PACKAGE_SIMPLE_NAME, Constants.DEFAULT_CONTROLLER_FILE_POST, Constants.VELOCITY_PARAM_CONTROLLER_CONFIG_NAME);
     }
 
 }

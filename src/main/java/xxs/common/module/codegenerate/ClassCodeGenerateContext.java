@@ -18,17 +18,7 @@ public class ClassCodeGenerateContext extends CodeGenerateContext {
 
     public ClassCodeGenerateContext initClassCodeGenerateContext() {
         this.initTemplate();
-        this.initGenerateFilter();
         return this;
-    }
-
-    /**
-     * 初始化拦截器
-     */
-    private void initGenerateFilter() {
-        generateFilterContext.addGenerateFilter(new ParamDTOGenerateFilter());
-        generateFilterContext.addGenerateFilter(new ResultDTOGenerateFilter());
-        generateFilterContext.addGenerateFilter(new StoredProcedureGenerateFilter());
     }
 
     /**
