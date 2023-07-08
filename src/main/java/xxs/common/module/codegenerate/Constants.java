@@ -11,6 +11,10 @@ import java.util.regex.Pattern;
  */
 public interface Constants {
     /**
+     * common properties path
+     */
+    public static final String COMMON_PROPERTIES_PATH = "/common.properties";
+    /**
      * 控制器后缀
      */
     String DEFAULT_CONTROLLER_FILE_POST = "Controller";
@@ -71,6 +75,67 @@ public interface Constants {
      * 服务实现类基本包名
      */
     String DEFAULT_SERVICE_INTERFACE_PACKAGE_SIMPLE_NAME = "service";
+    /**
+     * 控制器后缀配置属性名称
+     */
+    String CONTROLLER_FILE_POST_PROPERTY_NAME = "gen.code.controller.file.post";
+    /**
+     * 控制器基本包名配置属性名称
+     */
+    String CONTROLLER_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.controller.package.simple.name";
+
+    /**
+     * 实体类文件名后缀配置属性名称
+     */
+    String ENTITY_FILE_POST_PROPERTY_NAME = "gen.code.entity.file.post";
+    /**
+     * 实体类文件名后缀配置属性名称
+     */
+    String PARAM_FILE_POST_PROPERTY_NAME = "gen.code.param.file.post";
+    /**
+     * 实体类文件名后缀配置属性名称
+     */
+    String RESULT_FILE_POST_PROPERTY_NAME = "gen.code.result.file.post";
+    /**
+     * 实体类存放的基本包名配置属性名称
+     */
+    String ENTITY_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.entity.package.simple.name";
+
+    /**
+     * mapper接口文件名后缀配置属性名称
+     */
+    String MAPPER_INTERFACE_FILE_POST_PROPERTY_NAME = "gen.code.mapper.interface.file.post";
+    /**
+     * mapper接口存放的基本包名配置属性名称
+     */
+    String MAPPER_INTERFACE_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.mapper.interface_.package.simple.name";
+
+    /**
+     * mapper.xml文件接口文件名后缀配置属性名称
+     */
+    String MAPPER_FILE_POST_PROPERTY_NAME = "gen.code.mapper.file.post";
+    /**
+     * mapper.xml接口存放的基本包名配置属性名称
+     */
+    String MAPPER_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.mapper.package.simple.name";
+
+    /**
+     * 服务实现类文件后缀名配置属性名称
+     */
+    String SERVICE_IMPL_FILE_POST_PROPERTY_NAME = "gen.code.service.impl.file.post";
+    /**
+     * 服务实现类包名配置属性名称
+     */
+    String SERVICE_IMPL_PACKAGE_SIMPLE_NAME_PROPERTY_NAME= "gen.code.service.impl.package.simple.name";
+
+    /**
+     * 服务接口后缀名配置属性名称
+     */
+    String SERVICE_INTERFACE_FILE_POST_PROPERTY_NAME = "gen.code.service.interface.file.post";
+    /**
+     * 服务实现类基本包名配置属性名称
+     */
+    String SERVICE_INTERFACE_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.service.interface.package.simple.name";
     /**
      * 模板参数表信息的属性名称
      */

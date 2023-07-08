@@ -4,6 +4,8 @@ import lombok.Data;
 import xxs.common.module.codegenerate.config.*;
 import xxs.common.module.codegenerate.filter.*;
 import xxs.common.module.codegenerate.template.*;
+import xxs.common.module.utils.other.LoadPropertyUtils;
+import xxs.common.module.utils.other.XxsProperties;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -15,6 +17,8 @@ import java.util.*;
  */
 @Data
 public class CodeGenerateContext {
+
+    protected XxsProperties properties = LoadPropertyUtils.copy();
     /**
      * 获取到项目的绝对路径
      */
@@ -108,27 +112,27 @@ public class CodeGenerateContext {
     /**
      * 服务接口配置
      */
-    protected ServiceInterfaceTemplateConfig serviceInterfaceTemplateConfig = new ServiceInterfaceTemplateConfig();
+    protected ServiceInterfaceTemplateConfig serviceInterfaceTemplateConfig = new ServiceInterfaceTemplateConfig(properties);
     /**
      * 控制器配置
      */
-    protected ControllerTemplateConfig controllerTemplateConfig = new ControllerTemplateConfig();
+    protected ControllerTemplateConfig controllerTemplateConfig = new ControllerTemplateConfig(properties);
     /**
      * 服务实现类配置
      */
-    protected ServiceImplTemplateConfig serviceImplTemplateConfig = new ServiceImplTemplateConfig();
+    protected ServiceImplTemplateConfig serviceImplTemplateConfig = new ServiceImplTemplateConfig(properties);
     /**
      * mapper接口配置
      */
-    protected MapperInterfaceTemplateConfig mapperInterfaceTemplateConfig = new MapperInterfaceTemplateConfig();
+    protected MapperInterfaceTemplateConfig mapperInterfaceTemplateConfig = new MapperInterfaceTemplateConfig(properties);
     /**
      * mapperxml配置
      */
-    protected MapperXmlTemplateConfig mapperXmlTemplateConfig = new MapperXmlTemplateConfig();
+    protected MapperXmlTemplateConfig mapperXmlTemplateConfig = new MapperXmlTemplateConfig(properties);
     /**
      * 实体类模板配置
      */
-    protected EntityTemplateConfig entityTemplateConfig = new EntityTemplateConfig();
+    protected EntityTemplateConfig entityTemplateConfig = new EntityTemplateConfig(properties);
 
     public CodeGenerateContext() {
     }
