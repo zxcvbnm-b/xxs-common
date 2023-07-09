@@ -22,64 +22,64 @@ public class CodeGenerateContext {
     /**
      * 获取到项目的绝对路径
      */
-    protected String absoluteDir = System.getProperty("user.dir");
+    protected String absoluteDir = properties.getString(Constants.ABSOLUTEDIR_PROPERTY_NAME, System.getProperty("user.dir"));
     /**
      * 是否生成到测试模块下 --test/java/
      */
-    protected boolean genToTestModule = true;
+    protected boolean genToTestModule = properties.getBoolean(Constants.GEN_TO_TEST_MODULE_PROPERTY_NAME, true);
     /**
      * 是否覆盖生成的文件 如果不覆盖，那么使用时间来做唯一标识 （文件名+时间）会导致java文件和类名不一样
      */
-    protected boolean coverExistFile = false;
+    protected boolean coverExistFile = properties.getBoolean(Constants.COVER_EXIST_FILE_PROPERTY_NAME, false);
     /**
      * 基础包名
      */
-    protected String basePackageName = "xxs.common";
+    protected String basePackageName = properties.getString(Constants.BASE_PACKAGE_NAME_PROPERTY_NAME, "xxs.common");
     /**
      * 去除表前缀 -- 区分大小写
      */
-    protected String tablePre = "";
+    protected String tablePre = properties.getString(Constants.TABLE_PRE_NAME_PROPERTY_NAME, "");
     /**
      * xml文件存放的位置,绝对路径如果为空，那么存放的位置就是跟mapper接口放一块，否则就放到resources文件夹下
      */
-    protected String mapperXmlPathName;
+    protected String mapperXmlPathName = properties.getString(Constants.MAPPER_XML_PATHNAME_PROPERTY_NAME, "");
     /**
      * 模块名
      */
-    protected String moduleName = "xxsxx";
+    protected String moduleName = properties.getString(Constants.MODULE_NAME_PROPERTY_NAME, "xxs");
     /**
      * 作者
      */
-    protected String author = "xxs";
+    protected String author = properties.getString(Constants.AUTHOR_NAME_PROPERTY_NAME, "xxs");
+
     /**
      * 是否使用jsr303Verify
      */
-
-    protected boolean jsr303Verify = true;
+    protected boolean jsr303Verify = properties.getBoolean(Constants.JSR303VERIFY_PROPERTY_NAME, true);
     /**
      * 是否使用lombok
      */
-    protected boolean lombok = true;
+    protected boolean lombok = properties.getBoolean(Constants.LOMBOK_PROPERTY_NAME, true);
     /**
-     * 是否有swagger
+     * 是否使用swagger
      */
-    protected boolean swagger = true;
+    protected boolean swagger = properties.getBoolean(Constants.SWAGGER_PROPERTY_NAME, true);
     /**
      * 逻辑删除列名-mybatisplus使用（未驼峰）
      */
-    protected String deletedColumn;
+    protected String deletedColumn = properties.getString(Constants.DELETED_COLUMN_PROPERTY_NAME);
     /**
      * 乐观锁列名-mybatisplus使用（未驼峰）
      */
-    protected String versionColumn;
+    protected String versionColumn = properties.getString(Constants.VERSION_COLUMN_PROPERTY_NAME);
     /**
      * 插入时自动插入值字段-mybatisplus使用（未驼峰）
      */
-    protected List<String> insertFillColumn;
+    protected List<String> insertFillColumn = properties.getStringList(Constants.INSERT_FILL_COLUMN_PROPERTY_NAME);
     /**
      * 更新时自动插入值字段-mybatisplus使用（未驼峰）
      */
-    protected List<String> updateFillColumn;
+    protected List<String> updateFillColumn = properties.getStringList(Constants.UPDATE_FILL_COLUMN_PROPERTY_NAME);
     /**
      * 是否 mybatisPlus
      */
@@ -87,7 +87,7 @@ public class CodeGenerateContext {
     /**
      * 是否 生成服务类验证方法，如deleteValid 删除的验证方法
      */
-    protected boolean genValidMethod = true;
+    protected boolean genValidMethod = properties.getBoolean(Constants.GEN_VALID_METHOD_PROPERTY_NAME, true);
     /**
      * 生成日期
      */

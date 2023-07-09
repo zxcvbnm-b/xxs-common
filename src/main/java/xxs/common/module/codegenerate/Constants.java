@@ -136,6 +136,87 @@ public interface Constants {
      * 服务实现类基本包名配置属性名称
      */
     String SERVICE_INTERFACE_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.service.interface.package.simple.name";
+
+    /**
+     * 获取代码生成绝对路径配置属性名称
+     */
+    String ABSOLUTEDIR_PROPERTY_NAME = "gen.code.absoluteDir";
+
+    /**
+     * 是否生成到测试模块下配置属性名称
+     */
+    String GEN_TO_TEST_MODULE_PROPERTY_NAME = "gen.code.genToTestModule";
+
+    /**
+     * 是否覆盖生成的文件配置属性名称
+     */
+    String COVER_EXIST_FILE_PROPERTY_NAME = "gen.code.coverExistFile";
+
+    /**
+     * 基础包名配置属性名称
+     */
+    String BASE_PACKAGE_NAME_PROPERTY_NAME = "gen.code.basePackageName";
+
+    /**
+     * 是否覆盖生成的文件配置属性名称
+     */
+    String TABLE_PRE_NAME_PROPERTY_NAME = "gen.code.tablePre";
+
+    /**
+     * xml文件存放的位置,绝对路径如果为空，那么存放的位置就是跟mapper接口放一块，否则就放到resources文件夹下 配置属性名称
+     */
+    String MAPPER_XML_PATHNAME_PROPERTY_NAME = "gen.code.mapperXmlPathName";
+
+    /**
+     *模块名配置属性名称
+     */
+    String MODULE_NAME_PROPERTY_NAME = "gen.code.moduleName";
+
+    /**
+     *作者配置属性名称
+     */
+    String AUTHOR_NAME_PROPERTY_NAME = "gen.code.author";
+
+    /**
+     *是否使用jsr303Verify配置属性名称
+     */
+    String JSR303VERIFY_PROPERTY_NAME = "gen.code.jsr303Verify";
+
+    /**
+     *是否使用lombok配置属性名称
+     */
+    String LOMBOK_PROPERTY_NAME = "gen.code.lombok";
+
+    /**
+     *是否使用swagger配置属性名称
+     */
+    String SWAGGER_PROPERTY_NAME = "gen.code.swagger";
+
+    /**
+     *逻辑删除列名-mybatisplus使用（未驼峰）配置属性名称
+     */
+    String DELETED_COLUMN_PROPERTY_NAME = "gen.code.deletedColumn";
+
+    /**
+     *乐观锁列名-mybatisplus使用（未驼峰）配置属性名称
+     */
+    String VERSION_COLUMN_PROPERTY_NAME = "gen.code.versionColumn";
+
+    /**
+     *乐观锁列名-mybatisplus使用（未驼峰）配置属性名称
+     */
+    String GEN_VALID_METHOD_PROPERTY_NAME = "gen.code.genValidMethod";
+
+    /**
+     *插入时自动插入值字段-mybatisplus使用（未驼峰）配置属性名称
+     */
+    String INSERT_FILL_COLUMN_PROPERTY_NAME = "gen.code.insertFillColumn";
+
+    /**
+     *更新时自动插入值字段-mybatisplus使用（未驼峰）配置属性名称
+     */
+    String UPDATE_FILL_COLUMN_PROPERTY_NAME = "gen.code.updateFillColumn";
+
     /**
      * 模板参数表信息的属性名称
      */

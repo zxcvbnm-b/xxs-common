@@ -1,41 +1,23 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package xxs.common.module.utils.other;
 
+import cn.hutool.core.util.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xxs.common.module.codegenerate.Constants;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 /**
  * @author xxs
  */
-public class XxsProperties {
+public class XxsProperties extends Properties {
     private static final Logger logger = LoggerFactory.getLogger(LoadPropertyUtils.class);
 
-    private Properties properties = null;
-
     XxsProperties(Properties properties) {
-        this.properties = properties;
+        super(properties);
     }
 
 
@@ -46,7 +28,7 @@ public class XxsProperties {
      * @return property value
      */
     public String getString(String key) {
-        return properties.getProperty(key.trim());
+        return this.getProperty(key.trim());
     }
 
     /**
@@ -159,6 +141,18 @@ public class XxsProperties {
      * @param value value
      */
     public void setValue(String key, String value) {
-        properties.setProperty(key, value);
+        this.setProperty(key, value);
+    }
+
+    public List<String> getStringList(String key) {
+        return getStringList(key, null);
+    }
+
+    public List<String> getStringList(String key, List<String> defaultValue) {
+        String value = getString(key);
+        if (value == null) {
+            return defaultValue;
+        }
+        return StrUtil.splitTrim(value, Constants.COMMA_SEPARATOR);
     }
 }
