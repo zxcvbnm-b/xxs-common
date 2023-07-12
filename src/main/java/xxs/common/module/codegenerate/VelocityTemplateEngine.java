@@ -19,7 +19,7 @@ import java.util.Properties;
  */
 public class VelocityTemplateEngine {
     private static VelocityEngine velocityEngine = null;
-
+    private final static VelocityTemplateEngine velocityTemplateEngineInstance= new VelocityTemplateEngine();
     {
         try {
             Class.forName("org.apache.velocity.util.DuckType");
@@ -32,10 +32,12 @@ public class VelocityTemplateEngine {
     static {
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-
         velocityEngine = new VelocityEngine(prop);
     }
 
+    public static VelocityTemplateEngine getVelocityTemplateEngineInstance() {
+        return velocityTemplateEngineInstance;
+    }
 
     /**
      * @param objectValueMap 参数，用于给模板设置值的

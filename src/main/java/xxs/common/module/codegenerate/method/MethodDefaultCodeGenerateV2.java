@@ -38,14 +38,26 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class MethodDefaultCodeGenerateV2 {
-    private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-    private TableService tableService = new DBTableServiceImpl();
-    private MethodCodeGenerateContext codeGenerateContext = new MethodCodeGenerateContext().initMethodCodeGenerateContext();
+    private VelocityTemplateEngine velocityTemplateEngine = VelocityTemplateEngine.getVelocityTemplateEngineInstance();
     private MybatisSqlWhereDisposeUtils mybatisSqlWhereDisposeUtils = new MybatisSqlWhereDisposeUtils();
-    private SqlWhereExpressionItemParseUtils sqlWhereExpressionItemParseUtils = new SqlWhereExpressionItemParseUtils(new TableInfoTemCache(tableService));
+    private TableService tableService;
+    private MethodCodeGenerateContext codeGenerateContext;
+    private SqlWhereExpressionItemParseUtils sqlWhereExpressionItemParseUtils;
+
+    public MethodDefaultCodeGenerateV2(TableService tableService) {
+        this.tableService = tableService;
+        this.codeGenerateContext = new MethodCodeGenerateContext().initMethodCodeGenerateContext();
+        this.sqlWhereExpressionItemParseUtils = new SqlWhereExpressionItemParseUtils(new TableInfoTemCache(tableService));
+    }
+
+    public MethodDefaultCodeGenerateV2(TableService tableService, MethodCodeGenerateContext codeGenerateContext) {
+        this.tableService = tableService;
+        this.codeGenerateContext = codeGenerateContext;
+        this.sqlWhereExpressionItemParseUtils = new SqlWhereExpressionItemParseUtils(new TableInfoTemCache(tableService));
+    }
 
     public static void main(String[] args) throws Exception {
-        MethodDefaultCodeGenerateV2 methodDefaultCodeGenerate = new MethodDefaultCodeGenerateV2();
+        MethodDefaultCodeGenerateV2 methodDefaultCodeGenerate = new MethodDefaultCodeGenerateV2(new DBTableServiceImpl());
         methodDefaultCodeGenerate.singleTableCodeGenerator("actor", "getCctor", "select * from film a inner join film_actor b on a.film_id = b.film_id inner join film_category c on a.film_id = c.film_id where a.film_id in ('#{filmIds}') and a.film_id = ('#{filmId}') and a.description like '#{description}' and a.last_update between '#{beginLastUpdate}' and '#{endLastUpdate}'", ParamType.QUERY_PARAM);
     }
 

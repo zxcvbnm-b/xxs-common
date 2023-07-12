@@ -25,13 +25,22 @@ import java.util.stream.Collectors;
 //TODO 2 把公共代码抽象出来 作为抽象类吧
 //TODO 3 没有主键的情况下 没有主键不能生成
 public class DefaultCodeGenerator implements CodeGenerator {
-    private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-    private TableService tableService = new DBTableServiceImpl();
-    private static CodeGenerateContext codeGenerateContext = new ClassCodeGenerateContext().initClassCodeGenerateContext();
+    private VelocityTemplateEngine velocityTemplateEngine = VelocityTemplateEngine.getVelocityTemplateEngineInstance();
+    private TableService tableService;
+    private CodeGenerateContext codeGenerateContext;
 
+    public DefaultCodeGenerator(TableService tableService) {
+        this.tableService = tableService;
+        this.codeGenerateContext = new ClassCodeGenerateContext().initClassCodeGenerateContext();
+    }
+
+    public DefaultCodeGenerator(TableService tableService, CodeGenerateContext codeGenerateContext) {
+        this.tableService = tableService;
+        this.codeGenerateContext = codeGenerateContext;
+    }
 
     public static void main(String[] args) throws Exception {
-        DefaultCodeGenerator defaultCodeGenerator = new DefaultCodeGenerator();
+        DefaultCodeGenerator defaultCodeGenerator = new DefaultCodeGenerator(new DBTableServiceImpl());
         //1.单表生成--当然也支持复杂的多表生成，需要实现 IGenerateFilter拦截器，拦截tableExePre实现功能扩展
 //        defaultCodeGenerator.singleTableCodeGenerator("tag");
         //2.多表生成 -只支持两个表生成，如果需要复杂得表关系，那么需要自己实现拦截器，修改关联关系即可。

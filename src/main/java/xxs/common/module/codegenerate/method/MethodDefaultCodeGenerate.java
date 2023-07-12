@@ -43,12 +43,22 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class MethodDefaultCodeGenerate {
-    private VelocityTemplateEngine velocityTemplateEngine = new VelocityTemplateEngine();
-    private TableService tableService = new DBTableServiceImpl();
-    private MethodCodeGenerateContext codeGenerateContext = new MethodCodeGenerateContext().initMethodCodeGenerateContext();
+    private VelocityTemplateEngine velocityTemplateEngine = VelocityTemplateEngine.getVelocityTemplateEngineInstance();
+    private TableService tableService;
+    private MethodCodeGenerateContext codeGenerateContext;
+
+    public MethodDefaultCodeGenerate(TableService tableService) {
+        this.tableService = tableService;
+        codeGenerateContext = new MethodCodeGenerateContext().initMethodCodeGenerateContext();
+    }
+
+    public MethodDefaultCodeGenerate(TableService tableService, MethodCodeGenerateContext codeGenerateContext) {
+        this.tableService = tableService;
+        this.codeGenerateContext = codeGenerateContext;
+    }
 
     public static void main(String[] args) throws Exception {
-        MethodDefaultCodeGenerate methodDefaultCodeGenerate = new MethodDefaultCodeGenerate();
+        MethodDefaultCodeGenerate methodDefaultCodeGenerate = new MethodDefaultCodeGenerate(new DBTableServiceImpl());
         Set<UserInputWhereParam> params = new HashSet<>();
         UserInputWhereParam userInputWhereParam = new UserInputWhereParam();
         userInputWhereParam.setParamType(String.class);
