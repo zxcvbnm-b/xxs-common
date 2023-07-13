@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  *
  * @author
  */
-//TODO 1 表前缀问题解决：需要隔离加载表和处理表的名字驼峰的操作
 //TODO 2 把公共代码抽象出来 作为抽象类吧
 //TODO 3 没有主键的情况下 没有主键不能生成
 public class DefaultCodeGenerator implements CodeGenerator {
@@ -42,26 +41,26 @@ public class DefaultCodeGenerator implements CodeGenerator {
     public static void main(String[] args) throws Exception {
         DefaultCodeGenerator defaultCodeGenerator = new DefaultCodeGenerator(new DBTableServiceImpl());
         //1.单表生成--当然也支持复杂的多表生成，需要实现 IGenerateFilter拦截器，拦截tableExePre实现功能扩展
-//        defaultCodeGenerator.singleTableCodeGenerator("tag");
+//        defaultCodeGenerator.singleTableCodeGenerator("country");
         //2.多表生成 -只支持两个表生成，如果需要复杂得表关系，那么需要自己实现拦截器，修改关联关系即可。
 //        defaultCodeGenerator.relationCodeGenerator("sys_user", "sys_user_role", "user_id", false);
 
         //3.多表生成 关联关系应该换成对象来处理 一个表和多个表的关联关系
-//        List<RelationTableInfo> relationTableInfos = new ArrayList<>();
-//        RelationTableInfo relationTableInfo2 = new RelationTableInfo();
-//        relationTableInfo2.setRelationTableName("perm_user_group_admin_relation");
-//        relationTableInfo2.setOne2One(false);
-//        relationTableInfo2.setRelationColumnName("user_group_id");
-//        relationTableInfo2.setRelationUniqueColumnName("user_id");
-//        relationTableInfos.add(relationTableInfo2);
-//
-//        RelationTableInfo relationTableInfo3 = new RelationTableInfo();
-//        relationTableInfo3.setRelationTableName("perm_user_group_user_relation");
-//        relationTableInfo3.setOne2One(false);
-//        relationTableInfo3.setRelationUniqueColumnName("user_group_user_relation_id");
-//        relationTableInfo3.setRelationColumnName("user_group_id");
-//        relationTableInfos.add(relationTableInfo3);
-//        defaultCodeGenerator.relationCodeGenerator("perm_user_group", relationTableInfos);
+        List<RelationTableInfo> relationTableInfos = new ArrayList<>();
+        RelationTableInfo relationTableInfo2 = new RelationTableInfo();
+        relationTableInfo2.setRelationTableName("city");
+        relationTableInfo2.setOne2One(false);
+        relationTableInfo2.setRelationColumnName("CountryCode");
+        relationTableInfo2.setRelationUniqueColumnName("CountryCode");
+        relationTableInfos.add(relationTableInfo2);
+
+        RelationTableInfo relationTableInfo3 = new RelationTableInfo();
+        relationTableInfo3.setRelationTableName("countrylanguage");
+        relationTableInfo3.setOne2One(true);
+        relationTableInfo3.setRelationUniqueColumnName("CountryCode");
+        relationTableInfo3.setRelationColumnName("CountryCode");
+        relationTableInfos.add(relationTableInfo3);
+        defaultCodeGenerator.relationCodeGenerator("country", relationTableInfos);
 
     }
 
@@ -112,7 +111,15 @@ public class DefaultCodeGenerator implements CodeGenerator {
         }
     }
 
-    //TODO 一对多 一对一关系测试
+    /**
+     * 一对多 一对一关系生成
+     * @param mainTable 被关联表
+     * @param relationTableName 关联表名
+     * @param relationColumn 关联列名
+     * @param relationUniqueColumn 关联唯一列名
+     * @param one2One 是否是一对一
+     * @throws Exception
+     */
     private void buildRelation(TableInfo mainTable, String relationTableName, String relationColumn, String relationUniqueColumn, boolean one2One) throws Exception {
         Map<String, TableInfo> tableInfosMap = tableService.loadTables(relationTableName, codeGenerateContext.getTablePre());
         TableInfo relationTable = tableInfosMap.get(relationTableName);
@@ -191,7 +198,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
     private void generator(CodeGenerateContext codeGenerateContext, GenerateFilterContext generateFilterContext, Set<Template> genTemplate, TableInfo tableInfo) throws Exception {
         List<TableRelationship> tableRelationships = tableInfo.getTableRelationships();
         if (CollectionUtil.isNotEmpty(tableRelationships)) {
-            /*需要构造关系 递归生成关系--start*/
+            /*需要构造关系 递归先生成相关关联表--start*/
             for (TableRelationship tableRelationship : tableRelationships) {
                 generator(codeGenerateContext, generateFilterContext, genTemplate, tableRelationship.getRelationTable());
             }
@@ -207,7 +214,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
             velocityParamBuilder.putAll(params);
         }
         Map<String, Object> velocityParam = velocityParamBuilder.get();
-        //真正执行
+        //真正执行代码生成
         for (Template template : genTemplate) {
             String outFilePathName = template.getOutFilePathName(codeGenerateContext, tableInfo);
             String templateFilePathName = template.getTemplateFilePathName();

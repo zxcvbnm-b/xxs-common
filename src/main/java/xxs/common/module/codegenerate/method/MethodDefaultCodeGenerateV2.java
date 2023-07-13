@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 /**
- * 方法级别代码生成
+ * 方法级别代码生成--多例的 每次生成都生成一次
  * 用法：sql:select * from actor where actor_id in ('#{actorId}') 注意 ('#{actorId}')应该是贴紧的 ，否则会替换失败，因为sql在AST时会被格式化处理
  *
  * @author xxs

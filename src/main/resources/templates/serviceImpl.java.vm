@@ -2,6 +2,7 @@ package ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${serviceImplC
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xxs.common.module.utils.bean.CommonBeanUtils;
@@ -12,6 +13,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end#if(${serviceInterf
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${paramDTOConfig.filePost};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${tableInfo.capitalizeTableName}${resultDTOConfig.filePost};
 #if(${tableInfo.tableRelationships})
+import org.springframework.util.CollectionUtils;
 #if(${mybatisPlus})
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -23,11 +25,6 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.p
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${resultDTOConfig.filePost};
 import ${basePackageName}#if(${moduleName}).${moduleName}#end.${serviceInterfaceConfig.packageSimpleName}.${relationTableInfo.relationTable.capitalizeTableName}${serviceInterfaceConfig.filePost};
 import ${tableInfo.keyColumnInfo.javaType.getName()};
-        #if(${relationTableInfo.one2One})
-        #else
-import java.util.List;
-import org.springframework.util.CollectionUtils;
-        #end
      #end
  #end
 #end
@@ -321,7 +318,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
             }
         }
         //删除
-        for (${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName} :old${tableInfo.capitalizeTableName}s) {
+        for (${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName} : old${tableInfo.capitalizeTableName}s) {
             if (!new${tableInfo.capitalizeTableName}${tableInfo.tableRelationshipMainTableInfo.relationUniqueColumnInfo.capitalizePropertyName}s.contains(${tableInfo.tableName}.get${tableInfo.tableRelationshipMainTableInfo.relationUniqueColumnInfo.capitalizePropertyName}())) {
                 this.removeById(${tableInfo.tableName}.get${tableInfo.keyColumnInfo.capitalizePropertyName}());
             }
@@ -355,7 +352,7 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
 
     }
 
-    private void saveOrUpdateValid(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost} ,boolean save,boolean update) {
+    private void saveOrUpdateValid(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost}, boolean save, boolean update) {
 
     }
 #end
@@ -367,6 +364,5 @@ public class ${tableInfo.capitalizeTableName}${serviceImplConfig.filePost}#if(${
     private ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} entityTo${resultDTOConfig.filePost}(${tableInfo.capitalizeTableName}${entityConfig.filePost} ${tableInfo.tableName}${entityConfig.filePost}) {
         return CommonBeanUtils.copyProperties(${tableInfo.tableName}${entityConfig.filePost}, ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}::new);
     }
-
 
 }

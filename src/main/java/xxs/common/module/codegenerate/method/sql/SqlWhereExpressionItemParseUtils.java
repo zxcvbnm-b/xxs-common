@@ -57,7 +57,7 @@ public class SqlWhereExpressionItemParseUtils {
     }
 
     /**
-     * 解析常见的比较类型，比如 and  or等
+     * 解析常见的in类型的sql代码块
      *
      * @param leftExpression
      * @param rightExpression
@@ -89,7 +89,7 @@ public class SqlWhereExpressionItemParseUtils {
     }
 
     /**
-     * 解析常见的比较类型，比如 and  or等
+     * 解析常见的比较类型sql代码块，比如 and  or等
      *
      * @param leftExpression
      * @param rightExpression
@@ -120,7 +120,7 @@ public class SqlWhereExpressionItemParseUtils {
     }
 
     /**
-     * 解析betwwen比较类型
+     * 解析between比较类型sql代码块
      */
     public static SqlWhereExpressionOperateParam parseBetweenCompareType(Between between, String tableName, String tableAlias, LogicOperator currentLogicOperator) {
         if (between == null) {

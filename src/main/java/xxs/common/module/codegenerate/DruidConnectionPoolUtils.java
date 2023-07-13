@@ -10,7 +10,9 @@ import java.util.Properties;
 
 /**
  * 连接池工具
- *
+ *  nullCatalogMeansCurrent=true  mysql8.0的驱动，在5.5之前nullCatalogMeansCurrent属性默认为true,8.0中默认为false
+ *  避免加载到其他的列信息或者其他表的信息在调用  metaData.getTables  metaData.getColumns时
+ *  jdbc:mysql://127.0.0.1:3306/world?serverTimezone=PRC&nullCatalogMeansCurrent=true
  * @author xxs
  */
 public class DruidConnectionPoolUtils {

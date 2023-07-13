@@ -13,7 +13,7 @@ public interface Constants {
     /**
      * common properties path
      */
-    public static final String COMMON_PROPERTIES_PATH = "/common.properties";
+    String COMMON_PROPERTIES_PATH = "/common.properties";
     /**
      * 控制器后缀
      */
@@ -57,6 +57,11 @@ public interface Constants {
      * mapper.xml接口存放的基本包名
      */
     String DEFAULT_MAPPER_PACKAGE_SIMPLE_NAME = "mapper";
+
+    /**
+     * mapper.xml存放在resource的基本包名配置属性名称
+     */
+    String DEFAULT_MAPPER_RESOURCES_PACKAGE_SIMPLE_NAME = "mapper";
 
     /**
      * 服务实现类文件后缀名
@@ -113,11 +118,22 @@ public interface Constants {
     /**
      * mapper.xml文件接口文件名后缀配置属性名称
      */
-    String MAPPER_FILE_POST_PROPERTY_NAME = "gen.code.mapper.file.post";
+    String MAPPER_FILE_POST_PROPERTY_NAME = "gen.code.mapper.xml.file.post";
+
     /**
      * mapper.xml接口存放的基本包名配置属性名称
      */
-    String MAPPER_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.mapper.package.simple.name";
+    String MAPPER_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.mapper.xml.package.simple.name";
+
+    /**
+     * mapper.xml xml文件是否放resource文件夹下
+     */
+    String MAPPER_RESOURCES_PROPERTY_NAME = "gen.code.mapper.xml.is.resources";
+
+    /**
+     * mapper.xml存放在resource的基本包名配置属性名称
+     */
+    String MAPPER_RESOURCES_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.mapper.xml.resources.package.simple.name";
 
     /**
      * 服务实现类文件后缀名配置属性名称

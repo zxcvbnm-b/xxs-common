@@ -89,12 +89,12 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
            #*一对一  先默认开启lombok*#
     private ${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
 
-    public void get${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}() {
+    public ${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost} get${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}() {
         return ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
     }
 
     public void set${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost}(${relationTableInfo.relationTable.capitalizeTableName}${paramDTOConfig.filePost} ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}) {
-        this.${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost}} = ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
+        this.${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost} = ${relationTableInfo.relationTable.tableName}${paramDTOConfig.filePost};
     }
     #else
      #*一对多*#
