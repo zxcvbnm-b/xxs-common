@@ -10,6 +10,7 @@ import xxs.common.module.codegenerate.model.SearchColumnInfo;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.sql.DruidSqlDisposeUtils;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
@@ -21,6 +22,13 @@ import java.util.*;
  */
 @Slf4j
 public class DBTableServiceImpl implements TableService {
+
+    private DataSource dataSource;
+
+    public DBTableServiceImpl(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Override
     public Map<String, TableInfo> loadTables(String tableNames) throws SQLException {
         return this.loadTables(tableNames, null);
@@ -37,7 +45,7 @@ public class DBTableServiceImpl implements TableService {
     @Override
     public Map<String, TableInfo> loadTables(String tableNames, String replaceTablePre) throws SQLException {
         Map<String, TableInfo> tableInfoHashMap = new HashMap<>(8);
-        Connection connection = DruidConnectionPoolUtils.getConnection();
+        Connection connection = dataSource.getConnection();
         connection.setAutoCommit(false);
         try {
             DatabaseMetaData metaData = connection.getMetaData();
@@ -84,7 +92,7 @@ public class DBTableServiceImpl implements TableService {
             e.printStackTrace();
             connection.rollback();
         } finally {
-            DruidConnectionPoolUtils.closeConnection(connection);
+          connection.close();
         }
         return tableInfoHashMap;
     }
@@ -156,7 +164,7 @@ public class DBTableServiceImpl implements TableService {
     public List<SearchColumnInfo> getSearchColumnInfoBySearchSql(String sql) {
         String realString = DruidSqlDisposeUtils.setSelectLimit(sql);
         List<SearchColumnInfo> searchColumnInfoList = new ArrayList<>();
-        try (Connection con = DruidConnectionPoolUtils.getConnection()) {
+        try (Connection con = dataSource.getConnection()) {
             ResultSet resultSet = null;
             try (PreparedStatement statement = con.prepareStatement(realString)) {
                 if (statement.execute()) {
@@ -238,7 +246,7 @@ public class DBTableServiceImpl implements TableService {
     }
 
     public static void main(String[] args) {
-        TableService dbTableService = new DBTableServiceImpl();
+        TableService dbTableService = new DBTableServiceImpl(DefaultDataSourceProvider.getDataSourceInstance());
         List<SearchColumnInfo> searchColumnInfoBySearchSql = dbTableService.getSearchColumnInfoBySearchSql("select *,1 from perm_user_group a inner join perm_user_group_admin_relation b on a.user_group_id = b.user_group_id");
         System.out.println(searchColumnInfoBySearchSql);
     }

@@ -58,7 +58,7 @@ public class MethodDefaultCodeGenerate {
     }
 
     public static void main(String[] args) throws Exception {
-        MethodDefaultCodeGenerate methodDefaultCodeGenerate = new MethodDefaultCodeGenerate(new DBTableServiceImpl());
+        MethodDefaultCodeGenerate methodDefaultCodeGenerate = new MethodDefaultCodeGenerate(new DBTableServiceImpl(DefaultDataSourceProvider.getDataSourceInstance()));
         Set<UserInputWhereParam> params = new HashSet<>();
         UserInputWhereParam userInputWhereParam = new UserInputWhereParam();
         userInputWhereParam.setParamType(String.class);
