@@ -34,6 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author xxs
  */
 @Slf4j
+@Deprecated
 public class CreateSQLTableServiceImpl implements TableService{
     private DbType dbType;
     private Map<String, TableInfo> tableInfoMap = new ConcurrentHashMap<>(16);
