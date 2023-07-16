@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
+import com.alibaba.druid.DbType;
 import xxs.common.module.codegenerate.Constants;
 import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
@@ -16,7 +17,7 @@ public abstract class CompareXmlWhereParamNode extends AbstractXmlWhereParamNode
                     "       ${logicOperator} ${columnName} ${compareSymbol} ${compareParamValue}\n" +
                     "    </if>";
 
-    static final String OTHER_COMPARE_TEMPLATE =
+    static final String OBJECT_COMPARE_TEMPLATE =
             "    <if test=\"${paramName} != null\">\n" +
                     "        ${logicOperator} ${columnName} ${compareSymbol} ${compareParamValue}\n" +
                     "    </if>";
@@ -30,18 +31,16 @@ public abstract class CompareXmlWhereParamNode extends AbstractXmlWhereParamNode
     static final String BEGIN_PARAM_NAME = "beginParamName";
     static final String END_PARAM_NAME = "endParamName";
 
-    public CompareXmlWhereParamNode(WhereParam whereParam, ParamType paramType) {
-        super(whereParam, paramType);
+    public CompareXmlWhereParamNode(DbType dbType, WhereParam whereParam, ParamType paramType) {
+        super(dbType, whereParam, paramType);
     }
 
     @Override
     public String getWhereParamNode() {
         Properties properties = new Properties();
         String paramName = whereParam.getParamName();
-        String columnName = "";
-        String columnName1 = whereParam.getColumnName();
-        columnName = columnName1;
-        String template = "";
+        String columnName = whereParam.getColumnName();
+        String template;
         template = getCompareTemplate();
         properties.put(BEGIN_PARAM_NAME, wherePre + whereParam.getBeginParamName());
         properties.put(END_PARAM_NAME, wherePre + whereParam.getEndParamName());
@@ -55,12 +54,14 @@ public abstract class CompareXmlWhereParamNode extends AbstractXmlWhereParamNode
 
     protected String getCompareTemplate() {
         String template;
-        if (String.class.isAssignableFrom(whereParam.getParamType())) {
-            template = STRING_COMPARE_TEMPLATE;
-        } else if(whereParam.getWhereParamOperationType().equals(WhereParamOperationType.IN)) {
+        if (whereParam.getWhereParamOperationType().equals(WhereParamOperationType.IN)) {
             template = COLLECTION_COMPARE_TEMPLATE;
-        } else{
-            template = OTHER_COMPARE_TEMPLATE;
+        } else {
+            if (String.class.isAssignableFrom(whereParam.getParamType())) {
+                template = STRING_COMPARE_TEMPLATE;
+            } else {
+                template = OBJECT_COMPARE_TEMPLATE;
+            }
         }
         return template;
     }

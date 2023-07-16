@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
+import com.alibaba.druid.DbType;
 import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.model.WhereParam;
 
@@ -12,12 +13,12 @@ public class BetweenXmlWhereParamNode extends CompareXmlWhereParamNode {
                     "       ${logicOperator} ${columnName} ${compareSymbol} ${compareParamValue}\n" +
                     "    </if>";
 
-    static final String OTHER_COMPARE_TEMPLATE_BETWEEN =
+    static final String OBJECT_COMPARE_TEMPLATE_BETWEEN =
             "    <if test=\"${beginParamName} != null and ${endParamName} != null\">\n" +
                     "        ${logicOperator} ${columnName} ${compareSymbol} ${compareParamValue}\n" +
                     "    </if>";
 
-    public BetweenXmlWhereParamNode(WhereParam whereParam, ParamType paramType) {
+    public BetweenXmlWhereParamNode(DbType dbType, WhereParam whereParam, ParamType paramType) {
         super(whereParam, paramType);
     }
 
@@ -34,11 +35,9 @@ public class BetweenXmlWhereParamNode extends CompareXmlWhereParamNode {
 
     @Override
     protected String getCompareTemplate() {
-        String template;
+        String template = OBJECT_COMPARE_TEMPLATE_BETWEEN;
         if (String.class.isAssignableFrom(whereParam.getParamType())) {
             template = STRING_COMPARE_TEMPLATE_BETWEEN;
-        } else {
-            template = OTHER_COMPARE_TEMPLATE_BETWEEN;
         }
         return template;
     }

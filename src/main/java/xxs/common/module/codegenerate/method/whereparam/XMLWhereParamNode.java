@@ -9,7 +9,7 @@ package xxs.common.module.codegenerate.method.whereparam;
  */
 public interface XMLWhereParamNode {
     /**
-     * 比如
+     * 获取where参数节点配置
      *
      * @return
      */

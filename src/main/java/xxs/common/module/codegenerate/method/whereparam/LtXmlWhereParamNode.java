@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
+import com.alibaba.druid.DbType;
 import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.model.WhereParam;
 
@@ -8,8 +9,8 @@ import xxs.common.module.codegenerate.method.model.WhereParam;
  */
 public class LtXmlWhereParamNode extends CompareXmlWhereParamNode {
 
-    public LtXmlWhereParamNode(WhereParam whereParam, ParamType paramType) {
-        super(whereParam, paramType);
+    public LtXmlWhereParamNode(DbType dbType, WhereParam whereParam, ParamType paramType) {
+        super(dbType, whereParam, paramType);
     }
 
     @Override

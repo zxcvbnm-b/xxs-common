@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
+import com.alibaba.druid.DbType;
 import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.model.WhereParam;
 
@@ -12,8 +13,8 @@ public class ForeachXmlWhereParamNode extends CompareXmlWhereParamNode {
             "            #{item}\n" +
             "        </foreach>";
 
-    public ForeachXmlWhereParamNode(WhereParam whereParam, ParamType paramType) {
-        super(whereParam, paramType);
+    public ForeachXmlWhereParamNode(DbType dbType, WhereParam whereParam, ParamType paramType) {
+        super(dbType, whereParam, paramType);
     }
 
     @Override

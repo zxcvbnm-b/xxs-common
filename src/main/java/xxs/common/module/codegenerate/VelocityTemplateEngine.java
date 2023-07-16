@@ -54,6 +54,7 @@ public class VelocityTemplateEngine {
             String realOutFilePathName = getRealOutFilePathName(outputFile, coverExistFile);
             StringWriter sw = new StringWriter();
             template.merge(new VelocityContext(objectValueMap), sw);
+            //TODO 可以不是写到文件，而是输出到其他位置（比如压缩包）
             writeFile(new File(realOutFilePathName), sw.toString(), ConstVal.UTF8, append);
         } catch (Exception e) {
             e.printStackTrace();

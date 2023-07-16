@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
+import com.alibaba.druid.DbType;
 import lombok.extern.slf4j.Slf4j;
 import xxs.common.module.codegenerate.method.enums.LogicOperator;
 import xxs.common.module.codegenerate.method.enums.ParamType;
@@ -10,6 +11,7 @@ import xxs.common.module.codegenerate.method.model.WhereParam;
  */
 @Slf4j
 public abstract class AbstractXmlWhereParamNode implements XMLWhereParamNode {
+    protected DbType dbType;
     protected String wherePre = "";
     protected WhereParam whereParam;
     protected ParamType paramType;
@@ -18,16 +20,18 @@ public abstract class AbstractXmlWhereParamNode implements XMLWhereParamNode {
     public static final String COMPARE_SYMBOL_PLACEHOLDER_HELPER = "compareSymbol";
     public static final String LOGIC_OPERATOR_PLACEHOLDER_HELPER = "logicOperator";
 
-    public AbstractXmlWhereParamNode(WhereParam whereParam, ParamType paramType) {
+    public AbstractXmlWhereParamNode(DbType dbType, WhereParam whereParam, ParamType paramType) {
+        this.dbType = dbType;
         this.whereParam = whereParam;
         this.paramType = paramType;
         if (ParamType.DTO.equals(paramType)) {
             wherePre = "condition.";
-        } else if (ParamType.QUERY_PARAM.equals(paramType)) {
-            wherePre = "";
         }
-        if(whereParam.getLogicOperator()==null){
+        if (whereParam.getLogicOperator() == null) {
             whereParam.setLogicOperator(LogicOperator.AND);
+        }
+        if (dbType == null) {
+            dbType = DbType.mysql;
         }
     }
 

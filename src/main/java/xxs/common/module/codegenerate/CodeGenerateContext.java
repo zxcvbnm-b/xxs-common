@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate;
 
+import com.alibaba.druid.DbType;
 import lombok.Data;
 import xxs.common.module.codegenerate.config.*;
 import xxs.common.module.codegenerate.filter.*;
@@ -17,8 +18,11 @@ import java.util.*;
  */
 @Data
 public class CodeGenerateContext {
-
     protected XxsProperties properties = LoadPropertyUtils.copy();
+    /**
+     * 数据库类型
+     */
+    protected DbType dbType = DbType.mysql;
     /**
      * 获取到项目的绝对路径
      */

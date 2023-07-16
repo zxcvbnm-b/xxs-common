@@ -123,15 +123,8 @@ public class MethodDefaultCodeGenerateV2 {
         sqlWhereExpressionItemParseUtils.initSqlWhereExpressionOperateParamColumnInfo(sqlWhereExpressionOperateParams);
         List<WhereParam> whereParamList = new ArrayList<>();
         for (SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam : sqlWhereExpressionOperateParams) {
-            WhereParam whereParam = new WhereParam();
-            whereParam.setBeginParamName(sqlWhereExpressionOperateParam.getBeginParamName());
-            whereParam.setEndParamName(sqlWhereExpressionOperateParam.getEndParamName());
-            whereParam.setParamType(sqlWhereExpressionOperateParam.getColumnJavaType());
-            whereParam.setWhereParamOperationType(sqlWhereExpressionOperateParam.getSqlWhereParamType());
-            whereParam.setColumnName(sqlWhereExpressionOperateParam.getColumnName());
-            whereParam.setParamName(sqlWhereExpressionOperateParam.getWhereParamName());
-            whereParam.setLogicOperator(sqlWhereExpressionOperateParam.getLogicOperator());
-            XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(whereParam, paramType);
+            WhereParam whereParam = this.getWhereParam(sqlWhereExpressionOperateParam);
+            XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(codeGenerateContext.getDbType(),whereParam, paramType);
             whereParamList.add(whereParam);
             System.out.println(sqlWhereExpressionOperateParam.getFindPattern());
             System.out.println(xmlWhereParamNode.getWhereParamNode());
@@ -145,6 +138,18 @@ public class MethodDefaultCodeGenerateV2 {
         }
         methodGenParamContext.setWhereParamList(whereParamList);
         return sql;
+    }
+
+    private WhereParam getWhereParam(SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam) {
+        WhereParam whereParam = new WhereParam();
+        whereParam.setBeginParamName(sqlWhereExpressionOperateParam.getBeginParamName());
+        whereParam.setEndParamName(sqlWhereExpressionOperateParam.getEndParamName());
+        whereParam.setParamType(sqlWhereExpressionOperateParam.getColumnJavaType());
+        whereParam.setWhereParamOperationType(sqlWhereExpressionOperateParam.getSqlWhereParamType());
+        whereParam.setColumnName(sqlWhereExpressionOperateParam.getColumnName());
+        whereParam.setParamName(sqlWhereExpressionOperateParam.getWhereParamName());
+        whereParam.setLogicOperator(sqlWhereExpressionOperateParam.getLogicOperator());
+        return whereParam;
     }
 
     /**

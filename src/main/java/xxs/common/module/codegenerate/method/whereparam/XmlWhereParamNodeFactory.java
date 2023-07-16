@@ -1,5 +1,6 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
+import com.alibaba.druid.DbType;
 import xxs.common.module.codegenerate.method.enums.ParamType;
 import xxs.common.module.codegenerate.method.model.WhereParam;
 
@@ -9,32 +10,32 @@ import xxs.common.module.codegenerate.method.model.WhereParam;
  * @author xxs
  */
 public class XmlWhereParamNodeFactory {
-    public static XMLWhereParamNode create(WhereParam whereParam, ParamType paramType) {
+    public static XMLWhereParamNode create(DbType dbType, WhereParam whereParam, ParamType paramType) {
         XMLWhereParamNode xmlWhereParamNode = null;
         switch (whereParam.getWhereParamOperationType()) {
             case BETWEEN:
-                xmlWhereParamNode = new BetweenXmlWhereParamNode(whereParam, paramType);
+                xmlWhereParamNode = new BetweenXmlWhereParamNode(dbType, whereParam, paramType);
                 break;
             case EQ:
-                xmlWhereParamNode = new EqXmlWhereParamNode(whereParam, paramType);
+                xmlWhereParamNode = new EqXmlWhereParamNode(dbType, whereParam, paramType);
                 break;
             case IN:
-                xmlWhereParamNode = new ForeachXmlWhereParamNode(whereParam, paramType);
+                xmlWhereParamNode = new ForeachXmlWhereParamNode(dbType, whereParam, paramType);
                 break;
             case GE:
-                xmlWhereParamNode = new GEXmlWhereParamNode(whereParam, paramType);
+                xmlWhereParamNode = new GEXmlWhereParamNode(dbType, whereParam, paramType);
                 break;
             case GT:
-                xmlWhereParamNode = new GtXmlWhereParamNode(whereParam, paramType);
+                xmlWhereParamNode = new GtXmlWhereParamNode(dbType, whereParam, paramType);
                 break;
             case LE:
-                xmlWhereParamNode = new LEXmlWhereParamNode(whereParam, paramType);
+                xmlWhereParamNode = new LEXmlWhereParamNode(dbType, whereParam, paramType);
                 break;
             case LIKE:
-                xmlWhereParamNode = new LikeXmlWhereParamNode(whereParam, paramType);
+                xmlWhereParamNode = new LikeXmlWhereParamNode(dbType, whereParam, paramType);
                 break;
             case LT:
-                xmlWhereParamNode = new LtXmlWhereParamNode(whereParam, paramType);
+                xmlWhereParamNode = new LtXmlWhereParamNode(dbType, whereParam, paramType);
                 break;
             default:
                 throw new IllegalArgumentException("XMLWhereParamNode不支持" + whereParam.getWhereParamOperationType().name());

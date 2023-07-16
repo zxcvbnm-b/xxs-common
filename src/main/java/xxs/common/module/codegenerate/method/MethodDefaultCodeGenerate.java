@@ -190,7 +190,7 @@ public class MethodDefaultCodeGenerate {
         }
         List<WhereParam> whereParamList = methodGenParamContext.getWhereParamList();
         for (WhereParam whereParam : whereParamList) {
-            XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(whereParam, methodGenParamContext.getParamType());
+            XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(codeGenerateContext.getDbType(), whereParam, methodGenParamContext.getParamType());
             String whereParamNode = xmlWhereParamNode.getWhereParamNode();
             xmlSqlContent = xmlSqlContent + "\n" + whereParamNode;
         }
