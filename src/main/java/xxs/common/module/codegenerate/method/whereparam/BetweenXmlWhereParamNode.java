@@ -19,7 +19,7 @@ public class BetweenXmlWhereParamNode extends CompareXmlWhereParamNode {
                     "    </if>";
 
     public BetweenXmlWhereParamNode(DbType dbType, WhereParam whereParam, ParamType paramType) {
-        super(whereParam, paramType);
+        super(dbType, whereParam, paramType);
     }
 
     @Override
