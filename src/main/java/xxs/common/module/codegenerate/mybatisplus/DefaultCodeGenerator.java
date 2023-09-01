@@ -9,6 +9,7 @@ import xxs.common.module.codegenerate.model.RelationTableInfo;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.model.TableRelationship;
 import xxs.common.module.codegenerate.template.*;
+import xxs.common.module.codegenerate.velocity.LocalFileGenerateOutPut;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,11 +114,12 @@ public class DefaultCodeGenerator implements CodeGenerator {
 
     /**
      * 一对多 一对一关系生成
-     * @param mainTable 被关联表
-     * @param relationTableName 关联表名
-     * @param relationColumn 关联列名
+     *
+     * @param mainTable            被关联表
+     * @param relationTableName    关联表名
+     * @param relationColumn       关联列名
      * @param relationUniqueColumn 关联唯一列名
-     * @param one2One 是否是一对一
+     * @param one2One              是否是一对一
      * @throws Exception
      */
     private void buildRelation(TableInfo mainTable, String relationTableName, String relationColumn, String relationUniqueColumn, boolean one2One) throws Exception {
@@ -218,7 +220,8 @@ public class DefaultCodeGenerator implements CodeGenerator {
         for (Template template : genTemplate) {
             String outFilePathName = template.getOutFilePathName(codeGenerateContext, tableInfo);
             String templateFilePathName = template.getTemplateFilePathName();
-            velocityTemplateEngine.generate(velocityParam, templateFilePathName, outFilePathName, false, codeGenerateContext.isCoverExistFile());
+            LocalFileGenerateOutPut localFileGenerateOutPut = new LocalFileGenerateOutPut(outFilePathName, false, codeGenerateContext.isCoverExistFile());
+            velocityTemplateEngine.generate(localFileGenerateOutPut, velocityParam, templateFilePathName, outFilePathName);
         }
     }
 }

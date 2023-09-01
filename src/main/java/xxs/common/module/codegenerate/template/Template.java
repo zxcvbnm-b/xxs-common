@@ -36,4 +36,5 @@ public interface Template {
     default boolean append() {
         return false;
     }
+
 }

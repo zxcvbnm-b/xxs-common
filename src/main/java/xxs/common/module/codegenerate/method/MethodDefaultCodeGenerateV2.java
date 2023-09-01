@@ -23,6 +23,7 @@ import xxs.common.module.codegenerate.method.whereparam.XmlWhereParamNodeFactory
 import xxs.common.module.codegenerate.model.SearchColumnInfo;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.template.Template;
+import xxs.common.module.codegenerate.velocity.LocalFileGenerateOutPut;
 import xxs.common.module.sql.DruidSqlDisposeUtils;
 
 import java.io.File;
@@ -101,12 +102,13 @@ public class MethodDefaultCodeGenerateV2 {
         Map<String, Object> stringObjectMap = velocityParamBuilder.get();
         //渲染模板生成代码
         for (Template template : genTemplate) {
+            LocalFileGenerateOutPut localFileGenerateOutPut = new LocalFileGenerateOutPut(this.wrapFileName(template.getOutFilePathName(codeGenerateContext, tableInfo), template, methodGenParamContext.getCapitalizeSearchName()), template.append(), false);
             if (codeGenerateContext.isOnlyGenerateMethodAllTemplate()) {
                 if (template instanceof MethodAllTemplate) {
-                    velocityTemplateEngine.generate(stringObjectMap, template.getTemplateFilePathName(), this.wrapFileName(template.getOutFilePathName(codeGenerateContext, tableInfo), template, methodGenParamContext.getCapitalizeSearchName()), template.append(), false);
+                    velocityTemplateEngine.generate(localFileGenerateOutPut, stringObjectMap, template.getTemplateFilePathName(), methodGenParamContext.getCapitalizeSearchName());
                 }
             } else {
-                velocityTemplateEngine.generate(stringObjectMap, template.getTemplateFilePathName(), this.wrapFileName(template.getOutFilePathName(codeGenerateContext, tableInfo), template, methodGenParamContext.getCapitalizeSearchName()), template.append(), false);
+                velocityTemplateEngine.generate(localFileGenerateOutPut, stringObjectMap, template.getTemplateFilePathName(), methodGenParamContext.getCapitalizeSearchName());
             }
         }
     }
