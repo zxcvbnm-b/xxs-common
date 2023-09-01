@@ -10,6 +10,8 @@ import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.model.TableRelationship;
 import xxs.common.module.codegenerate.template.*;
 import xxs.common.module.codegenerate.velocity.LocalFileGenerateOutPut;
+import xxs.common.module.codegenerate.velocity.VelocityParamBuilder;
+import xxs.common.module.codegenerate.velocity.VelocityTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.List;

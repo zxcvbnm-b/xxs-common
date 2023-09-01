@@ -435,7 +435,7 @@ public class DruidSqlDisposeUtils {
         // 如果没有有别名
         if (expr instanceof SQLIdentifierExpr) {
             SQLIdentifierExpr conditionColumnExpr2 = (SQLIdentifierExpr) expr;
-            conditionColumnExpr2.setName(alias + "." + conditionColumnExpr2.getName());
+            conditionColumnExpr2.setName(alias + Constants.POINT_SYMBOL + conditionColumnExpr2.getName());
         }
         if (expr instanceof SQLBinaryOpExpr) {
             SQLBinaryOpExpr conditionColumnExpr = (SQLBinaryOpExpr) expr;

@@ -1,6 +1,8 @@
-package xxs.common.module.codegenerate;
+package xxs.common.module.codegenerate.velocity;
 
 import cn.hutool.core.bean.BeanUtil;
+import xxs.common.module.codegenerate.CodeGenerateContext;
+
 import java.util.HashMap;
 import java.util.Map;
 

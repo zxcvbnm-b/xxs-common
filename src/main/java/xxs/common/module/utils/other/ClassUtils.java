@@ -1,4 +1,6 @@
 package xxs.common.module.utils.other;
+import xxs.common.module.codegenerate.Constants;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
@@ -54,7 +56,7 @@ public class ClassUtils {
 
         for (File file : dirFiles) {
             if (file.isDirectory()) {
-                Class<?> clazz = findClassFirstInPackageByFile(packageName + "." + file.getName(), file.getAbsolutePath(), recursive, className);
+                Class<?> clazz = findClassFirstInPackageByFile(packageName + Constants.POINT_SYMBOL + file.getName(), file.getAbsolutePath(), recursive, className);
                 if(clazz!=null){
                     return clazz;
                 }
@@ -62,7 +64,7 @@ public class ClassUtils {
                 String classFileName = file.getName().substring(0, file.getName().length() - 6);
                 try {
                     if(classFileName.equals(className)){
-                        return Thread.currentThread().getContextClassLoader().loadClass(packageName + "." + classFileName);
+                        return Thread.currentThread().getContextClassLoader().loadClass(packageName + Constants.POINT_SYMBOL + classFileName);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

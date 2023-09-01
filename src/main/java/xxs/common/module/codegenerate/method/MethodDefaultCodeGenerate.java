@@ -25,6 +25,8 @@ import xxs.common.module.codegenerate.model.SearchColumnInfo;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.template.Template;
 import xxs.common.module.codegenerate.velocity.LocalFileGenerateOutPut;
+import xxs.common.module.codegenerate.velocity.VelocityParamBuilder;
+import xxs.common.module.codegenerate.velocity.VelocityTemplateEngine;
 import xxs.common.module.sql.DruidSqlDisposeUtils;
 
 import java.io.File;
@@ -153,7 +155,7 @@ public class MethodDefaultCodeGenerate {
         }
         String result = outFilePathName;
         String folder = outFilePathName.substring(0, outFilePathName.lastIndexOf("\\"));
-        String fileSuffix = outFilePathName.substring(outFilePathName.lastIndexOf("."));
+        String fileSuffix = outFilePathName.substring(outFilePathName.lastIndexOf(Constants.POINT_SYMBOL));
         if (template instanceof MethodParamDTOTemplate) {
             result = folder + File.separator + capitalizeSearchName + Constants.DEFAULT_PARAM_FILE_POST + fileSuffix;
         }

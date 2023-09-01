@@ -257,4 +257,7 @@ public interface Constants {
     String TABLE_ALIAS_PLACEHOLDER = "tableAlias";
 
     String COMMA_SEPARATOR = ",";
+
+    String POINT_SYMBOL = ".";
+
 }

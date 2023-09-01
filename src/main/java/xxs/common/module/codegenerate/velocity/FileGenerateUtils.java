@@ -1,6 +1,7 @@
 package xxs.common.module.codegenerate.velocity;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
+import xxs.common.module.codegenerate.Constants;
 
 import java.io.*;
 import java.util.Date;
@@ -20,11 +21,11 @@ public class FileGenerateUtils {
         }
         File outFile = new File(realOutFilePathName);
         if (outFile.exists()) {
-            String fileName = outFilePathName.substring(outFilePathName.lastIndexOf("\\") + 1, outFilePathName.lastIndexOf("."));
-            String filePost = outFilePathName.substring(outFilePathName.lastIndexOf(".") + 1);
+            String fileName = outFilePathName.substring(outFilePathName.lastIndexOf("\\") + 1, outFilePathName.lastIndexOf(Constants.POINT_SYMBOL));
+            String filePost = outFilePathName.substring(outFilePathName.lastIndexOf(Constants.POINT_SYMBOL) + 1);
             String filePre = outFilePathName.substring(0, outFilePathName.lastIndexOf("\\") + 1);
             String newFileName = fileName + DateFormatUtils.format(new Date(), "yyyy-MM-dd HH-mm-ss");
-            realOutFilePathName = filePre + newFileName + "." + filePost;
+            realOutFilePathName = filePre + newFileName + Constants.POINT_SYMBOL + filePost;
         }
         return realOutFilePathName;
     }

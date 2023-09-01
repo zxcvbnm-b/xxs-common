@@ -1,4 +1,6 @@
 package xxs.common.module.utils.other;
+import xxs.common.module.codegenerate.Constants;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
@@ -88,11 +90,11 @@ public class CommonClassUtils {
 
         for (File file : dirFiles) {
             if (file.isDirectory()) {
-                findClassInPackageByFile(packageName + "." + file.getName(), file.getAbsolutePath(), recursive, clazzs);
+                findClassInPackageByFile(packageName + Constants.POINT_SYMBOL + file.getName(), file.getAbsolutePath(), recursive, clazzs);
             } else {
                 String className = file.getName().substring(0, file.getName().length() - 6);
                 try {
-                    clazzs.add(Thread.currentThread().getContextClassLoader().loadClass(packageName + "." + className));
+                    clazzs.add(Thread.currentThread().getContextClassLoader().loadClass(packageName + Constants.POINT_SYMBOL + className));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -176,7 +178,7 @@ public class CommonClassUtils {
 
         for (File file : dirFiles) {
             if (file.isDirectory()) {
-                Class<?> clazz = findClassFirstInPackageByFile(packageName + "." + file.getName(), file.getAbsolutePath(), recursive, className);
+                Class<?> clazz = findClassFirstInPackageByFile(packageName + Constants.POINT_SYMBOL + file.getName(), file.getAbsolutePath(), recursive, className);
                 if(clazz!=null){
                     return clazz;
                 }
@@ -184,7 +186,7 @@ public class CommonClassUtils {
                 String classFileName = file.getName().substring(0, file.getName().length() - 6);
                 try {
                     if(classFileName.equals(className)){
-                        return Thread.currentThread().getContextClassLoader().loadClass(packageName + "." + classFileName);
+                        return Thread.currentThread().getContextClassLoader().loadClass(packageName + Constants.POINT_SYMBOL + classFileName);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

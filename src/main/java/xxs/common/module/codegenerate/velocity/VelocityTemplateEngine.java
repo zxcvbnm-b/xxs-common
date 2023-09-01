@@ -1,22 +1,17 @@
-package xxs.common.module.codegenerate;
+package xxs.common.module.codegenerate.velocity;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader;
-import org.apache.velocity.util.ExtProperties;
-import xxs.common.module.codegenerate.velocity.FileGenerateUtils;
-import xxs.common.module.codegenerate.velocity.GenerateOutPut;
 
 import javax.sql.DataSource;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 

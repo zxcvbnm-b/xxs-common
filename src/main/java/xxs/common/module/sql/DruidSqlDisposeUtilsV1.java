@@ -13,6 +13,7 @@ import com.alibaba.druid.sql.visitor.SQLASTVisitorAdapter;
 import com.alibaba.druid.util.JdbcConstants;
 import com.alibaba.druid.util.StringUtils;
 import org.springframework.util.CollectionUtils;
+import xxs.common.module.codegenerate.Constants;
 
 import java.util.List;
 
@@ -334,7 +335,7 @@ public class DruidSqlDisposeUtilsV1 {
         // 如果没有有别名
         if (expr instanceof SQLIdentifierExpr) {
             SQLIdentifierExpr conditionColumnExpr2 = (SQLIdentifierExpr) expr;
-            conditionColumnExpr2.setName(alias + "." + conditionColumnExpr2.getName());
+            conditionColumnExpr2.setName(alias + Constants.POINT_SYMBOL + conditionColumnExpr2.getName());
         }
         if (expr instanceof SQLBinaryOpExpr) {
             SQLBinaryOpExpr conditionColumnExpr = (SQLBinaryOpExpr) expr;

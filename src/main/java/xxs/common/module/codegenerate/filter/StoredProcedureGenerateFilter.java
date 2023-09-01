@@ -24,7 +24,7 @@ public class StoredProcedureGenerateFilter implements IGenerateFilter {
 
             @Override
             public String getOutFilePathName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
-                String filePathName = codeGenerateContext.getAbsoluteDir() + AbstractTemplate.SRC_TEST_RESOURCES_PATH + "sql" + File.separator + "batch_add_" + tableInfo.getName() + ".sql";
+                String filePathName = codeGenerateContext.getAbsoluteDir() + AbstractTemplate.SRC_TEST_RESOURCES_PATH + "sql" + File.separator + "batch_add_" + tableInfo.getName() + SQL_FILE_POST;
                 return filePathName;
             }
 
@@ -36,6 +36,11 @@ public class StoredProcedureGenerateFilter implements IGenerateFilter {
             @Override
             public Map<String, Object> customTemplateParamMap(Object pram) {
                 return super.customTemplateParamMap(pram);
+            }
+
+            @Override
+            public String getFileName(CodeGenerateContext codeGenerateContext, TableInfo tableInfo) {
+                return "batch_add_" + tableInfo.getName() + SQL_FILE_POST;
             }
         });
     }

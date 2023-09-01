@@ -5,6 +5,7 @@ import lombok.Data;
 import xxs.common.module.codegenerate.config.*;
 import xxs.common.module.codegenerate.filter.*;
 import xxs.common.module.codegenerate.template.*;
+import xxs.common.module.codegenerate.velocity.VelocityParamBuilder;
 import xxs.common.module.utils.other.LoadPropertyUtils;
 import xxs.common.module.utils.other.XxsProperties;
 
