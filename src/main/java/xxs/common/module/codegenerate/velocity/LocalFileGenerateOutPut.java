@@ -1,5 +1,9 @@
 package xxs.common.module.codegenerate.velocity;
 
+import com.baomidou.mybatisplus.generator.config.ConstVal;
+
+import java.io.File;
+
 /**
  * 生成到本地文件
  *
@@ -17,7 +21,8 @@ public class LocalFileGenerateOutPut implements GenerateOutPut {
     }
 
     @Override
-    public void output(String name, String stringWriterText) {
-
+    public void output(String name, String stringWriterText) throws Exception {
+        String realOutFilePathName = FileGenerateUtils.getRealOutFilePathName(outputFile, coverExistFile);
+        FileGenerateUtils.writeFile(new File(realOutFilePathName), stringWriterText, ConstVal.UTF8, append);
     }
 }

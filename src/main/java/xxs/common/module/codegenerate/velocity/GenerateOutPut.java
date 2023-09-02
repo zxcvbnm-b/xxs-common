@@ -1,5 +1,7 @@
 package xxs.common.module.codegenerate.velocity;
 
+import java.io.IOException;
+
 /**
  * 模板生成输出
  *
@@ -12,5 +14,5 @@ public interface GenerateOutPut {
      * @param stringWriterText
      * @param name 标识名字
      */
-    void output(String name ,String stringWriterText);
+    void output(String name ,String stringWriterText) throws Exception;
 }
