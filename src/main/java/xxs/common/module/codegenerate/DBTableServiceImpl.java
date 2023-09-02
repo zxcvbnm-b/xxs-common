@@ -46,7 +46,6 @@ public class DBTableServiceImpl implements TableService {
     public Map<String, TableInfo> loadTables(String tableNames, String replaceTablePre) throws SQLException {
         Map<String, TableInfo> tableInfoHashMap = new HashMap<>(8);
         Connection connection = dataSource.getConnection();
-        connection.setAutoCommit(false);
         try {
             DatabaseMetaData metaData = connection.getMetaData();
             String[] tableNameArr = tableNames.split(",");
@@ -56,29 +55,12 @@ public class DBTableServiceImpl implements TableService {
                 TableInfo tableInfo = new TableInfo();
                 List<ColumnInfo> columnInfoList = new ArrayList<>();
                 //找出表信息
-                while (tableResultSet.next()) {
-                    //表名
-                    String name = tableResultSet.getString("TABLE_NAME");
-                    //表类型
-                    String tableType = tableResultSet.getString("TABLE_TYPE");
-                    //表备注
-                    String comment = tableResultSet.getString("REMARKS");
-                    tableInfo.setName(name);
-                    tableInfo.setComment(StringUtils.isNotEmpty(comment) ? comment : name);
-                    tableInfo.setTableType(tableType);
-                    String replaceTablePreName = name;
-                    if (StringUtils.isNotEmpty(replaceTablePre)) {
-                        replaceTablePreName = StrUtil.removePrefix(name.toUpperCase(), replaceTablePre.toUpperCase());
-                    }
-
-                    String camelCaseTableName = StrUtil.toCamelCase(replaceTablePreName);
-                    tableInfo.setTableName(camelCaseTableName);
-                    //首字母大写
-                    tableInfo.setCapitalizeTableName(StringUtils.capitalize(camelCaseTableName));
-                    ResultSet columnResultSet = metaData.getColumns(null, "xxs", tableName,
+                if (tableResultSet.next()) {
+                    this.getTableInfo(replaceTablePre, tableResultSet, tableInfo);
+                    ResultSet columnResultSet = metaData.getColumns(null, null, tableName,
                             "%");
                     //找出列信息
-                    while (columnResultSet.next()) {
+                    if (columnResultSet.next()) {
                         this.buildColumn(columnInfoList, columnResultSet);
                     }
                     //找出主键列
@@ -87,14 +69,33 @@ public class DBTableServiceImpl implements TableService {
                 }
                 tableInfoHashMap.put(tableName, tableInfo);
             }
-            connection.commit();
         } catch (Exception e) {
-            e.printStackTrace();
-            connection.rollback();
+            log.error("loadTables error ", e);
         } finally {
-          connection.close();
+            connection.close();
         }
         return tableInfoHashMap;
+    }
+
+    private void getTableInfo(String replaceTablePre, ResultSet tableResultSet, TableInfo tableInfo) throws SQLException {
+        //表名
+        String name = tableResultSet.getString("TABLE_NAME");
+        //表类型
+        String tableType = tableResultSet.getString("TABLE_TYPE");
+        //表备注
+        String comment = tableResultSet.getString("REMARKS");
+        tableInfo.setName(name);
+        tableInfo.setComment(StringUtils.isNotEmpty(comment) ? comment : name);
+        tableInfo.setTableType(tableType);
+        String replaceTablePreName = name;
+        if (StringUtils.isNotEmpty(replaceTablePre)) {
+            replaceTablePreName = StrUtil.removePrefix(name.toUpperCase(), replaceTablePre.toUpperCase());
+        }
+
+        String camelCaseTableName = StrUtil.toCamelCase(replaceTablePreName);
+        tableInfo.setTableName(camelCaseTableName);
+        //首字母大写
+        tableInfo.setCapitalizeTableName(StringUtils.capitalize(camelCaseTableName));
     }
 
     private void buildKeyColumn(DatabaseMetaData metaData, String tableName, TableInfo tableInfo, List<ColumnInfo> columnInfoList) throws SQLException {
@@ -102,13 +103,13 @@ public class DBTableServiceImpl implements TableService {
         while (keyResultSet.next()) {
             //主键列名
             String columnName = keyResultSet.getString("COLUMN_NAME");
-            columnInfoList:
+            keyColumnInfoList:
             for (ColumnInfo columnInfo : columnInfoList) {
                 if (columnName.equalsIgnoreCase(columnInfo.getColumnName())) {
                     columnInfo.setKeyFlag(true);
                     //设置主键列
                     tableInfo.setKeyColumnInfo(columnInfo);
-                    break columnInfoList;
+                    break keyColumnInfoList;
                 }
             }
 
@@ -162,7 +163,7 @@ public class DBTableServiceImpl implements TableService {
      */
     @Override
     public List<SearchColumnInfo> getSearchColumnInfoBySearchSql(String sql) {
-        String realString = DruidSqlDisposeUtils.setSelectLimit(sql);
+        String realString = DruidSqlDisposeUtils.setSelectLimit1(sql);
         List<SearchColumnInfo> searchColumnInfoList = new ArrayList<>();
         try (Connection con = dataSource.getConnection()) {
             ResultSet resultSet = null;
@@ -178,8 +179,8 @@ public class DBTableServiceImpl implements TableService {
                     this.wrapSearchColumnInfo(searchColumnInfoList);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 String format = String.format("执行sql出错,sql: %s,msg: %s ", realString, e.getMessage());
+                log.error("getSearchColumnInfoBySearchSql error {}", format, e);
                 throw new RuntimeException(format);
             } finally {
                 if (resultSet != null) {
@@ -188,7 +189,7 @@ public class DBTableServiceImpl implements TableService {
             }
             return searchColumnInfoList;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("getSearchColumnInfoBySearchSql error", e);
         }
         return searchColumnInfoList;
     }

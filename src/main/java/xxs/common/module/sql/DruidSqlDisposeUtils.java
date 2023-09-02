@@ -178,7 +178,7 @@ public class DruidSqlDisposeUtils {
      *
      * @param sql
      */
-    public static String setSelectLimit(String sql) {
+    public static String setSelectLimit1(String sql) {
         return setSelectLimit(sql, JdbcConstants.MYSQL.name());
     }
 

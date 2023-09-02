@@ -267,7 +267,7 @@ public class CreateSQLTableServiceImpl implements TableService{
      */
     @Override
     public List<SearchColumnInfo> getSearchColumnInfoBySearchSql(String sql) {
-        String realString = DruidSqlDisposeUtils.setSelectLimit(sql);
+        String realString = DruidSqlDisposeUtils.setSelectLimit1(sql);
         List<SearchColumnInfo> searchColumnInfoList = new ArrayList<>();
         try (Connection con = InMemoryDataSource.getConnection()) {
             ResultSet resultSet = null;

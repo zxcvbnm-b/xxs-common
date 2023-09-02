@@ -1,6 +1,8 @@
 
 package xxs.common.module.codegenerate;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.math.BigDecimal;
 import java.sql.JDBCType;
 import java.util.*;
@@ -8,6 +10,7 @@ import java.util.*;
 /**
  * @author xxs
  */
+@Slf4j
 public final class TypeMapperRegistry {
     /**
      * jdbc类型的类型处理器  一个jdbc类型为xxx的可以使用使用什么类型处理器
@@ -51,6 +54,12 @@ public final class TypeMapperRegistry {
     }
 
     public static Class getJavaType(Integer code) {
-        return jdbcTypeMapperMap.get(code);
+        Class aClass = jdbcTypeMapperMap.get(code);
+        if (aClass == null) {
+            String errorMsg = "不支持的JdbcType:" + code;
+            log.error("getJavaType error {}", errorMsg);
+            throw new IllegalArgumentException(errorMsg);
+        }
+        return aClass;
     }
 }
