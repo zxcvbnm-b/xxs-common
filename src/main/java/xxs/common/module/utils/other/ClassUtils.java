@@ -46,12 +46,10 @@ public class ClassUtils {
             return null;
         }
         // 在给定的目录下找到所有的文件，并且进行条件过滤
-        File[] dirFiles = dir.listFiles(new FileFilter() {
-            public boolean accept(File file) {
-                boolean acceptDir = recursive && file.isDirectory();// 接受dir目录
-                boolean acceptClass = file.getName().endsWith("class");// 接受class文件
-                return acceptDir || acceptClass;
-            }
+        File[] dirFiles = dir.listFiles(file -> {
+            boolean acceptDir = recursive && file.isDirectory();// 接受dir目录
+            boolean acceptClass = file.getName().endsWith("class");// 接受class文件
+            return acceptDir || acceptClass;
         });
 
         for (File file : dirFiles) {

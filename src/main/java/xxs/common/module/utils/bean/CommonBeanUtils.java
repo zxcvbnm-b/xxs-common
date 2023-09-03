@@ -124,8 +124,4 @@ public class CommonBeanUtils extends org.springframework.beans.BeanUtils {
         Method getMethod = pd.getReadMethod();
         return getMethod.invoke(obj);
     }
-
-    public static void mapToObject(Map<String, Object> map, Object dto, boolean b) {
-
-    }
 }
