@@ -28,6 +28,10 @@ public class MethodAllTemplate extends AbstractTemplate {
         return JAVA_FILE_POST;
     }
 
+    private String getFileSuffix(String name) {
+        return JAVA_FILE_POST;
+    }
+
     @Override
     public Map<String, Object> customTemplateParamMap(Object param) {
         return super.customTemplateParamMap(param);
