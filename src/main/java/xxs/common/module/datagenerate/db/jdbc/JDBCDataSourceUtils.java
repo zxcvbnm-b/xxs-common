@@ -36,7 +36,7 @@ public class JDBCDataSourceUtils {
         //数据源配置
         Properties prop = new Properties();
         //读取配置文件
-        InputStream is = JdbcUtils.class.getResourceAsStream("/datagenerateDB.properties");
+        InputStream is = JdbcUtils.class.getResourceAsStream("/dataGenerateDB.properties");
         try {
             prop.load(is);
         } catch (IOException e) {

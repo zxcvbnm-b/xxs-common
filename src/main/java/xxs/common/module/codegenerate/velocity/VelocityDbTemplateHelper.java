@@ -34,10 +34,10 @@ public class VelocityDbTemplateHelper {
             "      id_template varchar (200) PRIMARY KEY ,\n" +//模板id
             "      template_definition longtext NOT NULL ,\n" +//模板内容
             "      template_timestamp datetime NOT NULL,\n" +
-            "      built_in tinyint DEFAULT 0,\n" +//是否是内部模板
+            "      built_in tinyint DEFAULT 0,\n" +//是否是内部模板 0不是，1是
             "      template_name varchar (200)\n" +//模板名称
             "    )charset=utf8mb4;";//不然可能会报错：mysql incorrect string value 是因为有些字符是占用四个字节的
-    public final static String DB_STORAGE_FORMAT_DEFAULT_TRUNCATE_TABLE_SQL = "truncate table tb_velocity_template;";
+    public final static String DB_STORAGE_FORMAT_DEFAULT_TRUNCATE_TABLE_SQL = "DELETE FROM tb_velocity_template where built_in = 1;";
 
     public VelocityDbTemplateHelper(DataSource dataSource, Properties velocityProp) {
         this.dataSource = dataSource;
@@ -45,9 +45,9 @@ public class VelocityDbTemplateHelper {
     }
 
     public void initDefaultTemplateToDb() {
-        //TODO 扫描DEFAULT_TEMPLATE_PATH下的类到tb_velocity_template表中
+        // 扫描DEFAULT_TEMPLATE_PATH下的类到tb_velocity_template表中
         try {
-            //1.每次启动时清除掉
+            //1.每次启动时更新掉内置的模板
             this.truncateTemplateTable();
             //2.初始化内置所有模板到DB
             this.insertTemplates();
@@ -66,7 +66,7 @@ public class VelocityDbTemplateHelper {
         visitVelocityTemplateFile(DEFAULT_TEMPLATE_PATH, f -> {
             if (f.isFile() && f.getName().endsWith(".vm")) {
                 TbVelocityTemplateEntity tbVelocityTemplateEntity = new TbVelocityTemplateEntity();
-                tbVelocityTemplateEntity.setIdTemplate(f.getPath().substring(f.getPath().lastIndexOf(DEFAULT_TEMPLATE_PATH)).replace("\\","/"));
+                tbVelocityTemplateEntity.setIdTemplate(f.getPath().substring(f.getPath().lastIndexOf(DEFAULT_TEMPLATE_PATH)).replace("\\", "/"));
                 tbVelocityTemplateEntity.setTemplateName(f.getName().replace(".vm", ""));
                 String templateDefinition = FileUtil.readUtf8String(f);
                 tbVelocityTemplateEntity.setTemplateDefinition(templateDefinition);

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * @author
  */
 //TODO 2 把公共代码抽象出来 作为抽象类吧
-//TODO 3 没有主键的情况下 没有主键不能生成
+//TODO 3 没有主键的情况下 没有主键不能生成 而且只支持单主键
 public class DefaultCodeGenerator implements CodeGenerator {
     private VelocityTemplateEngine velocityTemplateEngine = VelocityTemplateEngine.getVelocityTemplateEngineInstance();
     private TableService tableService;
@@ -214,6 +214,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         for (Template template : genTemplate) {
             //模板执行之前的扩展
             generateFilterContext.templateExePre(codeGenerateContext, tableInfo, template);
+            //整合所有的自定义模板参数，使得当前模板可以使用其他模板的参数
             Map<String, Object> params = template.customTemplateParamMap(null);
             velocityParamBuilder.putAll(params);
         }

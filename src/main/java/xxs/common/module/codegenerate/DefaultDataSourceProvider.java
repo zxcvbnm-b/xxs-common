@@ -20,7 +20,7 @@ public class DefaultDataSourceProvider {
 
     static {
         try {
-            InputStream is = DefaultDataSourceProvider.class.getClassLoader().getResourceAsStream("druid.properties");
+            InputStream is = DefaultDataSourceProvider.class.getClassLoader().getResourceAsStream("codeGenerateDB.properties");
             Properties props = new Properties();
             props.load(is);
             // 使用 DruidDataSourceFactory 创建数据源对象
