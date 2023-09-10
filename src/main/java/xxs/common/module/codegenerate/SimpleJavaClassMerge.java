@@ -105,7 +105,6 @@ public class SimpleJavaClassMerge {
                         javaSrc2MethodNodeMap.put(methodName + methodParam, n);
                         return super.visit(n, arg);
                     }
-
                     @Override
                     public Object visit(FieldDeclaration n, Object arg) {
                         javaSrc2FieldNodeMap.put(n.toString(), n);

@@ -32,19 +32,6 @@ public abstract class AbstractTemplate implements Template {
      * src/test/resources目录
      */
     protected final static String SRC_TEST_RESOURCES_PATH = File.separator + "src" + File.separator + "test" + File.separator + "resources" + File.separator;
-    /**
-     * java文件后缀
-     */
-    protected final static String JAVA_FILE_POST = ".java";
-    /**
-     * xml文件后缀
-     */
-    protected final static String XML_FILE_POST = ".xml";
-
-    /**
-     * sql文件后缀
-     */
-    protected final static String SQL_FILE_POST = ".sql";
 
     protected AbstractTemplateConfig abstractTemplateConfig;
 

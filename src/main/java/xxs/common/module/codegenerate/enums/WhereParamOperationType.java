@@ -1,4 +1,4 @@
-package xxs.common.module.codegenerate.method.enums;
+package xxs.common.module.codegenerate.enums;
 
 /**
  * where参数操作类型

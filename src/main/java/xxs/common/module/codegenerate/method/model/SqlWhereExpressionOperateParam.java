@@ -4,8 +4,8 @@ import cn.hutool.core.util.ReUtil;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import xxs.common.module.codegenerate.TypeMapperRegistry;
-import xxs.common.module.codegenerate.method.enums.LogicOperator;
-import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
+import xxs.common.module.codegenerate.enums.LogicOperator;
+import xxs.common.module.codegenerate.enums.WhereParamOperationType;
 
 import java.util.regex.Pattern;
 

@@ -1,6 +1,7 @@
 package xxs.common.module.codegenerate;
 
 import lombok.Data;
+import xxs.common.module.codegenerate.enums.ClassCoverMode;
 import xxs.common.module.codegenerate.template.*;
 
 /**
@@ -10,7 +11,6 @@ import xxs.common.module.codegenerate.template.*;
  */
 @Data
 public class ClassCodeGenerateContext extends CodeGenerateContext {
-
     public ClassCodeGenerateContext() {
         initClassCodeGenerateContext();
     }

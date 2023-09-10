@@ -1,7 +1,7 @@
 package xxs.common.module.codegenerate.method.whereparam;
 
 import com.alibaba.druid.DbType;
-import xxs.common.module.codegenerate.method.enums.ParamType;
+import xxs.common.module.codegenerate.enums.ParamType;
 import xxs.common.module.codegenerate.method.model.WhereParam;
 
 /**

@@ -1,6 +1,7 @@
 package xxs.common.module.codegenerate.template;
 
 import xxs.common.module.codegenerate.CodeGenerateContext;
+import xxs.common.module.codegenerate.Constants;
 import xxs.common.module.codegenerate.config.ServiceInterfaceTemplateConfig;
 import xxs.common.module.codegenerate.model.TableInfo;
 
@@ -29,6 +30,6 @@ public class ServiceTemplate extends AbstractTemplate {
     }
     @Override
     public String getFileSuffix() {
-        return JAVA_FILE_POST;
+        return Constants.JAVA_FILE_POST;
     }
 }

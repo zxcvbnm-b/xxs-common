@@ -9,9 +9,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import xxs.common.module.codegenerate.*;
 import xxs.common.module.codegenerate.cache.TableInfoTemCache;
-import xxs.common.module.codegenerate.method.enums.MethodReturnType;
-import xxs.common.module.codegenerate.method.enums.ParamType;
-import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
+import xxs.common.module.codegenerate.enums.ClassCoverMode;
+import xxs.common.module.codegenerate.enums.MethodReturnType;
+import xxs.common.module.codegenerate.enums.ParamType;
+import xxs.common.module.codegenerate.enums.WhereParamOperationType;
 import xxs.common.module.codegenerate.method.model.*;
 import xxs.common.module.codegenerate.method.sql.MybatisSqlWhereDisposeUtils;
 import xxs.common.module.codegenerate.method.sql.SqlWhereExpressionItemParseUtils;
@@ -104,7 +105,7 @@ public class MethodDefaultCodeGenerateV2 {
         Map<String, Object> stringObjectMap = velocityParamBuilder.get();
         //渲染模板生成代码
         for (Template template : genTemplate) {
-            LocalFileGenerateOutPut localFileGenerateOutPut = new LocalFileGenerateOutPut(this.wrapFileName(template.getOutFilePathName(codeGenerateContext, tableInfo), template, methodGenParamContext.getCapitalizeSearchName()), template.append(), false);
+            LocalFileGenerateOutPut localFileGenerateOutPut = new LocalFileGenerateOutPut(this.wrapFileName(template.getOutFilePathName(codeGenerateContext, tableInfo), template, methodGenParamContext.getCapitalizeSearchName()), template.append(), false, ClassCoverMode.NON);
             if (codeGenerateContext.isOnlyGenerateMethodAllTemplate()) {
                 if (template instanceof MethodAllTemplate) {
                     velocityTemplateEngine.generate(localFileGenerateOutPut, stringObjectMap, template.getTemplateFilePathName(), methodGenParamContext.getCapitalizeSearchName());
@@ -128,7 +129,7 @@ public class MethodDefaultCodeGenerateV2 {
         List<WhereParam> whereParamList = new ArrayList<>();
         for (SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam : sqlWhereExpressionOperateParams) {
             WhereParam whereParam = this.getWhereParam(sqlWhereExpressionOperateParam);
-            XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(codeGenerateContext.getDbType(),whereParam, paramType);
+            XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(codeGenerateContext.getDbType(), whereParam, paramType);
             whereParamList.add(whereParam);
             System.out.println(sqlWhereExpressionOperateParam.getFindPattern());
             System.out.println(xmlWhereParamNode.getWhereParamNode());

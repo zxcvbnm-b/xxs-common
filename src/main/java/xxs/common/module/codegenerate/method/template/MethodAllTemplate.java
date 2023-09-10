@@ -1,6 +1,7 @@
 package xxs.common.module.codegenerate.method.template;
 
 import xxs.common.module.codegenerate.CodeGenerateContext;
+import xxs.common.module.codegenerate.Constants;
 import xxs.common.module.codegenerate.config.AbstractTemplateConfig;
 import xxs.common.module.codegenerate.model.TableInfo;
 import xxs.common.module.codegenerate.template.AbstractTemplate;
@@ -25,11 +26,11 @@ public class MethodAllTemplate extends AbstractTemplate {
 
     @Override
     public String getFileSuffix() {
-        return JAVA_FILE_POST;
+        return Constants.JAVA_FILE_POST;
     }
 
     private String getFileSuffix(String name) {
-        return JAVA_FILE_POST;
+        return Constants.JAVA_FILE_POST;
     }
 
     @Override

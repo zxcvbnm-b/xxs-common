@@ -1,4 +1,4 @@
-package xxs.common.module.codegenerate.method.enums;
+package xxs.common.module.codegenerate.enums;
 
 /**
  * 逻辑运算符（and or）

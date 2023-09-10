@@ -1,8 +1,8 @@
 package xxs.common.module.codegenerate.method.model;
 
 import lombok.Data;
-import xxs.common.module.codegenerate.method.enums.LogicOperator;
-import xxs.common.module.codegenerate.method.enums.WhereParamOperationType;
+import xxs.common.module.codegenerate.enums.LogicOperator;
+import xxs.common.module.codegenerate.enums.WhereParamOperationType;
 ;
 /**
  * @author xxs

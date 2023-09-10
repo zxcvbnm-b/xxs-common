@@ -105,7 +105,10 @@ public interface Constants {
      * 实体类存放的基本包名配置属性名称
      */
     String ENTITY_PACKAGE_SIMPLE_NAME_PROPERTY_NAME = "gen.code.entity.package.simple.name";
-
+    /**
+     * java文件存在时的处理方式
+     */
+    String CLASS_COVER_MODE = "gen.code.class.cover.mode";
     /**
      * mapper接口文件名后缀配置属性名称
      */
@@ -259,5 +262,20 @@ public interface Constants {
     String COMMA_SEPARATOR = ",";
 
     String POINT_SYMBOL = ".";
+
+    /**
+     * java文件后缀
+     */
+    public final static String JAVA_FILE_POST = ".java";
+    /**
+     * xml文件后缀
+     */
+    public final static String XML_FILE_POST = ".xml";
+
+    /**
+     * sql文件后缀
+     */
+    public final static String SQL_FILE_POST = ".sql";
+
 
 }

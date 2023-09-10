@@ -1,4 +1,4 @@
-package xxs.common.module.codegenerate.method.enums;
+package xxs.common.module.codegenerate.enums;
 
 /**
  * 返回值类型，比如list，分页，int Integer，dto等等等类型。

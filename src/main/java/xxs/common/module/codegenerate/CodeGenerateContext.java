@@ -3,6 +3,7 @@ package xxs.common.module.codegenerate;
 import com.alibaba.druid.DbType;
 import lombok.Data;
 import xxs.common.module.codegenerate.config.*;
+import xxs.common.module.codegenerate.enums.ClassCoverMode;
 import xxs.common.module.codegenerate.filter.*;
 import xxs.common.module.codegenerate.template.*;
 import xxs.common.module.codegenerate.velocity.VelocityParamBuilder;
@@ -138,6 +139,7 @@ public class CodeGenerateContext {
      * 实体类模板配置
      */
     protected EntityTemplateConfig entityTemplateConfig = new EntityTemplateConfig(properties);
+    protected ClassCoverMode classCoverMode = ClassCoverMode.getClassCoverModeByName(properties.getString(Constants.GEN_TO_TEST_MODULE_PROPERTY_NAME), ClassCoverMode.MERGE_FROM_OLD);
 
     public CodeGenerateContext() {
     }

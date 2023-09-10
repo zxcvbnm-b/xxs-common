@@ -2,8 +2,8 @@ package xxs.common.module.codegenerate.method.whereparam;
 
 import com.alibaba.druid.DbType;
 import lombok.extern.slf4j.Slf4j;
-import xxs.common.module.codegenerate.method.enums.LogicOperator;
-import xxs.common.module.codegenerate.method.enums.ParamType;
+import xxs.common.module.codegenerate.enums.LogicOperator;
+import xxs.common.module.codegenerate.enums.ParamType;
 import xxs.common.module.codegenerate.method.model.WhereParam;
 
 /**

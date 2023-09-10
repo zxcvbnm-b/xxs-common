@@ -223,7 +223,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         for (Template template : genTemplate) {
             String outFilePathName = template.getOutFilePathName(codeGenerateContext, tableInfo);
             String templateFilePathName = template.getTemplateFilePathName();
-            LocalFileGenerateOutPut localFileGenerateOutPut = new LocalFileGenerateOutPut(outFilePathName, false, codeGenerateContext.isCoverExistFile());
+            LocalFileGenerateOutPut localFileGenerateOutPut = new LocalFileGenerateOutPut(outFilePathName, false, codeGenerateContext.isCoverExistFile(), codeGenerateContext.getClassCoverMode());
             velocityTemplateEngine.generate(localFileGenerateOutPut, velocityParam, templateFilePathName, outFilePathName);
         }
     }
