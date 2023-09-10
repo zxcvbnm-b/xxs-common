@@ -172,10 +172,11 @@ public class MethodDefaultCodeGenerateV2 {
             Map<String, List<SearchColumnInfo>> tableColumnsListMap = searchColumnInfoBySearchSql.stream().collect(Collectors.groupingBy(SearchColumnInfo::getTableName));
             for (Map.Entry<String, List<SearchColumnInfo>> tableColumnsList : tableColumnsListMap.entrySet()) {
                 List<SearchColumnInfo> value = tableColumnsList.getValue();
+                //计算每个表的投影信息：如a.id,a.name
                 String projectionString = value.stream().map(item -> String.format("${" + Constants.TABLE_ALIAS_PLACEHOLDER + "}.%s", item.getRealColumnName()) + " " + item.getColumnName()).collect(Collectors.joining(Constants.COMMA_SEPARATOR));
                 tableNameProjectionMap.put(tableColumnsList.getKey(), projectionString);
             }
-            realSql = DruidSqlDisposeUtils.replaceSqlProjectionByTableAlias(sql, JdbcConstants.MYSQL.name(), tableNameProjectionMap);
+            realSql = DruidSqlDisposeUtils.replaceSqlProjectionByTableAlias(sql, codeGenerateContext.getDbType().name(), tableNameProjectionMap);
         }
         return realSql;
     }
@@ -322,7 +323,7 @@ public class MethodDefaultCodeGenerateV2 {
         Matcher matcher = Constants.SELECT_SQL_PATTERN.matcher(sql);
         Assert.isTrue(!matcher.find(), "校验SQL只能是SELECT类型");
         Assert.isTrue(sql.split(Constants.SQL_PARTITION).length == 1, "只支持一条SQL语句");
-        Assert.isTrue(DruidSqlDisposeUtils.validSql(sql, JdbcConstants.MYSQL.name()), "druid 校验sql出错！");
+        Assert.isTrue(DruidSqlDisposeUtils.validSql(sql, codeGenerateContext.getDbType().name()), "druid 校验sql出错！");
         Assert.isTrue(StringUtils.isNotEmpty(tableName), "tableName Can't null  !");
     }
 

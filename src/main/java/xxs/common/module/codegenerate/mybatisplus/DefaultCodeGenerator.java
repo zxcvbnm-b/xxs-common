@@ -29,14 +29,14 @@ import java.util.stream.Collectors;
 public class DefaultCodeGenerator implements CodeGenerator {
     private VelocityTemplateEngine velocityTemplateEngine = VelocityTemplateEngine.getVelocityTemplateEngineInstance();
     private TableService tableService;
-    private CodeGenerateContext codeGenerateContext;
+    private ClassCodeGenerateContext codeGenerateContext;
 
     public DefaultCodeGenerator(TableService tableService) {
         this.tableService = tableService;
         this.codeGenerateContext = new ClassCodeGenerateContext().initClassCodeGenerateContext();
     }
 
-    public DefaultCodeGenerator(TableService tableService, CodeGenerateContext codeGenerateContext) {
+    public DefaultCodeGenerator(TableService tableService, ClassCodeGenerateContext codeGenerateContext) {
         this.tableService = tableService;
         this.codeGenerateContext = codeGenerateContext;
     }
@@ -199,7 +199,7 @@ public class DefaultCodeGenerator implements CodeGenerator {
         }
     }
 
-    private void generator(CodeGenerateContext codeGenerateContext, GenerateFilterContext generateFilterContext, Set<Template> genTemplate, TableInfo tableInfo) throws Exception {
+    private void generator(ClassCodeGenerateContext codeGenerateContext, GenerateFilterContext generateFilterContext, Set<Template> genTemplate, TableInfo tableInfo) throws Exception {
         List<TableRelationship> tableRelationships = tableInfo.getTableRelationships();
         if (CollectionUtil.isNotEmpty(tableRelationships)) {
             /*需要构造关系 递归先生成相关关联表--start*/

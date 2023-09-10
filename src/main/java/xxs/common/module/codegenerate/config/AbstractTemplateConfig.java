@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 public abstract class AbstractTemplateConfig {
     /**
-     * 基础包名(不是全包名) TODO 不是所有文件都要这个包名
+     * 基础包名(不是全包名)
      */
     protected String packageSimpleName = "";
     /**

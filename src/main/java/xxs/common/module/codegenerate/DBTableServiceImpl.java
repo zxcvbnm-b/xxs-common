@@ -156,8 +156,6 @@ public class DBTableServiceImpl implements TableService {
 
     /**
      * 根据查询sql得到查询的sql的列的信息
-     * TODO 如果这个sql有三个相同表名，那么字段名称会重复比如内连接
-     *
      * @param sql
      * @return
      */

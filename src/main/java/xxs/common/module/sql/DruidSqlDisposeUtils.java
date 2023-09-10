@@ -45,7 +45,7 @@ public class DruidSqlDisposeUtils {
 
     /**
      * 逻辑：从sql中获取到最外一层表的信息，拿到表别名，然后拼接到投影返回列上，比如 select * from table -> select id,name from table 对于union也进行了sql处理
-     *
+     * TODO 未支持多种情况：比如嵌套查询等，只支持不同表，连接查询，存在表列重复的情况。
      * @param sql                    需要处理的sql
      * @param dbType                 数据库类型
      * @param tableNameProjectionMap key table ,value 表的占位符字符串如 ${alias}.columnName,${alias}.columnName
@@ -189,7 +189,7 @@ public class DruidSqlDisposeUtils {
      */
     public static List<Map<String, String>> getTableAliasMap(String sql, String dbType) {
         List<Map<String, String>> resultList = new ArrayList<>();
-        //1.获取到所有表的表明和表的别名的映射关系
+        //1.获取到所有表的表名和表的别名的映射关系
         SQLStatement sqlStatement = SQLUtils.parseSingleStatement(sql, dbType);
         sqlStatement.accept(new SQLASTVisitorAdapter() {
             @Override

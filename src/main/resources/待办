@@ -14,3 +14,7 @@ CodeGenerateContext的生命周期为一次代码生成，并不是单例或者�
 
 
 //2023-09-03 1.整合数据源信息 配置文件，比如现在的druid velocity 这些properties配置文件整合 2.存储velocity 的template到db后的 是否每次启动都覆盖添加判断逻辑
+//2023-09-10 1.进一步处理两个java文件的方法合并。2.解析xml文件，支持字段的添加,比如
+
+
+
