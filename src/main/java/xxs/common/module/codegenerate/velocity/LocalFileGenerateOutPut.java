@@ -32,7 +32,7 @@ public class LocalFileGenerateOutPut implements GenerateOutPut {
     public void output(String name, String stringWriterText) throws Exception {
         String content = stringWriterText;
         if (outputFile.contains(Constants.JAVA_FILE_POST)) {
-            if (classCoverMode != null && !ClassCoverMode.NON.equals(classCoverMode)) {
+            if (classCoverMode != null && !ClassCoverMode.NON.equals(classCoverMode) && new File(outputFile).exists()) {
                 String old = FileUtil.readUtf8String(new File(outputFile));
                 if (ClassCoverMode.MERGE_FROM_OLD.equals(classCoverMode)) {
                     content = SimpleJavaClassMerge.mergeJavaSrc(old, stringWriterText);

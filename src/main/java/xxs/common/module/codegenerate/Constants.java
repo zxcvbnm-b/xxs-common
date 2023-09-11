@@ -54,9 +54,9 @@ public interface Constants {
      */
     String DEFAULT_MAPPER_FILE_POST = "Mapper";
     /**
-     * mapper.xml接口存放的基本包名
+     * mapper.xml存放的基本包名
      */
-    String DEFAULT_MAPPER_PACKAGE_SIMPLE_NAME = "mapper";
+    String DEFAULT_MAPPER_PACKAGE_SIMPLE_NAME = "mapper.mapping";
 
     /**
      * mapper.xml存放在resource的基本包名配置属性名称
@@ -266,16 +266,20 @@ public interface Constants {
     /**
      * java文件后缀
      */
-    public final static String JAVA_FILE_POST = ".java";
+    String JAVA_FILE_POST = ".java";
     /**
      * xml文件后缀
      */
-    public final static String XML_FILE_POST = ".xml";
+    String XML_FILE_POST = ".xml";
 
     /**
      * sql文件后缀
      */
-    public final static String SQL_FILE_POST = ".sql";
+    String SQL_FILE_POST = ".sql";
 
+    /**
+     * 获取DB类型属性配置属性名称
+     */
+    String DB_TYPE_PROPERTY_NAME = "";
 
 }

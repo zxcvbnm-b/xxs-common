@@ -56,11 +56,11 @@ public class DBTableServiceImpl implements TableService {
                 List<ColumnInfo> columnInfoList = new ArrayList<>();
                 //找出表信息
                 if (tableResultSet.next()) {
-                    this.getTableInfo(replaceTablePre, tableResultSet, tableInfo);
+                    this.setTableInfo(replaceTablePre, tableResultSet, tableInfo);
                     ResultSet columnResultSet = metaData.getColumns(null, null, tableName,
                             "%");
                     //找出列信息
-                    if (columnResultSet.next()) {
+                    while (columnResultSet.next()) {
                         this.buildColumn(columnInfoList, columnResultSet);
                     }
                     //找出主键列
@@ -77,7 +77,7 @@ public class DBTableServiceImpl implements TableService {
         return tableInfoHashMap;
     }
 
-    private void getTableInfo(String replaceTablePre, ResultSet tableResultSet, TableInfo tableInfo) throws SQLException {
+    private void setTableInfo(String replaceTablePre, ResultSet tableResultSet, TableInfo tableInfo) throws SQLException {
         //表名
         String name = tableResultSet.getString("TABLE_NAME");
         //表类型
@@ -89,7 +89,7 @@ public class DBTableServiceImpl implements TableService {
         tableInfo.setTableType(tableType);
         String replaceTablePreName = name;
         if (StringUtils.isNotEmpty(replaceTablePre)) {
-            replaceTablePreName = StrUtil.removePrefix(name.toUpperCase(), replaceTablePre.toUpperCase());
+            replaceTablePreName = StrUtil.removePrefix(name, replaceTablePre);
         }
 
         String camelCaseTableName = StrUtil.toCamelCase(replaceTablePreName);
