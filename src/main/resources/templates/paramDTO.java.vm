@@ -51,7 +51,7 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
   #end
 #end
 ## jsr303校验 不是主键才加注解
-    #if(${jsr303Verify}&&!${column.keyFlag})
+    #if(${jsr303Verify}&&!${column.keyFlag}&&!(${insertFillColumn.contains(${column.columnName})}||${updateFillColumn.contains(${column.columnName})}||${versionColumn}==${column.columnName}||${deletedColumn}==${column.columnName}))
         #if(!${column.nullAble})
         #if(${column.javaType.getSimpleName().equals("String")})
     @NotEmpty(message = "${column.propertyName}不能为空")
@@ -60,7 +60,7 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
         #end
         #end
         #if(${column.javaType.getSimpleName().equals("String")}&&${column.columnSize}<2147483647)
-    @Length(max = ${column.columnSize}, message = "${column.propertyName}最大大小为${column.columnSize}")
+    @Length(max = ${column.columnSize}, message = "${column.propertyName}最大长度为${column.columnSize}")
         #end
     #end
     private ${column.javaType.getSimpleName()} ${column.propertyName};
