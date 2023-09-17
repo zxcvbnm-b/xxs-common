@@ -93,9 +93,9 @@ public class SqlWhereExpressionOperateParam {
     public Pattern getFindPattern() {
         StringBuilder patternStringBuilder = new StringBuilder();
         if (logicOperator != null) {
-            patternStringBuilder.append("\\s+");
+            patternStringBuilder.append("\\s*");
             patternStringBuilder.append(logicOperator.getName());
-            patternStringBuilder.append("\\s+");
+            patternStringBuilder.append("\\s*");
         }
         patternStringBuilder.append(leftExpression);
         patternStringBuilder.append("\\s*");

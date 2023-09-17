@@ -62,7 +62,7 @@ public class MethodDefaultCodeGenerateV2 {
 
     public static void main(String[] args) throws Exception {
         MethodDefaultCodeGenerateV2 methodDefaultCodeGenerate = new MethodDefaultCodeGenerateV2(new DBTableServiceImpl(DefaultDataSourceProvider.getDataSourceInstance()));
-        methodDefaultCodeGenerate.singleTableCodeGenerator("actor", "getCctor", "select * from film a inner join film_actor b on a.film_id = b.film_id inner join film_category c on a.film_id = c.film_id where a.film_id in ('#{filmIds}') and a.film_id = ('#{filmId}') and a.description like '#{description}' and a.last_update between '#{beginLastUpdate}' and '#{endLastUpdate}'", ParamType.QUERY_PARAM);
+        methodDefaultCodeGenerate.singleTableCodeGenerator("model_logical_model", "pageLogicalModelList", "select * from city where (name like '#{keyword}' or CountryCode like '#{keyword}') and  name = '#{name}' and name between '#{name}' and '#{name}' and name > '#{age}'", ParamType.DTO);
     }
 
     /**
@@ -117,7 +117,7 @@ public class MethodDefaultCodeGenerateV2 {
     }
 
     /**
-     * 处理sql语句 转换为mybatis识别的语法，并设置 whereParamList
+     * 处理sql语句 转换为mybatis识别的XML语法，并设置 whereParamList
      *
      * @param sql
      * @param methodGenParamContext
@@ -127,13 +127,16 @@ public class MethodDefaultCodeGenerateV2 {
         List<SqlWhereExpressionOperateParam> sqlWhereExpressionOperateParams = mybatisSqlWhereDisposeUtils.processSelectBody(sql);
         sqlWhereExpressionItemParseUtils.initSqlWhereExpressionOperateParamColumnInfo(sqlWhereExpressionOperateParams);
         List<WhereParam> whereParamList = new ArrayList<>();
+        //用于去重，如果参数名已经存在，那么whereParamList不再添加 WhereParam
+        Set<String> whereParamNameTempSet = new HashSet<>();
         for (SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam : sqlWhereExpressionOperateParams) {
+            if(!whereParamNameTempSet.add(sqlWhereExpressionOperateParam.getWhereParamName())){
+                continue;
+            }
             WhereParam whereParam = this.getWhereParam(sqlWhereExpressionOperateParam);
             XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(codeGenerateContext.getDbType(), whereParam, paramType);
             whereParamList.add(whereParam);
-            System.out.println(sqlWhereExpressionOperateParam.getFindPattern());
-            System.out.println(xmlWhereParamNode.getWhereParamNode());
-            String replacementTemplate = null;
+            String replacementTemplate;
             String replacementTemplatePre = "\n";
             if (sqlWhereExpressionOperateParam.getLogicOperator() == null) {
                 replacementTemplatePre = "1=1 \n";
@@ -218,8 +221,7 @@ public class MethodDefaultCodeGenerateV2 {
      * @param methodGenParamContext
      */
     private void setXmlContent(MethodGenParamContext methodGenParamContext, MethodGenVelocityParam methodGenVelocityParam) {
-        String realSql = methodGenParamContext.getRealSql();
-        String xmlSqlContent = realSql;
+        String xmlSqlContent = methodGenParamContext.getRealSql();
         methodGenVelocityParam.setXmlContent(xmlSqlContent);
     }
 

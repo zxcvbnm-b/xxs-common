@@ -20,7 +20,7 @@ public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePo
     /**
      * 列表
      */
-    PageUtils page${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
+    PageUtils page${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
      * 获取${tableInfo.capitalizeTableName}

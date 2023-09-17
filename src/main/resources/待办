@@ -15,10 +15,15 @@ CodeGenerateContext的生命周期为一次代码生成，并不是单例或者�
 
 //2023-09-03 1.整合数据源信息 配置文件，比如现在的druid velocity 这些properties配置文件整合 2.存储velocity 的template到db后的 是否每次启动都覆盖添加判断逻辑
 //2023-09-10 1.进一步处理两个java文件的方法合并。2.解析xml文件，支持字段的添加,比如
-//自动填充，还有逻辑删除，版本等字段不需要添加@NotNull注解
-//tinyint应该是对的boolean只吧 现在对的是Byte
 //import需要去重。
 //顺带生成测试用例吧？
+
+//问题3 生成的sql有问题 输入的是：and (mlm.logical_model_code  like '#{keyword}' or mlm.logical_model_cde like '#{keyword}'
+	and (mlm.logical_model_code  like '#{keyword}'
+    <if test="condition.keyword != null and condition.keyword != ''">
+       OR mlm.logical_model_code LIKE  CONCAT('%',#{condition.keyword}, '%')
+    </if>)
+//问题4参数问题：使用的枚举类型是 ParamType.DTO 但其实并不是
 
 
 

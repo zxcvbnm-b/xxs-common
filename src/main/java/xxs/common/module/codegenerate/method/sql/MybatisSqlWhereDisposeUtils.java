@@ -143,7 +143,7 @@ public class MybatisSqlWhereDisposeUtils {
                     }
                 }
 
-                //  其他也要如此处理子查询 不然遍历不到子查询中得{111}占位符
+                //  其他也要如此处理子查询 不然遍历不到子查询中得#{111}占位符
                 @Override
                 public void visit(InExpression expr) {
                     ItemsList rightItemsList = expr.getRightItemsList();

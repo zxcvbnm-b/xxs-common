@@ -44,7 +44,12 @@ public class SqlWhereExpressionItemParseUtils {
                 if (StringUtils.isNotEmpty(tableName)) {
                     TableInfo tableInfo = tableInfoTemCache.getTableInfo(tableName);
                     if (tableInfo != null) {
-                        ColumnInfo columnInfo = tableInfo.getColumnInfoByColumnName(sqlWhereExpressionOperateParam.getColumnName());
+                        String realColumnName = sqlWhereExpressionOperateParam.getColumnName();
+                        if (StringUtils.isNotEmpty(sqlWhereExpressionOperateParam.getTableAlias())) {
+                            //这里的 sqlWhereExpressionOperateParam.getColumnName()是带有表的别名的 所以需要去掉
+                            realColumnName = realColumnName.replace(sqlWhereExpressionOperateParam.getTableAlias() + ".", "");
+                        }
+                        ColumnInfo columnInfo = tableInfo.getColumnInfoByColumnName(realColumnName);
                         if (columnInfo != null) {
                             sqlWhereExpressionOperateParam.setColumnJavaType(columnInfo.getJavaType());
                             sqlWhereExpressionOperateParam.setColumnJdbcTypeCode(columnInfo.getJdbcTypeCode());
@@ -102,6 +107,7 @@ public class SqlWhereExpressionItemParseUtils {
         if (!(rightExpression instanceof StringValue)) {
             return null;
         }
+        //TODO 现在不兼容：td.chinese_name  like CONCAT('%','#{keyword}','%')，现在是只需要写like '#{keyword}' 就会替换成like CONCAT('%','#{keyword}','%')了
         List<String> placeholderString = PlaceholderStringResolver.getPlaceholderStrings(rightExpression.toString());
         if (!CollectionUtil.isEmpty(placeholderString)) {
             SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam = new SqlWhereExpressionOperateParam();

@@ -40,11 +40,11 @@ public class CodeGenerateContext {
     /**
      * 基础包名
      */
-    protected String basePackageName = properties.getString(Constants.BASE_PACKAGE_NAME_PROPERTY_NAME, "com.caih.mgtstar.modular");
+    protected String basePackageName = properties.getString(Constants.BASE_PACKAGE_NAME_PROPERTY_NAME, "com");
     /**
      * 去除表前缀 -- 区分大小写
      */
-    protected String tablePre = properties.getString(Constants.TABLE_PRE_NAME_PROPERTY_NAME, "model_");
+    protected String tablePre = properties.getString(Constants.TABLE_PRE_NAME_PROPERTY_NAME, "");
     /**
      * xml文件存放的位置,绝对路径如果为空，那么存放的位置就是跟mapper接口放一块，否则就放到resources文件夹下
      */
@@ -52,11 +52,11 @@ public class CodeGenerateContext {
     /**
      * 模块名
      */
-    protected String moduleName = properties.getString(Constants.MODULE_NAME_PROPERTY_NAME, "model");
+    protected String moduleName = properties.getString(Constants.MODULE_NAME_PROPERTY_NAME, "");
     /**
      * 作者
      */
-    protected String author = properties.getString(Constants.AUTHOR_NAME_PROPERTY_NAME, "xiongsongxu");
+    protected String author = properties.getString(Constants.AUTHOR_NAME_PROPERTY_NAME, "xxs");
 
     /**
      * 是否使用jsr303Verify
@@ -73,7 +73,7 @@ public class CodeGenerateContext {
     /**
      * 逻辑删除列名-mybatisplus使用（未驼峰）
      */
-    protected String deletedColumn = "del_flag";
+    protected String deletedColumn = properties.getString(Constants.DELETED_COLUMN_PROPERTY_NAME);
     /**
      * 乐观锁列名-mybatisplus使用（未驼峰）
      */
@@ -81,11 +81,11 @@ public class CodeGenerateContext {
     /**
      * 插入时自动插入值字段-mybatisplus使用（未驼峰）
      */
-    protected List<String> insertFillColumn = Arrays.asList("create_user","create_name","create_time");
+    protected List<String> insertFillColumn = properties.getStringList(Constants.INSERT_FILL_COLUMN_PROPERTY_NAME);
     /**
      * 更新时自动插入值字段-mybatisplus使用（未驼峰）
      */
-    protected List<String> updateFillColumn = Arrays.asList("update_user","update_name","update_time");
+    protected List<String> updateFillColumn = properties.getStringList(Constants.UPDATE_FILL_COLUMN_PROPERTY_NAME);
     /**
      * 是否 mybatisPlus
      */
@@ -93,7 +93,7 @@ public class CodeGenerateContext {
     /**
      * 是否 生成服务类验证方法，如deleteValid 删除的验证方法
      */
-    protected boolean genValidMethod = properties.getBoolean(Constants.GEN_VALID_METHOD_PROPERTY_NAME, false);
+    protected boolean genValidMethod = properties.getBoolean(Constants.GEN_VALID_METHOD_PROPERTY_NAME, true);
     /**
      * 生成日期
      */

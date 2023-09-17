@@ -171,8 +171,8 @@ public class DBTableServiceImpl implements TableService {
                     ResultSetMetaData metaData = resultSet.getMetaData();
                     int columnCount = metaData.getColumnCount();
                     Set<String> existColumnNames = new HashSet<>();
-                    for (int columnIndex = 1; columnIndex < columnCount; columnIndex++) {
-                        buildSearchColumnInfoList(searchColumnInfoList, metaData, existColumnNames, columnIndex);
+                    for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                        this.buildSearchColumnInfoList(searchColumnInfoList, metaData, existColumnNames, columnIndex);
                     }
                     this.wrapSearchColumnInfo(searchColumnInfoList);
                 }
@@ -194,7 +194,9 @@ public class DBTableServiceImpl implements TableService {
 
     private void buildSearchColumnInfoList(List<SearchColumnInfo> searchColumnInfoList, ResultSetMetaData metaData, Set<String> existColumnNames, int columnIndex) throws SQLException {
         SearchColumnInfo searchColumnInfo = new SearchColumnInfo();
-        String columnName = metaData.getColumnName(columnIndex);
+        String columnName = metaData.getColumnLabel(columnIndex);
+        //String columnName = metaData.getColumnName(columnIndex);//是真正的字段名 getColumnLabel是别名
+
         int columnType = metaData.getColumnType(columnIndex);
         String columnClassName = metaData.getColumnClassName(columnIndex);
         String tableName = metaData.getTableName(columnIndex);
@@ -239,7 +241,6 @@ public class DBTableServiceImpl implements TableService {
                         break inner;
                     }
                 }
-                log.warn("wrapSearchColumnInfo  columnInfo no exist {}", searchColumnInfo.getColumnName());
             }
         }
     }

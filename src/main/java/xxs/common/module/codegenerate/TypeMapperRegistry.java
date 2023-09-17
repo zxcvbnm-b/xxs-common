@@ -21,7 +21,7 @@ public final class TypeMapperRegistry {
         register(JDBCType.BOOLEAN, Boolean.class);
         register(JDBCType.BIT, Boolean.class);
 
-        register(JDBCType.TINYINT, Byte.class);
+        register(JDBCType.TINYINT, Boolean.class);
 
         register(JDBCType.SMALLINT, Short.class);
 

@@ -79,7 +79,7 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
 #end
 ## 逻辑删除注解
 #if(${deletedColumn}==${column.columnName})
-    @TableLogic("${column.columnName}" )
+    @TableLogic
 #end
 #end
     private ${column.javaType.getSimpleName()} ${column.propertyName};

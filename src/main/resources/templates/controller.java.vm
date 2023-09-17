@@ -37,11 +37,11 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
      * 分页查询${tableInfo.capitalizeTableName}
      */
 #if(${swagger})
-    @ApiOperation(value = "page${tableInfo.capitalizeTableName}List", notes = "分页查询${tableInfo.capitalizeTableName}", response = ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}.class)
+    @ApiOperation(value = "page${tableInfo.capitalizeTableName}", notes = "分页查询${tableInfo.capitalizeTableName}", response = ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}.class)
 #end
-    @GetMapping("/page${tableInfo.capitalizeTableName}List")
-    public R page${tableInfo.capitalizeTableName}List(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost}) {
-        PageUtils page = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.page${tableInfo.capitalizeTableName}List(${tableInfo.tableName}${paramDTOConfig.filePost});
+    @GetMapping("/page${tableInfo.capitalizeTableName}")
+    public R page${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost}) {
+        PageUtils page = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.page${tableInfo.capitalizeTableName}(${tableInfo.tableName}${paramDTOConfig.filePost});
         return R.ok().put("page", page);
     }
 

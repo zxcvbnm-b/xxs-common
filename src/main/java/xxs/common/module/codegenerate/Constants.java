@@ -28,17 +28,17 @@ public interface Constants {
      */
     String DEFAULT_ENTITY_FILE_POST = "Entity";
     /**
-     * 实体类文件名后缀
+     * param类文件名后缀
      */
     String DEFAULT_PARAM_FILE_POST = "Param";
     /**
-     * 实体类文件名后缀
+     * result类文件名后缀
      */
     String DEFAULT_RESULT_FILE_POST = "Result";
     /**
      * 实体类存放的基本包名
      */
-    String DEFAULT_ENTITY_PACKAGE_SIMPLE_NAME = "model.entity";
+    String DEFAULT_ENTITY_PACKAGE_SIMPLE_NAME = "entity";
 
     /**
      * mapper接口文件名后缀
@@ -94,11 +94,11 @@ public interface Constants {
      */
     String ENTITY_FILE_POST_PROPERTY_NAME = "gen.code.entity.file.post";
     /**
-     * 实体类文件名后缀配置属性名称
+     * param类文件名后缀配置属性名称
      */
     String PARAM_FILE_POST_PROPERTY_NAME = "gen.code.param.file.post";
     /**
-     * 实体类文件名后缀配置属性名称
+     * result类文件名后缀配置属性名称
      */
     String RESULT_FILE_POST_PROPERTY_NAME = "gen.code.result.file.post";
     /**
