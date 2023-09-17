@@ -27,7 +27,7 @@ import lombok.Setter;
 public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implements Serializable {
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($column in ${methodGenVelocityParam.whereParamList})
-#if(${column.whereParamOperationType.toString()}=="BETWEEN")
+#if(${column.whereParamOperationType.getName()}=="BETWEEN")
 
     #if(${swagger})
     @ApiModelProperty("")
@@ -37,7 +37,7 @@ public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implement
     @ApiModelProperty("")
     #end
     private ${column.paramType.getSimpleName()} ${column.endParamName};
-#elseif(${column.whereParamOperationType.toString()}=="IN")
+#elseif(${column.whereParamOperationType.getName()}=="IN")
     #if(${swagger})
     @ApiModelProperty("")
     #end
@@ -54,20 +54,20 @@ public class ${methodGenVelocityParam.capitalizeSearchMethodName}Param implement
     @Override
     public String toString() {
         return "${methodGenVelocityParam.searchMethodName}Param{" +
-          #foreach($columnn in ${methodGenVelocityParam.whereParamList})
+          #foreach($column in ${methodGenVelocityParam.whereParamList})
             #if($!{foreach.index}==0)
-                #if(${column.whereParamOperationType.toString()}=="BETWEEN")
-                "${columnn.beginParamName}=" + ${columnn.beginParamName} +
-                ", ${columnn.endParamName}=" + ${columnn.endParamName} +
+                #if(${column.whereParamOperationType.getName()}=="BETWEEN")
+                "${column.beginParamName} = " + ${column.beginParamName} +
+                ", ${column.endParamName} = " + ${column.endParamName} +
                 #else
-                "${columnn.paramName}=" + ${columnn.paramName} +
+                "${column.paramName} = " + ${column.paramName} +
                 #end
             #else
-                #if(${column.whereParamOperationType.toString()}=="BETWEEN")
-                "${columnn.beginParamName}=" + ${columnn.beginParamName} +
-                ", ${columnn.endParamName}=" + ${columnn.endParamName} +
+                #if(${column.whereParamOperationType.getName()}=="BETWEEN")
+                ", ${column.beginParamName} = " + ${column.beginParamName} +
+                ", ${column.endParamName} = " + ${column.endParamName} +
                 #else
-                "${columnn.paramName}=" + ${columnn.paramName} +
+                ", ${column.paramName} = " + ${column.paramName} +
                 #end
             #end
           #end

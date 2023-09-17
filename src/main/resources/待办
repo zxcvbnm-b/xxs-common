@@ -23,7 +23,6 @@ CodeGenerateContext的生命周期为一次代码生成，并不是单例或者�
     <if test="condition.keyword != null and condition.keyword != ''">
        OR mlm.logical_model_code LIKE  CONCAT('%',#{condition.keyword}, '%')
     </if>)
-//问题4参数问题：使用的枚举类型是 ParamType.DTO 但其实并不是
 
 
 

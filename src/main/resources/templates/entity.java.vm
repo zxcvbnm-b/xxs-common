@@ -105,11 +105,11 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
     @Override
     public String toString() {
         return "${tableInfo.capitalizeTableName}{" +
-          #foreach($columnn in ${tableInfo.columnInfos})
+          #foreach($column in ${tableInfo.columnInfos})
             #if($!{foreach.index}==0)
-                "${columnn.propertyName}=" + ${columnn.propertyName} +
+                "${column.propertyName} = " + ${column.propertyName} +
             #else
-                ", ${columnn.propertyName}=" + ${columnn.propertyName} +
+                ", ${column.propertyName} = " + ${column.propertyName} +
             #end
           #end
                 "}";

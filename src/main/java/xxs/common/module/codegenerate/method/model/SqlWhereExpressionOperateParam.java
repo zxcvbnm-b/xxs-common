@@ -120,4 +120,11 @@ public class SqlWhereExpressionOperateParam {
         Pattern pattern = Pattern.compile(patternStringBuilder.toString(), Pattern.CASE_INSENSITIVE);
         return pattern;
     }
+
+    public static void main(String[] args) {
+        //TODO 像如下这种情况暂时无法处理，因为\s匹配不到小括号，而且 ( name like '#{keyword}' or CountryCode like '#{keyword}')应该是一个整体，在外部套一层就行了。
+        Pattern pattern = Pattern.compile( "\\s*AND\\s*\\( name\\s*LIKE\\s*'#\\{keyword\\}'", Pattern.CASE_INSENSITIVE);
+        String s = ReUtil.replaceAll("where 1=1 and ( name like '#{keyword}' or CountryCode like '#{keyword}')", pattern, "11");
+        System.out.println(s);
+    }
 }

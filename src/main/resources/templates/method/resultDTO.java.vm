@@ -43,11 +43,11 @@ public class ${methodGenVelocityParam.capitalizeSearchMethodName}Result implemen
     @Override
     public String toString() {
             return "${methodGenVelocityParam.capitalizeSearchMethodName}Result{" +
-      #foreach($columnn in ${methodGenVelocityParam.returnSelectList})
+      #foreach($column in ${methodGenVelocityParam.returnSelectList})
         #if($!{foreach.index}==0)
-                "${columnn.camelCaseColumnName}=" + ${columnn.camelCaseColumnName} +
+                "${column.camelCaseColumnName} = " + ${column.camelCaseColumnName} +
         #else
-                ", ${columnn.camelCaseColumnName}=" + ${columnn.camelCaseColumnName} +
+                ", ${column.camelCaseColumnName} = " + ${column.camelCaseColumnName} +
         #end
       #end
             "}";

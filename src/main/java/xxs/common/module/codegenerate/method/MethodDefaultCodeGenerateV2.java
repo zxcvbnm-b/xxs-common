@@ -62,7 +62,7 @@ public class MethodDefaultCodeGenerateV2 {
 
     public static void main(String[] args) throws Exception {
         MethodDefaultCodeGenerateV2 methodDefaultCodeGenerate = new MethodDefaultCodeGenerateV2(new DBTableServiceImpl(DefaultDataSourceProvider.getDataSourceInstance()));
-        methodDefaultCodeGenerate.singleTableCodeGenerator("model_logical_model", "pageLogicalModelList", "select * from city where (name like '#{keyword}' or CountryCode like '#{keyword}') and  name = '#{name}' and name between '#{name}' and '#{name}' and name > '#{age}'", ParamType.DTO);
+        methodDefaultCodeGenerate.singleTableCodeGenerator("model_logical_model", "pageLogicalModelList", "select * from city where 1=1 and (name like '#{keyword}' or CountryCode like '#{keyword}') and  name = '#{name}' and name between '#{beginName}' and '#{endName}' and name > '#{age}'", ParamType.DTO);
     }
 
     /**
@@ -77,6 +77,9 @@ public class MethodDefaultCodeGenerateV2 {
         this.inputValueValid(tableName, sql, paramType);
         MethodGenParamContext methodGenParamContext = new MethodGenParamContext();
         methodGenParamContext.setSearchName(searchName);
+        if (paramType != null) {
+            methodGenParamContext.setParamType(paramType);
+        }
         //驼峰后 首字母大写
         methodGenParamContext.setCapitalizeSearchName(StringUtils.capitalize(StrUtil.toCamelCase(searchName)));
         //获取虚拟table， 用于匹配到当前代码生成环境的文件的名称（比如用于追加方法到类中 如果存在的话）
@@ -130,12 +133,11 @@ public class MethodDefaultCodeGenerateV2 {
         //用于去重，如果参数名已经存在，那么whereParamList不再添加 WhereParam
         Set<String> whereParamNameTempSet = new HashSet<>();
         for (SqlWhereExpressionOperateParam sqlWhereExpressionOperateParam : sqlWhereExpressionOperateParams) {
-            if(!whereParamNameTempSet.add(sqlWhereExpressionOperateParam.getWhereParamName())){
-                continue;
-            }
             WhereParam whereParam = this.getWhereParam(sqlWhereExpressionOperateParam);
             XMLWhereParamNode xmlWhereParamNode = XmlWhereParamNodeFactory.create(codeGenerateContext.getDbType(), whereParam, paramType);
-            whereParamList.add(whereParam);
+            if (whereParamNameTempSet.add(sqlWhereExpressionOperateParam.getWhereParamName())) {
+                whereParamList.add(whereParam);
+            }
             String replacementTemplate;
             String replacementTemplatePre = "\n";
             if (sqlWhereExpressionOperateParam.getLogicOperator() == null) {
