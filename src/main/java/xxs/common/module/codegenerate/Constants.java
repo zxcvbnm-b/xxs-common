@@ -222,7 +222,7 @@ public interface Constants {
     String VERSION_COLUMN_PROPERTY_NAME = "gen.code.versionColumn";
 
     /**
-     *乐观锁列名-mybatisplus使用（未驼峰）配置属性名称
+     *是否生成验证方法  配置属性名称
      */
     String GEN_VALID_METHOD_PROPERTY_NAME = "gen.code.genValidMethod";
 

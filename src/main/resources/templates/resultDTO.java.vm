@@ -10,8 +10,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 #end
 #if(${lombok})
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 #end
 #if(!${tableInfo.tableRelationships})
   #foreach($relationTableInfo in ${tableInfo.tableRelationships})
@@ -26,8 +25,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${resultDTOConfig.
  * @since ${generateTime}
  */
 #if(${lombok})
-@Getter
-@Setter
+@Data
 #end
 #if(${swagger})
 @ApiModel(value = "${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}类", description = "$!{tableInfo.comment}")
@@ -92,6 +90,7 @@ public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} impleme
         #end
     #end
 #end
+#if(!${lombok})
     @Override
     public String toString() {
             return "${tableInfo.capitalizeTableName}{" +
@@ -104,4 +103,5 @@ public class ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} impleme
       #end
             "}";
     }
+#end
 }

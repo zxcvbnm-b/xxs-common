@@ -34,7 +34,7 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     private ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost} ${tableInfo.tableName}${serviceInterfaceConfig.filePost};
 
     /**
-     * 分页查询${tableInfo.capitalizeTableName}
+     * 分页查询${tableInfo.name}
      */
 #if(${swagger})
     @ApiOperation(value = "page${tableInfo.capitalizeTableName}", notes = "分页查询${tableInfo.capitalizeTableName}", response = ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}.class)
@@ -46,7 +46,7 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     }
 
     /**
-     * 获取单个${tableInfo.capitalizeTableName}
+     * 获取单个${tableInfo.name}
      */
 #if(${swagger})
     @ApiOperation(value = "get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}", notes = "获取单个${tableInfo.capitalizeTableName}查询", response = ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}.class)
@@ -58,7 +58,7 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     }
 
     /**
-     * 保存${tableInfo.capitalizeTableName}
+     * 保存${tableInfo.name}
      */
 #if(${swagger})
     @ApiOperation(value = "add${tableInfo.capitalizeTableName}", notes = "保存${tableInfo.capitalizeTableName}")
@@ -70,24 +70,24 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     }
 
     /**
-     * 修改${tableInfo.capitalizeTableName}
+     * 修改${tableInfo.name}
      */
 #if(${swagger})
     @ApiOperation(value = "update${tableInfo.capitalizeTableName}", notes = "修改${tableInfo.capitalizeTableName}")
 #end
-    @PostMapping("/update${tableInfo.capitalizeTableName}")
+    @PutMapping("/update${tableInfo.capitalizeTableName}")
     public R update${tableInfo.capitalizeTableName}(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost}) {
         ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.update${tableInfo.capitalizeTableName}(${tableInfo.tableName}${paramDTOConfig.filePost});
         return R.ok();
     }
 
     /**
-     * 删除${tableInfo.capitalizeTableName}
+     * 删除${tableInfo.name}
      */
 #if(${swagger})
     @ApiOperation(value = "delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}", notes = "删除${tableInfo.capitalizeTableName}")
 #end
-    @PostMapping("/delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}")
+    @DeleteMapping("/delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}")
     public R delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
         ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
         return R.ok();
@@ -95,7 +95,7 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
 
     #if(${tableInfo.tableRelationships})
     /**
-     * 获取${tableInfo.capitalizeTableName}和关联关系
+     * 获取${tableInfo.name}和关联关系
      */
      #if(${swagger})
     @ApiOperation(value = "get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}", notes = "获取单个${tableInfo.capitalizeTableName}查询和关联关系", response = ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost}.class)
@@ -107,7 +107,7 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     }
 
     /**
-     * 保存${tableInfo.capitalizeTableName}和关联关系
+     * 保存${tableInfo.name}和关联关系
      */
      #if(${swagger})
     @ApiOperation(value = "add${tableInfo.capitalizeTableName}AndRelation", notes = "保存${tableInfo.capitalizeTableName}和关联关系")
@@ -119,24 +119,24 @@ public class ${tableInfo.capitalizeTableName}${controllerConfig.filePost} {
     }
 
     /**
-     * 修改${tableInfo.capitalizeTableName}和关联关系
+     * 修改${tableInfo.name}和关联关系
      */
      #if(${swagger})
     @ApiOperation(value = "update${tableInfo.capitalizeTableName}AndRelation", notes = "修改${tableInfo.capitalizeTableName}和关联关系")
      #end
-    @PostMapping("/update${tableInfo.capitalizeTableName}AndRelation")
+    @PutMapping("/update${tableInfo.capitalizeTableName}AndRelation")
     public R update${tableInfo.capitalizeTableName}AndRelation(@RequestBody #if(${jsr303Verify})@Validated #end${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost}) {
         ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.update${tableInfo.capitalizeTableName}AndRelation(${tableInfo.tableName}${paramDTOConfig.filePost});
         return R.ok();
     }
 
     /**
-     * 删除${tableInfo.capitalizeTableName}和关联关系
+     * 删除${tableInfo.name}和关联关系
      */
      #if(${swagger})
     @ApiOperation(value = "delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}", notes = "删除${tableInfo.capitalizeTableName}和关联关系")
      #end
-    @PostMapping("/delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}")
+    @DeleteMapping("/delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}/{${tableInfo.keyColumnInfo.propertyName}}")
     public R delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(@PathVariable("${tableInfo.keyColumnInfo.propertyName}") ${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName}) {
         ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.propertyName});
         return R.ok();

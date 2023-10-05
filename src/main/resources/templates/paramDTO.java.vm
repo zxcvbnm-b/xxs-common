@@ -10,8 +10,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 #end
 #if(${lombok})
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 #end
 #if(${jsr303Verify})
 import org.hibernate.validator.constraints.Length;
@@ -31,8 +30,7 @@ import ${basePackageName}#if(${moduleName}).${moduleName}#end.${paramDTOConfig.p
  * @since ${generateTime}
  */
 #if(${lombok})
-@Getter
-@Setter
+@Data
 #end
 #if(${swagger})
 @ApiModel(value = "${tableInfo.capitalizeTableName}${paramDTOConfig.filePost}类", description = "$!{tableInfo.comment}")
@@ -111,6 +109,7 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
     #end
 #end
 #*一对多关系*#
+#if(!${lombok})
     @Override
     public String toString() {
         return "${tableInfo.capitalizeTableName}{" +
@@ -123,4 +122,5 @@ public class ${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} implemen
           #end
                 "}";
     }
+#end
 }

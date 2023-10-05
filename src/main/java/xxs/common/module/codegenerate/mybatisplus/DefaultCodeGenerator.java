@@ -44,26 +44,26 @@ public class DefaultCodeGenerator implements CodeGenerator {
     public static void main(String[] args) throws Exception {
         DefaultCodeGenerator defaultCodeGenerator = new DefaultCodeGenerator(new DBTableServiceImpl(DefaultDataSourceProvider.getDataSourceInstance()));
         //1.单表生成--当然也支持复杂的多表生成，需要实现 IGenerateFilter拦截器，拦截tableExePre实现功能扩展
-//        defaultCodeGenerator.singleTableCodeGenerator("country");
+        defaultCodeGenerator.singleTableCodeGenerator("model_publish_log");
         //2.多表生成 -只支持两个表生成，如果需要复杂得表关系，那么需要自己实现拦截器，修改关联关系即可。
 //        defaultCodeGenerator.relationCodeGenerator("sys_user", "sys_user_role", "user_id", false);
 
         //3.多表生成 关联关系应该换成对象来处理 一个表和多个表的关联关系
-        List<RelationTableInfo> relationTableInfos = new ArrayList<>();
-        RelationTableInfo relationTableInfo2 = new RelationTableInfo();
-        relationTableInfo2.setRelationTableName("city");
-        relationTableInfo2.setOne2One(false);
-        relationTableInfo2.setRelationColumnName("CountryCode");
-        relationTableInfo2.setRelationUniqueColumnName("CountryCode");
-        relationTableInfos.add(relationTableInfo2);
-
-        RelationTableInfo relationTableInfo3 = new RelationTableInfo();
-        relationTableInfo3.setRelationTableName("countrylanguage");
-        relationTableInfo3.setOne2One(true);
-        relationTableInfo3.setRelationUniqueColumnName("CountryCode");
-        relationTableInfo3.setRelationColumnName("CountryCode");
-        relationTableInfos.add(relationTableInfo3);
-        defaultCodeGenerator.relationCodeGenerator("country", relationTableInfos);
+//        List<RelationTableInfo> relationTableInfos = new ArrayList<>();
+//        RelationTableInfo relationTableInfo2 = new RelationTableInfo();
+//        relationTableInfo2.setRelationTableName("city");
+//        relationTableInfo2.setOne2One(false);
+//        relationTableInfo2.setRelationColumnName("CountryCode");
+//        relationTableInfo2.setRelationUniqueColumnName("CountryCode");
+//        relationTableInfos.add(relationTableInfo2);
+//
+//        RelationTableInfo relationTableInfo3 = new RelationTableInfo();
+//        relationTableInfo3.setRelationTableName("countrylanguage");
+//        relationTableInfo3.setOne2One(true);
+//        relationTableInfo3.setRelationUniqueColumnName("CountryCode");
+//        relationTableInfo3.setRelationColumnName("CountryCode");
+//        relationTableInfos.add(relationTableInfo3);
+//        defaultCodeGenerator.relationCodeGenerator("country", relationTableInfos);
 
     }
 

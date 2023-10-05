@@ -23,19 +23,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 #end
 #if(${lombok})
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 #end
 
 /**
- * $!{tableInfo.comment}Entity实体类
+ * $!{tableInfo.comment}实体类
  *
  * @author ${author}
  * @since ${generateTime}
  */
 #if(${lombok})
-@Getter
-@Setter
+@Data
 #end
 #if(${mybatisPlus})
 @TableName("${tableInfo.name}")
@@ -102,6 +100,7 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
     }
 #end
 #end
+#if(!${lombok})
     @Override
     public String toString() {
         return "${tableInfo.capitalizeTableName}{" +
@@ -114,4 +113,5 @@ public class ${tableInfo.capitalizeTableName}${entityConfig.filePost} implements
           #end
                 "}";
     }
+#end
 }

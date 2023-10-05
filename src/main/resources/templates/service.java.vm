@@ -18,48 +18,48 @@ import ${tableInfo.tableRelationshipMainTableInfo.relationTable.keyColumnInfo.ja
  */
 public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePost}#if(${mybatisPlus}) extends IService<${tableInfo.capitalizeTableName}${entityConfig.filePost}>#end {
     /**
-     * 列表
+     * 分页查询${tableInfo.name}
      */
     PageUtils page${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
-     * 获取${tableInfo.capitalizeTableName}
+     * 获取${tableInfo.name}
      */
     ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}InfoBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
 
     /**
-     * 保存${tableInfo.capitalizeTableName}
+     * 保存${tableInfo.name}
      */
     int add${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
-     * 修改${tableInfo.capitalizeTableName}
+     * 修改${tableInfo.name}
      */
     int update${tableInfo.capitalizeTableName}(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
-     * 删除${tableInfo.capitalizeTableName}
+     * 删除${tableInfo.name}
      */
     int delete${tableInfo.capitalizeTableName}By${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
 
     #if(${tableInfo.tableRelationships})
     /**
-    * 获取${tableInfo.capitalizeTableName}和关联关系
+    * 获取${tableInfo.name}和关联关系
     */
     ${tableInfo.capitalizeTableName}${resultDTOConfig.filePost} get${tableInfo.capitalizeTableName}InfoAndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
 
     /**
-    * 保存${tableInfo.capitalizeTableName}和关联关系
+    * 保存${tableInfo.name}和关联关系
     */
     int add${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
-    * 修改${tableInfo.capitalizeTableName}和关联关系
+    * 修改${tableInfo.name}和关联关系
     */
     int update${tableInfo.capitalizeTableName}AndRelation(${tableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${tableInfo.tableName}${paramDTOConfig.filePost});
 
     /**
-    * 删除${tableInfo.capitalizeTableName}和关联关系
+    * 删除${tableInfo.name}和关联关系
     */
     int delete${tableInfo.capitalizeTableName}AndRelationBy${tableInfo.keyColumnInfo.capitalizePropertyName}(${tableInfo.keyColumnInfo.javaType.getSimpleName()} ${tableInfo.keyColumnInfo.propertyName});
     #end
@@ -81,17 +81,17 @@ public interface ${tableInfo.capitalizeTableName}${serviceInterfaceConfig.filePo
     #end
 
     /**
-     * 保存${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
+     * 保存${tableInfo.name}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
      */
     int add${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName});
 
     /**
-     * 修改${tableInfo.capitalizeTableName}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
+     * 修改${tableInfo.name}根据${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}
      */
     int update${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost}(${mainTableInfo.capitalizeTableName}${paramDTOConfig.filePost} ${mainTableInfo.tableName}${paramDTOConfig.filePost}, ${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName});
 
     /**
-     * 根据${tableInfo.tableRelationshipMainTableInfo.relationTable.keyColumnInfo.propertyName}删除${tableInfo.capitalizeTableName}
+     * 根据${tableInfo.tableRelationshipMainTableInfo.relationTable.keyColumnInfo.propertyName}删除${tableInfo.name}
      */
     int delete${tableInfo.capitalizeTableName}${methodTablePostkey}By${mainTableInfo.keyColumnInfo.capitalizePropertyName}(${mainTableInfo.keyColumnInfo.javaType.getSimpleName()} relation${mainTableInfo.keyColumnInfo.capitalizePropertyName});
     #end
