@@ -6,5 +6,5 @@ package xxs.common.module.codegenerate.enums;
  */
 
 public enum ParamType {
-    DTO,QUERY_PARAM;
+    DTO,QUERY_PARAM,NONE;
 }

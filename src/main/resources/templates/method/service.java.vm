@@ -1,2 +1,2 @@
 
-    ${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParams});
+    ${methodGenVelocityParam.returnTypeSimpleName} ${methodGenVelocityParam.searchMethodName}($!{methodGenVelocityParam.methodParams});

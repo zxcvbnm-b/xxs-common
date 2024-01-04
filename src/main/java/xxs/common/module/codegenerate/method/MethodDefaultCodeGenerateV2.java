@@ -279,6 +279,9 @@ public class MethodDefaultCodeGenerateV2 {
             methodParamNames = methodParamNameStringJoiner.toString();
             methodParams = methodParamStringJoiner.toString();
             mapperMethodParams = mapperMethodParamStringJoiner.toString();
+            //不需要参数
+        } else if (methodGenParamContext.getParamType().equals(ParamType.NONE)) {
+            return;
         }
         methodGenVelocityParam.setMethodParams(methodParams);
         methodGenVelocityParam.setMethodParamNames(methodParamNames);
@@ -333,8 +336,9 @@ public class MethodDefaultCodeGenerateV2 {
 
     private TableInfo getVirtualTableInfo(String tableName) {
         TableInfo tableInfo = new TableInfo();
-        tableInfo.setTableName(tableName);
+        tableInfo.setName(tableName);
         String camelCaseTableName = StrUtil.toCamelCase(tableName);
+        tableInfo.setTableName(camelCaseTableName);
         //首字母大写
         tableInfo.setCapitalizeTableName(StringUtils.capitalize(camelCaseTableName));
         return tableInfo;

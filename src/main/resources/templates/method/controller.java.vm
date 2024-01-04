@@ -6,7 +6,7 @@
     @ApiOperation(value = "${methodGenVelocityParam.searchMethodName}", notes = "${methodGenVelocityParam.searchMethodName}查询", response =  ${methodGenVelocityParam.returnTypeName}.class)
 #end
     @GetMapping("/${methodGenVelocityParam.searchMethodName}")
-    public R ${methodGenVelocityParam.capitalizeSearchMethodName}(${methodGenVelocityParam.methodParams}); {
-        ${methodGenVelocityParam.returnTypeSimpleName} result = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.${methodGenVelocityParam.searchMethodName}(${methodGenVelocityParam.methodParamNames});
-        return R.ok().put("result", ${tableInfo.tableName}${resultDTOConfig.filePost});
+    public R ${methodGenVelocityParam.searchMethodName}($!{methodGenVelocityParam.methodParams}) {
+        ${methodGenVelocityParam.returnTypeSimpleName} result = ${tableInfo.tableName}${serviceInterfaceConfig.filePost}.${methodGenVelocityParam.searchMethodName}($!{methodGenVelocityParam.methodParamNames});
+        return R.ok().put("result", result);
     }
